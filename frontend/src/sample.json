@@ -1,0 +1,39 @@
+{
+  "nodes": [
+    {
+      "id": "12121",
+      "type": "class",
+      
+      d
+      at
+      "attributes": [
+        {
+          "type": "String",
+          "name": "car",
+
+        }
+      ],
+      "methods": [
+
+      ]
+    }
+  ]
+}
+
+{
+  id: '1',
+  type: 'class',
+  position: {x: 100, y: 100},
+  data: {
+    color: "aqua",
+    width: 300,
+    packageName:"Mail",
+    name:"Email",
+    attributes: [
+      {
+
+      }
+    ]
+    
+  }
+}

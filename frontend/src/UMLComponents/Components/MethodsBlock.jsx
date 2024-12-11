@@ -1,32 +1,7 @@
 import { useState, useEffect } from "react";
 
 function MethodsBlock(props) {
-  const styles = {
-    MethodsBlock: {
-      marginTop: "-20px",
-      height: `${props.methodesHeight}px`,
-      padding: "5px",
-      backgroundColor: "white",
-      border: "solid black",
-      borderRadius: "0px 0px 20px 20px",
-      width: `${props.width}px`,
-    },
 
-    attribute: {
-      width: `${props.width}px`,
-      fontSize: "20px",
-    },
-
-    delete:{
-      marginRight: "-20px",
-      width: "10px",
-      height: "20px",
-      borderRadius: "50%",
-      backgroundColor: "black",
-      color: "white",
-      fontSize: "10px",
-    }
-  };
   const [methodes, setMethodes] = useState(Array.from({ length: props.methodesNo }, (_, index) => index));
 
   useEffect(() => {
@@ -43,7 +18,7 @@ function MethodsBlock(props) {
       <>
         {props.methodesNo != 0 && 
           (
-          <div style={styles.methodesBlock}>
+          <div style={styles.methodsBlock}>
             {methodes.map((_, index) => (
               <div key={index} style={{ display: 'flex', alignItems:"center" }}>
                 <div style={styles.attribute}>- methode {index+1}</div>

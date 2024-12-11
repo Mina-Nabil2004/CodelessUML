@@ -5,30 +5,7 @@ import MethodsBlock from "./MethodsBlock"
 import { useState } from "react"
 
 function UMLComponent(props) {
-  const styles = {
-    button: {
-      padding: "2px",
-      alignItems: 'center',
-      fontSize: "15px",
-      backgroundColor: "black",
-      color: "white",
-      border: "solid black",
-      borderRadius: "20px",
-      cursor: 'pointer',
-    },
-    buttons: {
-      marginTop: "-20px",
-      width: `${props.width}px`,
-      padding: "2px",
-      display: "flex",
-      justifyContent: "space-evenly",
-      opacity: 0,
-      transition: 'opacity 0.2s ease-in-out',
-    },
-    buttonsVisible: {
-      opacity: 1,
-    }
-  };
+
     const [methodesHeight, setMethodesHeight] = useState(30);
     const [attributesHeight, setAttributesHeight] = useState(30);
     const [methodesNo, setMethodesNo] = useState(0);

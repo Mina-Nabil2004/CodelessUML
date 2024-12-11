@@ -16,14 +16,15 @@ function AttributesBlock(props) {
   }
   
   return (
-      <div style={styles.attributesBlock}>
-        {attributes.map((_, index) => (
-          <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={styles.attribute}>- attribute {index+1} </div>
-            {props.isHovered && (<button style={styles.delete} onClick={() => removeAttribute(index)}></button>)}
-          </div>
-        ))}
-      </div>
-    )
+    <></>
+    // <div style={styles.attributesBlock}>
+    //   {attributes.map((_, index) => (
+    //     <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+    //       <div style={styles.attribute}>- attribute {index+1} </div>
+    //       {props.isHovered && (<button style={styles.delete} onClick={() => removeAttribute(index)}></button>)}
+    //     </div>
+    //   ))}
+    // </div>
+  )
 }
 export default AttributesBlock

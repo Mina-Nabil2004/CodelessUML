@@ -5,9 +5,6 @@ import PackageBlock from "./Components/PackageBlock";
 import { useState } from "react"
 
 function ClassNode({ data }) {
-   // const onChange = useCallback((evt) => {
-   //    console.log(evt.target.value);
-   // }, []);
    
    const styles = {
       button: {
@@ -40,6 +37,8 @@ function ClassNode({ data }) {
    const [attributesNo, setAttributesNo] = useState(0);
    const [isHovered, setIsHovered] = useState(false);
 
+
+
    const handleMouseEnter = () => {
       setIsHovered(true);
    };
@@ -63,9 +62,14 @@ function ClassNode({ data }) {
             onMouseLeave={handleMouseLeave}>
          
          <PackageBlock packageName={data.packageName} width={data.width}/>
+         
          <NameBlock color={data.color} width={data.width} type={data.type} name={data.name}/>
-         <AttributesBlock attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight} isHovered={isHovered} setAttributesNo={setAttributesNo} attributesNo={attributesNo} width={data.width}/>
-         <MethodsBlock methodesHeight={methodesHeight} setMethodesHeight={setMethodesHeight} isHovered={isHovered} setMethodesNo={setMethodesNo} methodesNo={methodesNo} width={data.width}/>
+         
+         <AttributesBlock attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight} 
+         isHovered={isHovered} setAttributesNo={setAttributesNo} attributesNo={attributesNo} width={data.width}/>
+
+         <MethodsBlock methodesHeight={methodesHeight} setMethodesHeight={setMethodesHeight} isHovered={isHovered} 
+         setMethodesNo={setMethodesNo} methodesNo={methodesNo} width={data.width}/>
       
       </div>
       

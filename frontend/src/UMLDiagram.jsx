@@ -28,12 +28,6 @@ const nodes = [
     type: 'class',
     position: { x: 100, y: 100 },
     data: {
-<<<<<<< HEAD
-      color: "aqua",
-      width: 300,
-      packageName:"Mail",
-      name:"Email",      
-=======
       scope: "public",
 
       relations: {
@@ -69,7 +63,6 @@ const nodes = [
           parameters: [{ "type": "int", "name": "amount" }, { "type": "String", "name": "param" }]
         }
       ]
->>>>>>> dcaf3603c21e4351df1d6a19551f650a86d7abb7
     }
   }
 ]

@@ -6,11 +6,11 @@ function MethodsBlock(props) {
   const styles = {
     methodsBlock: {
       height: `${props.methodesHeight}px`,
-      width: `${props.width}px`,
+      width: `250px`,
     },
 
     methode: {
-      width: `${props.width}px`,
+      width: `250px`,
     },
   };
 

@@ -19,7 +19,7 @@ function ClassNode({ data }) {
       },
       buttons: {
          marginTop: "-20px",
-         width: `${data.width}px`,
+         width: `250px`,
          padding: "2px",
          display: "flex",
          justifyContent: "space-evenly",

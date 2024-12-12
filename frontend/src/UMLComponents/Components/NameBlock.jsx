@@ -4,7 +4,7 @@ function NameBlock(props) {
   const styles ={
     nameBlock: {
       backgroundColor: props.color,
-      width:`${props.width}px`,
+      width:`250px`,
     }
   };
   

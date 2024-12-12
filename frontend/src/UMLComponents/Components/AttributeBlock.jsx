@@ -6,11 +6,11 @@ function AttributesBlock(props) {
   const styles = {
     attributesBlock: {
       height: `${props.attributesHeight}px`,
-      width: `${props.width}px`,
+      width: `250px`,
     },
 
     attribute: {
-      width: `${props.width}px`,
+      width: `250px`,
     },
   };
   

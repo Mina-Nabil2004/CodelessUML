@@ -3,7 +3,7 @@ import './UMLStyles.css'
 function PackageBlock(props) {
   const styles = {
     packageName: {
-      width: `${props.width / 2}px`,
+      width: `100px`,
     }
   };
   return (

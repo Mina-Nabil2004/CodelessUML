@@ -26,12 +26,50 @@ const nodes = [
   {
     id: '1',
     type: 'class',
-    position: {x: 100, y: 100},
+    position: { x: 100, y: 100 },
     data: {
+<<<<<<< HEAD
       color: "aqua",
       width: 300,
       packageName:"Mail",
       name:"Email",      
+=======
+      scope: "public",
+
+      relations: {
+        extendsId: 3,
+        implements: [5, 2, 8, 9, 7]
+      },
+
+      attributes: [
+        {
+          type: "String",
+          name: "car",
+          scope: "public",
+          isStatic: false,
+          getter: false,
+          setter: false,
+          final: false
+        }
+      ],
+
+      methods: [
+        {
+          name: "findName",
+          returnType: "int",
+          scope: "public",
+          isStatic: false,
+          parameters: [{ "type": "int", "name": "amount" }, { "type": "String", "name": "param" }]
+        }
+      ],
+
+      constructors: [
+        {
+          scope: "public",
+          parameters: [{ "type": "int", "name": "amount" }, { "type": "String", "name": "param" }]
+        }
+      ]
+>>>>>>> dcaf3603c21e4351df1d6a19551f650a86d7abb7
     }
   }
 ]
@@ -67,7 +105,7 @@ function UMLDiagram() {
         snapGrid={[16, 16]}
       >
         <Controls />
-        <Background style={{zIndex: -1}} color="#000000" gap={16} />
+        <Background style={{ zIndex: -1 }} color="#000000" gap={16} />
       </ReactFlow>
     </div>
   );

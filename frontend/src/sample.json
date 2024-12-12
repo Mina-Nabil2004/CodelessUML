@@ -1,39 +1,83 @@
 {
   "nodes": [
     {
-      "id": "12121",
+      "id": 5,
       "type": "class",
-      
-      d
-      at
-      "attributes": [
-        {
-          "type": "String",
-          "name": "car",
+      "position": { "x": 100, "y": 100 },
+      "data": {
+        "scope": "public",
 
-        }
-      ],
-      "methods": [
+        "relations": {
+          "extendsId": 3,
+          "implements": [5, 2, 8, 9, 7]
+        },
 
-      ]
+        "attributes": [
+          {
+            "type": "String",
+            "name": "car",
+            "scope": "public",
+            "isStatic": false,
+            "getter": false,
+            "setter": false,
+            "final": false
+          }
+        ],
+
+        "methods": [
+          {
+            "name": "findName",
+            "returnType": "int",
+            "scope": "public",
+            "isStatic": false,
+            "parameters": [ { "type": "int", "name": "amount" }, { "type": "String", "name": "param" } ]
+          }
+        ],
+
+        "constructors": [
+          {
+            "scope": "public",
+            "parameters": [ {"type": "int", "name": "amount"}, {"type": "String", "name": "param"} ]
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "type": "interface",
+      "position": { "x": 100, "y": 100 },
+      "data": {
+        "scope": "public",
+
+        "extendsId": [3,8,9],
+        "attributes": [
+          {
+            "type": "String",
+            "name": "car"
+          }
+        ],
+
+        "methods": [
+          {
+            "name": "findName",
+            "returnType": "int",
+            "scope": "public",
+            "isStatic": false,
+            "parameters": [ { "type": "int", "name": "amount" }, { "type": "String", "name": "param" } ]
+          }
+        ]
+      }
+    },
+    
+    {
+      "id": 7,
+      "type": "enum",
+      "position": { "x": 100, "y": 100 },
+      "data": {
+        "scope": "public",
+        "constants": ["ks", "aeifoewn", "dlewbif"]
+      }
     }
   ]
-}
 
-{
-  id: '1',
-  type: 'class',
-  position: {x: 100, y: 100},
-  data: {
-    color: "aqua",
-    width: 300,
-    packageName:"Mail",
-    name:"Email",
-    attributes: [
-      {
-
-      }
-    ]
-    
-  }
 }

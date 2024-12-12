@@ -1,6 +1,18 @@
 import { useState, useEffect } from "react";
+import './UMLStyles.css'
 
 function MethodsBlock(props) {
+
+  const styles = {
+    methodsBlock: {
+      height: `${props.methodesHeight}px`,
+      width: `${props.width}px`,
+    },
+
+    methode: {
+      width: `${props.width}px`,
+    },
+  };
 
   const [methodes, setMethodes] = useState(Array.from({ length: props.methodesNo }, (_, index) => index));
 
@@ -18,11 +30,11 @@ function MethodsBlock(props) {
       <>
         {props.methodesNo != 0 && 
           (
-          <div style={styles.methodsBlock}>
+          <div className="methodsBlock" style={styles.methodsBlock}>
             {methodes.map((_, index) => (
               <div key={index} style={{ display: 'flex', alignItems:"center" }}>
-                <div style={styles.attribute}>- methode {index+1}</div>
-                {props.isHovered && <button style={styles.delete} onClick={() => removeMethod(index)}></button>}
+                <div className="method" style={styles.methode}>- methode {index+1}</div>
+                {props.isHovered && <button className="delete" onClick={() => removeMethod(index)}></button>}
               </div>
             ))}
           </div>)

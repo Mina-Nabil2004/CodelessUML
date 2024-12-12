@@ -31,13 +31,7 @@ const nodes = [
       color: "aqua",
       width: 300,
       packageName:"Mail",
-      name:"Email",
-      attributes: [
-        {
-
-        }
-      ]
-      
+      name:"Email",      
     }
   }
 ]

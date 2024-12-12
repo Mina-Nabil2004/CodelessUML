@@ -1,6 +1,18 @@
 import { useState, useEffect } from "react";
+import './UMLStyles.css'
 
 function AttributesBlock(props) {
+
+  const styles = {
+    attributesBlock: {
+      height: `${props.attributesHeight}px`,
+      width: `${props.width}px`,
+    },
+
+    attribute: {
+      width: `${props.width}px`,
+    },
+  };
   
 
   const [attributes, setAttributes] = useState(Array.from({ length: props.attributesNo }, (_, index) => index));
@@ -16,11 +28,11 @@ function AttributesBlock(props) {
   }
   
   return (
-      <div style={styles.attributesBlock}>
+      <div className="attributesBlock" style={styles.attributesBlock}>
         {attributes.map((_, index) => (
           <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-            <div style={styles.attribute}>- attribute {index+1} </div>
-            {props.isHovered && (<button style={styles.delete} onClick={() => removeAttribute(index)}></button>)}
+            <div className="attribute" style={styles.attribute}>- attribute {index+1} </div>
+            {props.isHovered && (<button className="delete" onClick={() => removeAttribute(index)}></button>)}
           </div>
         ))}
       </div>

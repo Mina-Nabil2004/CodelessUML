@@ -6,7 +6,7 @@ const AppContext = createContext();
 export const AppProvider = ({ children }) => {
 
   const [nodeColors, setNodeColors] = useState({
-    class:'#000000',
+    class:'blue',
     interface:'#a30096',
     abstractClass: '#656565',
     enum: '#00776b'

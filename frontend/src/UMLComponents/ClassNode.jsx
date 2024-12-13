@@ -3,7 +3,7 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState } from "react"
+import { useState, useCallback } from "react"
 import classNames from"classnames"
 
 import {

@@ -18,7 +18,7 @@
 
 .delete{
     width: 20px;
-    margin-right: -16px;
+    margin-right: -15px;
 }
 
 .attribute, .method{
@@ -65,7 +65,7 @@
 .buttons{
     padding: 2px;
     display: flex;
-    margin-top: -16px;
+    margin-top: -11px;
     width: 250px;
     justify-content: space-evenly;
     opacity: 0;

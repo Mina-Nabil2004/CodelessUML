@@ -1,15 +1,8 @@
 import './UMLStyles.css'
 
-function NameBlock(props) {
-  const styles ={
-    nameBlock: {
-      backgroundColor: props.color,
-      width:`250px`,
-    }
-  };
-  
+function NameBlock(props) {  
   return (
-    <div style={styles.nameBlock} className="nameBlock">
+    <div className="nameBlock">
       {props.name}
     </div>
   )

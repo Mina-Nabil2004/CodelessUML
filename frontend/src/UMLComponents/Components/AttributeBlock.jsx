@@ -1,19 +1,8 @@
 import { useState, useEffect } from "react";
 import './UMLStyles.css'
+import deleteIcon from '../../assets/deleteIcon.svg'
 
 function AttributesBlock(props) {
-
-  const styles = {
-    attributesBlock: {
-      width: `250px`,
-    },
-
-    attribute: {
-      width: `250px`,
-    },
-  };
-  
-
   const [attributes, setAttributes] = useState(Array.from({ length: props.attributesNo }, (_, index) => index));
 
   useEffect(() => {
@@ -27,22 +16,17 @@ function AttributesBlock(props) {
   }
   
   return (
-      <div className="attributesBlock" style={styles.attributesBlock}>
+      <div className="attributesBlock">
         {
           attributes.map((_, index) => (
             <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
               
-              <div className="attribute" style={styles.attribute}>
+              <div className="attribute">
                 - attribute {index+1} 
               </div>
               {
                 props.isHovered && (
-                  <button 
-                    className="delete" 
-                    onClick={() => removeAttribute(index)}
-                  >
-
-                  </button>
+                  <img className="delete" onClick={() => removeMethod(index)} src={deleteIcon}/>
                 )
               }
             </div>

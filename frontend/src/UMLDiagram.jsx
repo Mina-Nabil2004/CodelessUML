@@ -26,6 +26,7 @@ const nodes = [
   {
     id: '1',
     type: 'class',
+    color: "Red",
     position: { x: 100, y: 100 },
     data: {
       scope: "public",

@@ -3,7 +3,8 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState, useCallback } from "react"
+import { useState } from "react"
+import classNames from"classnames"
 
 import {
    Handle,
@@ -20,31 +21,6 @@ function ClassNode({ data }) {
    const {
       nodeColors
    } = useAppContext();
-   
-   const styles = {
-      button: {
-         padding: "2px",
-         alignItems: 'center',
-         fontSize: "15px",
-         backgroundColor: "black",
-         color: "white",
-         border: "solid black",
-         borderRadius: "20px",
-         cursor: 'pointer',
-      },
-      buttons: {
-         marginTop: "-20px",
-         width: `250px`,
-         padding: "2px",
-         display: "flex",
-         justifyContent: "space-evenly",
-         opacity: 0,
-         transition: 'opacity 0.2s ease-in-out',
-      },
-      buttonsVisible: {
-         opacity: 1,
-      }
-   };
 
    const [methodesHeight, setMethodesHeight] = useState(30);
    const [attributesHeight, setAttributesHeight] = useState(30);
@@ -52,13 +28,6 @@ function ClassNode({ data }) {
    const [attributesNo, setAttributesNo] = useState(0);
    const [isHovered, setIsHovered] = useState(false);
 
-   const handleMouseEnter = () => {
-      setIsHovered(true);
-   };
-
-   const handleMouseLeave = () => {
-      setIsHovered(false);
-   };
 
    const addAttribute = () => {
       setAttributesNo(attributesNo + 1);
@@ -88,8 +57,8 @@ function ClassNode({ data }) {
          {/* <Handle id="5" type="target" position={Position.Left} /> */}
          
          <div
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
          >
             
             <PackageBlock packageName={data.packageName} width={data.width}/>
@@ -106,13 +75,13 @@ function ClassNode({ data }) {
          </div>
          
          <div
-            style={{ ...styles.buttons, ...(isHovered ? styles.buttonsVisible : {}) }}
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            className={classNames('buttons', { 'buttonsVisible': isHovered })}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
          >
             
-            <button style={styles.button} onClick={addAttribute}>+ attribute</button>
-            <button style={styles.button} onClick={addMethode}>+ method</button>
+            <button className="button" onClick={addAttribute}>+ attribute</button>
+            <button className="button" onClick={addMethode}>+ method</button>
          </div>
 
       </div>

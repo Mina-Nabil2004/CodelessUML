@@ -1,13 +1,9 @@
 import './UMLStyles.css'
 
 function PackageBlock(props) {
-  const styles = {
-    packageName: {
-      width: `100px`,
-    }
-  };
+
   return (
-      <div style={styles.packageName} className="packageBlock">
+      <div className="packageBlock">
         {props.packageName}
       </div>
     )

@@ -1,7 +1,8 @@
 .attributesBlock, .methodsBlock {
   padding: 5px;
   background-color: white;
-  min-width: 200px;
+  width: 250px;
+  min-width: 250px;
   height: auto;
   min-height: 50px;
   padding-bottom: 17px;
@@ -9,26 +10,24 @@
   border-radius: 0px 0px 20px 20px;
 }
 .attributesBlock {
-  margin-top: -2px;
-  padding-bottom: 17px;
+  padding-bottom: 20px;
 }
 .methodsBlock{
-  margin-top: -15px;
+  margin-top: -19px;
 }
 
 .delete{
-    margin-right: -20px;
-    height: 5px;
-    border-radius: 20px;
-    background-color: black;
-    color: white;
+    width: 20px;
+    margin-right: -16px;
 }
 
 .attribute, .method{
     font-size: 20px;
+    width: 250px;
 }
 .packageBlock {
     height: 30px;
+    width: 100px;
     background-color: rgb(197, 207, 214);
     text-align: center;
     padding: 3px;
@@ -41,19 +40,22 @@
 
 .nameBlock {
     height: 35px;
+    width: 250px;
+    min-width: 250px;
     font-size: 22px;
     font-weight: bold;
     text-align: center;
     color: black;
     padding: 5px;
     border: solid black;
+    border-bottom: none;
     border-radius: 0px 20px 0px 0px;
   }
   
 .button {
-    padding: 2px;
+    width: 70px;
     align-items: center;
-    font-size: 15px;
+    font-size: 11px;
     background-color: black;
     color: white;
     border: solid black;
@@ -63,6 +65,8 @@
 .buttons{
     padding: 2px;
     display: flex;
+    margin-top: -16px;
+    width: 250px;
     justify-content: space-evenly;
     opacity: 0;
     transition: opacity 0.2s ease-in-out;

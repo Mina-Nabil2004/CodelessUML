@@ -6,17 +6,16 @@ import InterfaceNode from './UMLComponents/InterfaceNode.jsx';
 import EnumNode from './UMLComponents/EnumNode.jsx';
 import AbstractClassNode from './UMLComponents/AbstractClassNode.jsx';
 import { initialNodes } from './nodes.js';
+import '@xyflow/react/dist/style.css';
 
 import {
   ReactFlow,
-  // Handle,
-  // Position,
   Controls,
   Background,
   useNodesState,
   useEdgesState,
   addEdge,
-  Position
+  SmoothStepEdge
 } from '@xyflow/react';
 
 const nodeTypes = {
@@ -24,39 +23,50 @@ const nodeTypes = {
   interface: InterfaceNode,
   enum: EnumNode,
   abstractClass: AbstractClassNode
-}
+};
 
+const edgeTypes = {
+  smoothstep: SmoothStepEdge, // Register the SmoothStepEdge
+};
 
 const initialEdges = [
-  {
-    id: '1-2',
-    source: '1',
-    target: '2',
-  },
+  // Add any initial edges here if needed
 ];
 
 function UMLDiagram() {
-
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
-  const onConnect = useCallback((params) => setEdges((eds) => addEdge(params, eds)), []);
+  const onConnect = useCallback((params) => {
+    setEdges((eds) =>
+      addEdge(
+        {
+          ...params,
+          style: { stroke: 'black', strokeWidth: 2 },
+          type: 'smoothstep',
+        },
+        eds
+      )
+    );
+  }, [setEdges]);
 
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <ReactFlow
         nodes={nodes}
         nodeTypes={nodeTypes}
+        edgeTypes={edgeTypes}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
-        connectionLineStyle={{ stroke: '#ddd', strokeWidth: 2 }}
+        connectionLineStyle={{ stroke: '#000000', strokeWidth: 2 }}
+        connectionLineType="smoothstep"
         snapToGrid={true}
         snapGrid={[16, 16]}
       >
         <Controls />
-        <Background style={{ zIndex: -1 }} color="#000000" gap={16} />
+        <Background style={{ zIndex: -1 }} gap={16} />
       </ReactFlow>
     </div>
   );

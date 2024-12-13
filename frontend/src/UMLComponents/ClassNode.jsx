@@ -3,7 +3,7 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState } from "react"
+import { useState, useCallback } from "react"
 
 import {
    Handle,
@@ -11,6 +11,11 @@ import {
 } from '@xyflow/react';
 
 function ClassNode({ data }) {
+
+   const onChange = useCallback((evt) => {
+      console.log(evt.target.value);
+   }, []);
+   
 
    const {
       nodeColors
@@ -66,23 +71,29 @@ function ClassNode({ data }) {
    };
 
    return (
-      <>
-         <Handle
-            type="source"
-            position={Position.Left}
-            style={{
-               background: '#490000',
-               position: 'absolute', // Ensure it's positioned correctly
-               left: -10,            // Adjust position manually for visibility
-            }}
-         />
-
+      <div>
+         {
+            isHovered &&
+            <>
+               <Handle id="3" type="source"  position={Position.Right} />
+               <Handle id="4" type="target" position={Position.Right} />
+                  
+               <Handle id="5" type="source" position={Position.Left} />
+               <Handle id="6" type="target" position={Position.Left} />
+            
+               <Handle id="7" type="source" position={Position.Bottom} />
+               <Handle id="8" type="target" position={Position.Bottom} />
+            </>
+         }
+         {/* <Handle id="5" type="target" position={Position.Left} /> */}
+         
          <div
             onMouseEnter={handleMouseEnter}
             onMouseLeave={handleMouseLeave}
          >
             
             <PackageBlock packageName={data.packageName} width={data.width}/>
+            
             
             <NameBlock color={nodeColors.class} width={data.width} type={data.type} name={data.name}/>
             
@@ -104,27 +115,7 @@ function ClassNode({ data }) {
             <button style={styles.button} onClick={addMethode}>+ method</button>
          </div>
 
-         {/* <Handle
-            type="source"
-            position={Position.Left}
-            style={{
-               background: '#490000',
-               position: 'absolute', // Ensure it's positioned correctly
-               left: -10,            // Adjust position manually for visibility
-            }}
-         />
-
-         <Handle
-            type="target"
-            position={Position.Right}
-            style={{
-               background: '#490000',
-               position: 'absolute',
-               right: -10,
-            }}
-         /> */}
-
-      </>
+      </div>
    )
   }
   

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
+import deleteIcon from '../../assets/deleteIcon.svg'
 import './UMLStyles.css'
 
 function MethodsBlock(props) {
 
   const styles = {
     methodsBlock: {
-      height: `${props.methodesHeight}px`,
       width: `250px`,
     },
 
@@ -28,17 +28,19 @@ function MethodsBlock(props) {
 
   return (
       <>
-        {props.methodesNo != 0 && 
-          (
+      {props.methodesNo != 0 &&
+        (
           <div className="methodsBlock" style={styles.methodsBlock}>
             {methodes.map((_, index) => (
-              <div key={index} style={{ display: 'flex', alignItems:"center" }}>
-                <div className="method" style={styles.methode}>- methode {index+1}</div>
-                {props.isHovered && <button className="delete" onClick={() => removeMethod(index)}></button>}
+              <div key={index} style={{ display: 'flex', alignItems: "center" }}>
+                <div className="method" style={styles.methode}>- methode {index + 1}</div>
+                {props.isHovered && 
+                    <img onClick={() => removeMethod(index)} src={deleteIcon}/>
+                }
               </div>
             ))}
           </div>)
-        }
+      }
       </>
     )
 }

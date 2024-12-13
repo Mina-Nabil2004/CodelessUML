@@ -5,7 +5,6 @@ function AttributesBlock(props) {
 
   const styles = {
     attributesBlock: {
-      height: `${props.attributesHeight}px`,
       width: `250px`,
     },
 
@@ -29,12 +28,26 @@ function AttributesBlock(props) {
   
   return (
       <div className="attributesBlock" style={styles.attributesBlock}>
-        {attributes.map((_, index) => (
-          <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-            <div className="attribute" style={styles.attribute}>- attribute {index+1} </div>
-            {props.isHovered && (<button className="delete" onClick={() => removeAttribute(index)}></button>)}
-          </div>
-        ))}
+        {
+          attributes.map((_, index) => (
+            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+              
+              <div className="attribute" style={styles.attribute}>
+                - attribute {index+1} 
+              </div>
+              {
+                props.isHovered && (
+                  <button 
+                    className="delete" 
+                    onClick={() => removeAttribute(index)}
+                  >
+
+                  </button>
+                )
+              }
+            </div>
+          ))
+        }
       </div>
     )
 }

@@ -41,24 +41,24 @@ export const interfaceNode = {
 }
 
 export const abstractClassNode = {
-    id: '0',
-    type: 'abstractClass',
-    position: { x: 0, y: 0 },
-    data: {
-      scope: "public",
-  
-      relations: {
-        extendsId: null,
-        implements: []
-      },
-  
-      attributes: [],
-  
-      methods: [],
-      abstractmethods: [],
-  
-      constructors: []
-    }
+  id: '0',
+  type: 'abstractClass',
+  position: { x: 0, y: 0 },
+  data: {
+    scope: "public",
+
+    relations: {
+      extendsId: null,
+      implements: []
+    },
+
+    attributes: [],
+
+    methods: [],
+    abstractmethods: [],
+
+    constructors: []
+  }
 }
 
 export const enumNode = {

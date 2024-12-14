@@ -5,7 +5,7 @@ import ClassNode from './UMLComponents/ClassNode.jsx';
 import InterfaceNode from './UMLComponents/InterfaceNode.jsx';
 import EnumNode from './UMLComponents/EnumNode.jsx';
 import AbstractClassNode from './UMLComponents/AbstractClassNode.jsx';
-import { abstractClassNode, classNode, initialNodes, interfaceNode } from './nodes.js';
+import { abstractClassNode, classNode, enumNode, initialNodes, interfaceNode } from './nodes.js';
 
 import '@xyflow/react/dist/style.css';
 
@@ -18,6 +18,7 @@ import {
   addEdge,
   SmoothStepEdge
 } from '@xyflow/react';
+import { useAppContext } from './AppContext.jsx';
 
 const nodeTypes = {
   class: ClassNode,
@@ -35,8 +36,10 @@ const initialEdges = [
 ];
 
 function UMLDiagram() {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const {
+    nodes, setNodes, onNodesChange,
+    edges, setEdges, onEdgesChange,
+  } = useAppContext();
 
   function createClass() {
     setNodes((prevNodes) => [...prevNodes,{ ...classNode, id: `${nodes.length}` }]);
@@ -48,6 +51,10 @@ function UMLDiagram() {
 
   function createAbstractClass() {
     setNodes((prevNodes) => [...prevNodes,{ ...abstractClassNode, id: `${nodes.length}` }]);
+  }
+
+  function createEnum() {
+    setNodes((prevNodes) => [...prevNodes,{ ...enumNode, id: `${nodes.length}` }]);
   }
   
 
@@ -80,28 +87,35 @@ function UMLDiagram() {
         snapGrid={[16, 16]}
       >
         <Controls className='controls' orientation="horizontal" position='bottom-right'/>
-        <Background style={{ zIndex: -1 }} gap={16} />
+        <Background style={{ zIndex: -1 }} gap={16} size={1.5} />
       </ReactFlow>
 
       <button onClick={() => {createClass()}} style={{
         position: 'absolute',
-        bottom: '50px'
+        bottom: '30px'
       }}>
-        3abeet
+        class
       </button>
 
       <button onClick={() => {createInterface()}} style={{
         position: 'absolute',
-        bottom: '70px'
+        bottom: '50px'
       }}>
-        3abeet interface
+        interface
       </button>
 
       <button onClick={() => {createAbstractClass()}} style={{
         position: 'absolute',
-        bottom: '80px'
+        bottom: '70px'
       }}>
-        3abeet abstract class
+        abstract class
+      </button>
+
+      <button onClick={() => {createEnum()}} style={{
+        position: 'absolute',
+        bottom: '90px'
+      }}>
+        enum
       </button>
     </div>
   );

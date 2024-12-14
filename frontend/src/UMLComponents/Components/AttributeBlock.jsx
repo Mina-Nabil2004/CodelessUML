@@ -13,10 +13,8 @@ function AttributesBlock(props) {
   const removeAttribute = (indexToRemove) => {
     props.setAttributesNo(props.attributesNo-1);
     props.setAttributesHeight(props.attributesHeight - 30);
-    setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));
+    setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));4
   }
-  
-
   
   return (
       <div className="attributesBlock">
@@ -25,7 +23,7 @@ function AttributesBlock(props) {
             <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
               
               <div className="attribute">
-                <Input type={"attribute"} index={index}/>
+                <Input typeName={"attribute"} index={index}/>
               </div>
               {
                 props.isHovered && (

@@ -1,40 +1,31 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 
-const Input = ({ type, index }) => {
-  const [name, setName] = useState(`attribute ${index + 1}`);
-  const [returnType, setReturnType] = useState(`return`);
-  const inputRef = useRef(null);
+const Input = ({ typeName, index }) => {
+  const [name, setName] = useState(`${typeName} ${index + 1}`);
+  const [type, setType] = useState(`type`);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
 
-  const handleReturnChange = (e) => {
-    setReturnType(e.target.value);
+  const handleTypeChange = (e) => {
+    setType(e.target.value);
   };
-
-  useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.style.width = `${inputRef.current.scrollWidth}px`;
-    }
-  }, [name, returnType]);
 
   return (
     <div className="attribute">
       <input
-        ref={inputRef}
         type="text"
         value={name}
         onChange={handleNameChange}
-        style={{ border: 'none', outline: 'none', width: 'auto' }}
+        style={{ border: 'none', outline: 'none', width: 'auto', minWidth: '10px' }}
       />
-      :
+        :
       <input
-        ref={inputRef}
         type="text"
-        value={returnType}
-        onChange={handleReturnChange}
-        style={{ border: 'none', outline: 'none', width: 'auto' }}
+        value={type}
+        onChange={handleTypeChange}
+        style={{ border: 'none', outline: 'none', width: 'auto', minWidth: '10px' }}
       />
     </div>
   );

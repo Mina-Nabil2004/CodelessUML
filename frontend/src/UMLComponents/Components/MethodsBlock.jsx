@@ -23,7 +23,7 @@ function MethodsBlock(props) {
           <div className="methodsBlock">
             {methodes.map((_, index) => (
               <div key={index} style={{ display: 'flex', alignItems: "center" }}>
-                <Input type={"methode"} index={index}/>
+                <Input typeName={"methode"} index={index}/>
                 {props.isHovered && 
                     <img className="delete" onClick={() => removeMethod(index)} src={deleteIcon}/>
                 }

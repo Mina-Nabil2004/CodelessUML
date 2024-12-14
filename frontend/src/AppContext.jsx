@@ -1,9 +1,21 @@
 import React, { createContext, useContext, useState } from 'react';
-
+import { abstractClassNode, classNode, enumNode, initialNodes, interfaceNode } from './nodes.js';
+import {
+  ReactFlow,
+  Controls,
+  Background,
+  useNodesState,
+  useEdgesState,
+  addEdge,
+  SmoothStepEdge
+} from '@xyflow/react';
 const AppContext = createContext();
 
 // Create a provider component
 export const AppProvider = ({ children }) => {
+
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [nodeColors, setNodeColors] = useState({
     class:'blue',
@@ -15,7 +27,9 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
-        nodeColors, setNodeColors
+        nodeColors, setNodeColors,
+        nodes, setNodes, onNodesChange,
+        edges, setEdges, onEdgesChange
       }}
     >
       {children}

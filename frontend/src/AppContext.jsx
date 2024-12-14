@@ -8,7 +8,7 @@ export const AppProvider = ({ children }) => {
   const [nodeColors, setNodeColors] = useState({
     class:'blue',
     interface:'#a30096',
-    abstractClass: '#656565',
+    abstractClass: '#2ab600',
     enum: '#00776b'
   })
 

@@ -11,8 +11,6 @@ function NameBlock(props) {
   }
   return (
     <>
-      <Handle id="1" type="target" position={Position.Top} /> 
-      <Handle id="10" type="source" position={Position.Top} /> 
       <div className="nameBlock" style={styles}>
         {props.name}
       </div>

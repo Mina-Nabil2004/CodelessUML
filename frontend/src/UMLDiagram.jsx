@@ -5,7 +5,8 @@ import ClassNode from './UMLComponents/ClassNode.jsx';
 import InterfaceNode from './UMLComponents/InterfaceNode.jsx';
 import EnumNode from './UMLComponents/EnumNode.jsx';
 import AbstractClassNode from './UMLComponents/AbstractClassNode.jsx';
-import { initialNodes } from './nodes.js';
+import { abstractClassNode, classNode, initialNodes, interfaceNode } from './nodes.js';
+
 import '@xyflow/react/dist/style.css';
 
 import {
@@ -26,7 +27,7 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  smoothstep: SmoothStepEdge, // Register the SmoothStepEdge
+  smoothstep: SmoothStepEdge,
 };
 
 const initialEdges = [
@@ -36,6 +37,19 @@ const initialEdges = [
 function UMLDiagram() {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+
+  function createClass() {
+    setNodes((prevNodes) => [...prevNodes,{ ...classNode, id: `${nodes.length}` }]);
+  }
+
+  function createInterface() {
+    setNodes((prevNodes) => [...prevNodes,{ ...interfaceNode, id: `${nodes.length}` }]);
+  }
+
+  function createAbstractClass() {
+    setNodes((prevNodes) => [...prevNodes,{ ...abstractClassNode, id: `${nodes.length}` }]);
+  }
+  
 
   const onConnect = useCallback((params) => {
     setEdges((eds) =>
@@ -65,9 +79,30 @@ function UMLDiagram() {
         snapToGrid={true}
         snapGrid={[16, 16]}
       >
-        <Controls />
+        <Controls className='controls' orientation="horizontal" position='bottom-right'/>
         <Background style={{ zIndex: -1 }} gap={16} />
       </ReactFlow>
+
+      <button onClick={() => {createClass()}} style={{
+        position: 'absolute',
+        bottom: '50px'
+      }}>
+        3abeet
+      </button>
+
+      <button onClick={() => {createInterface()}} style={{
+        position: 'absolute',
+        bottom: '70px'
+      }}>
+        3abeet interface
+      </button>
+
+      <button onClick={() => {createAbstractClass()}} style={{
+        position: 'absolute',
+        bottom: '80px'
+      }}>
+        3abeet abstract class
+      </button>
     </div>
   );
 }

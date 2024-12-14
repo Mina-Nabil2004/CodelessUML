@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import deleteIcon from '../../assets/deleteIcon.svg'
+import Input from "./Input";
 import './UMLStyles.css'
 
 function MethodsBlock(props) {
@@ -22,7 +23,7 @@ function MethodsBlock(props) {
           <div className="methodsBlock">
             {methodes.map((_, index) => (
               <div key={index} style={{ display: 'flex', alignItems: "center" }}>
-                <div className="method">- methode {index + 1}</div>
+                <Input type={"methode"} index={index}/>
                 {props.isHovered && 
                     <img className="delete" onClick={() => removeMethod(index)} src={deleteIcon}/>
                 }

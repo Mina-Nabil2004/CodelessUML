@@ -5,6 +5,7 @@ import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
 import { useState, useCallback } from "react"
 import classNames from"classnames"
+import Dot from "./Dot";
 
 import {
    Handle,
@@ -16,7 +17,6 @@ function ClassNode({ data }) {
    const onChange = useCallback((evt) => {
       console.log(evt.target.value);
    }, []);
-   
 
    const {
       nodeColors
@@ -41,20 +41,7 @@ function ClassNode({ data }) {
 
    return (
       <div>
-         {
-            isHovered &&
-            <>
-               <Handle id="3" type="source"  position={Position.Right} />
-               <Handle id="4" type="target" position={Position.Right} />
-                  
-               <Handle id="5" type="source" position={Position.Left} />
-               <Handle id="6" type="target" position={Position.Left} />
-            
-               <Handle id="7" type="source" position={Position.Bottom} />
-               <Handle id="8" type="target" position={Position.Bottom} />
-            </>
-         }
-         {/* <Handle id="5" type="target" position={Position.Left} /> */}
+         
          
          <div
             onMouseEnter={() => setIsHovered(true)}
@@ -62,6 +49,7 @@ function ClassNode({ data }) {
          >
             
             <PackageBlock packageName={data.packageName} width={data.width}/>
+            <Dot id={data.id} />
             
             
             <NameBlock color={nodeColors.class} width={data.width} type={data.type} name={data.name}/>

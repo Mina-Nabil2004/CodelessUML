@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Input from "./Input";
 import './UMLStyles.css'
 import deleteIcon from '../../assets/deleteIcon.svg'
 
@@ -15,6 +16,8 @@ function AttributesBlock(props) {
     setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));
   }
   
+
+  
   return (
       <div className="attributesBlock">
         {
@@ -22,11 +25,11 @@ function AttributesBlock(props) {
             <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
               
               <div className="attribute">
-                - attribute {index+1} 
+                <Input type={"attribute"} index={index}/>
               </div>
               {
                 props.isHovered && (
-                  <img className="delete" onClick={() => removeMethod(index)} src={deleteIcon}/>
+                  <img className="delete" onClick={() => removeAttribute(index)} src={deleteIcon}/>
                 )
               }
             </div>

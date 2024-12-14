@@ -11,7 +11,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route index element={ <UMLDiagram /> } />
-          <Route path ="/CodeViewer" element={<CodeViewer/>} />
+          <Route path="/UMLDiagram" element={ <UMLDiagram/> } />
+          <Route path ="/CodeViewer" element={<CodeViewer/>} /> 
+          <Route path="*" element={<UMLDiagram />} />
         </Routes>
       </BrowserRouter>
     </div>

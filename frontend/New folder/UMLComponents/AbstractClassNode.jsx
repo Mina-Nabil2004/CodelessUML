@@ -12,7 +12,7 @@ import {
    Position,
 } from '@xyflow/react';
 
-function InterfaceNode({ data }) {
+function AbstractClassNode({ data }) {
 
    const onChange = useCallback((evt) => {
       console.log(evt.target.value);
@@ -27,7 +27,6 @@ function InterfaceNode({ data }) {
    const [methodesNo, setMethodesNo] = useState(0);
    const [attributesNo, setAttributesNo] = useState(0);
    const [isHovered, setIsHovered] = useState(false);
-   
 
 
    const addAttribute = () => {
@@ -53,7 +52,7 @@ function InterfaceNode({ data }) {
             <Dot id={data.id} />
             
             
-            <NameBlock color={nodeColors.interface} width={data.width} type={data.type} name={data.name}/>
+            <NameBlock color={nodeColors.abstractClass} width={data.width} type={data.type} name={data.name}/>
             
             <AttributesBlock attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight}
             isHovered={isHovered} setAttributesNo={setAttributesNo} attributesNo={attributesNo} width={data.width}/>
@@ -77,4 +76,4 @@ function InterfaceNode({ data }) {
    )
   }
   
-  export default InterfaceNode
+  export default AbstractClassNode

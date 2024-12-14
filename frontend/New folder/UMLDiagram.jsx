@@ -128,10 +128,6 @@ function UMLDiagram() {
     console.log(iconName)
   }
 
-  function handleGenerateCodeClick(e) {
-    window.location.href = `${window.location.origin}/CodeViewer`
-  }
-
 
 
   const dropdownMenuItems = [
@@ -263,7 +259,6 @@ function UMLDiagram() {
     );
 };
 
-
   return (
       <div
           onClick={handleOnClick}
@@ -291,7 +286,7 @@ function UMLDiagram() {
         </ReactFlow>
 
         <div className="generate-code-button-container">
-          <Button text="GENERATE CODE" onClick={handleGenerateCodeClick}/>
+          <Button text="GENERATE CODE"/>
         </div>
         <div className="vertical-sidebar-container">
           <VerticalSidebar items={verticalSidebarItems}/>
@@ -306,7 +301,7 @@ function UMLDiagram() {
             positionY={contextMenuStatus.position.y}
             isToggled={contextMenuStatus.toggled}
         />
-        <div style={{ position: 'fixed', bottom: 5, left: 25 }}>
+        <div style={{ position: 'absolute', bottom: 20, left: 70 }}>
           <ColorMapper
             colors={[classColor, abstractClassColor, enumColor, interfaceColor]}
             onChangeFunctions={[

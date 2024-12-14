@@ -12,7 +12,7 @@ import {
    Position,
 } from '@xyflow/react';
 
-function InterfaceNode({ data }) {
+function ClassNode({ data }) {
 
    const onChange = useCallback((evt) => {
       console.log(evt.target.value);
@@ -27,8 +27,6 @@ function InterfaceNode({ data }) {
    const [methodesNo, setMethodesNo] = useState(0);
    const [attributesNo, setAttributesNo] = useState(0);
    const [isHovered, setIsHovered] = useState(false);
-   
-
 
    const addAttribute = () => {
       setAttributesNo(attributesNo + 1);
@@ -43,7 +41,6 @@ function InterfaceNode({ data }) {
    return (
       <div>
          
-         
          <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
@@ -53,12 +50,12 @@ function InterfaceNode({ data }) {
             <Dot id={data.id} />
             
             
-            <NameBlock color={nodeColors.interface} width={data.width} type={data.type} name={data.name}/>
+            <NameBlock color={nodeColors.class} width={data.width} type={data.type} name={data.name}/>
             
-            <AttributesBlock attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight}
+            <AttributesBlock data={data} attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight} 
             isHovered={isHovered} setAttributesNo={setAttributesNo} attributesNo={attributesNo} width={data.width}/>
 
-            <MethodsBlock methodesHeight={methodesHeight} setMethodesHeight={setMethodesHeight} isHovered={isHovered}
+            <MethodsBlock data={data} methodesHeight={methodesHeight} setMethodesHeight={setMethodesHeight} isHovered={isHovered} 
             setMethodesNo={setMethodesNo} methodesNo={methodesNo} width={data.width}/>
          
          </div>
@@ -77,4 +74,4 @@ function InterfaceNode({ data }) {
    )
   }
   
-  export default InterfaceNode
+  export default ClassNode

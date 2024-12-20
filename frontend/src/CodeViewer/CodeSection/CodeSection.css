@@ -1,6 +1,6 @@
 
 .code-section-container {
-    background: #101a29;
+    background: #1e1e1e;
     flex: 8;
     border-radius: 15px;
     position: relative;
@@ -14,7 +14,7 @@
     align-items: center;
     gap: 15px;
     height: 12px;
-    background-color: #272e37;
+    background-color: #353535;
     padding: 14px 15px;
     border-radius: 10px;
 }

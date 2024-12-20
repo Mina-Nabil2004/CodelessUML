@@ -163,10 +163,10 @@ function UMLDiagram() {
     }
   ]
 
-  const [classColor, setClassColor] = useState("#ff0000");
-  const [abstractClassColor, setAbstractClassColor] = useState("#00ff00");
-  const [enumColor, setEnumColor] = useState("#0000ff");
-  const [interfaceColor, setInterfaceColor] = useState("#ffff00");
+  const [classColor, setClassColor] = useState("#fd8dd1");
+  const [abstractClassColor, setAbstractClassColor] = useState("#5eabfd");
+  const [enumColor, setEnumColor] = useState("#6afd5e");
+  const [interfaceColor, setInterfaceColor] = useState("#d40000");
 
   const horizontalSidebarItems = [
     { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleIconClick('Text') },

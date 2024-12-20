@@ -1,0 +1,42 @@
+.container {
+    overflow: hidden;
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    height: 320px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    border-radius: 0 15px 15px 0;
+}
+
+.sidebar {
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    color: white;
+    background-color: #221C32;
+    transition: width 0.3s;
+}
+
+.sidebar-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.sidebar-handle-container {
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-handle {
+    background-color: #221C32;
+    border: none;
+    width: 24px;
+    color: white;
+    cursor: pointer;
+}
+
+.arrow-icon {
+    width: 65%;
+}

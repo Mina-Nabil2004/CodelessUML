@@ -1,19 +1,8 @@
-/* :root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-} */
- 
 html, body {
+  font-family: "Instrument Sans", sans-serif;
   margin: 0;
   padding: 0;
   height: 100%;
@@ -27,13 +16,23 @@ html, body {
   flex-direction: column;
 }
 
+.color-mapper-component {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+}
+
+.sidebar-component {
+  position: fixed;
+  top: 50%;
+  left: 0;
+  transform: translateY(-50%);
+}
+
 
 .controls {
   background-color: #221c32;
   border-radius: 20px;
-  display: flex;
-  margin-right: 10px;
-  margin-bottom: 10px;
 }
 
 .controls button {
@@ -51,7 +50,7 @@ html, body {
   background-color: #322a4c;
 }
 
-.horizontal-sidebar-container {
+.horizontal-toolbar-component {
   display: inline-flex;
   flex-direction: row;
   align-items: flex-end;
@@ -62,16 +61,37 @@ html, body {
   transform: translateX(-50%);
 }
 
-.vertical-sidebar-container {
+.vertical-toolbar-component {
   position: fixed;
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
 }
 
-.generate-code-button-container {
+.generate-code-button-component {
   position: fixed;
   top: 12px;
   right: 12px;
+}
+
+.project-name-container {
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  margin: 0;
+}
+
+.project-name-container p {
+  font-family: Inter, sans-serif;
+  margin: 0;
+}
+
+.project-name-container .codeless-uml {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.project-name-container .project-name {
+  color: #1D1D1D;
 }
 

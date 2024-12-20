@@ -1,7 +1,7 @@
 import Icon from './Icon.jsx';
 import DropdownMenu from "./DropdownMenu/DropdownMenu.jsx";
 
-function HorizontalSidebar({ items }) {
+function HorizontalToolbar({ items }) {
 
   const styles = {
     display: 'inline-flex',
@@ -45,4 +45,4 @@ function HorizontalSidebar({ items }) {
 
 }
 
-export default HorizontalSidebar;
+export default HorizontalToolbar;

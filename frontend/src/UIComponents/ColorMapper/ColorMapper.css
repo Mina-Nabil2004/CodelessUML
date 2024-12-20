@@ -1,0 +1,42 @@
+
+.color-mapper-container {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    border-radius: 14px;
+    background-color: #221C32;
+    padding: 12px;
+}
+
+
+
+.color-mapper-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.color-mapper-row > .node-type {
+    font-size: 13px;
+    font-weight: 500;
+    color: white;
+}
+
+.color-input {
+    width: 35px;
+    height: 15px;
+    cursor: pointer;
+    background-color: transparent;
+    border-radius: 5px;
+    padding: 0;
+    border: 2px solid white;
+}
+
+.color-input::-webkit-color-swatch {
+    border: none;
+}
+
+.color-input::-webkit-color-swatch-wrapper {
+    padding: 0;
+}

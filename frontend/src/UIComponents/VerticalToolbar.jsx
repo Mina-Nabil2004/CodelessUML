@@ -1,7 +1,7 @@
 
 import Icon from './Icon.jsx';
 
-function VerticalSidebar({ items }) {
+function VerticalToolbar({ items }) {
 
   const styles = {
     display: 'inline-flex',
@@ -31,4 +31,4 @@ function VerticalSidebar({ items }) {
 
 }
 
-export default VerticalSidebar;
+export default VerticalToolbar;

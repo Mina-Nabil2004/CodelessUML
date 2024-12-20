@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import deleteIcon from '../../assets/deleteIcon.svg'
+import deleteIcon from '../../assets/DeleteIcon.svg'
 import Input from "./Input";
 import './UMLStyles.css'
 

@@ -1,5 +1,7 @@
-import { useState, useRef, useCallback } from 'react';
 import './index.css';
+
+import { useState, useRef, useCallback } from 'react';
+import { motion } from 'framer-motion';
 
 import ClassNode from './UMLComponents/ClassNode.jsx';
 import InterfaceNode from './UMLComponents/InterfaceNode.jsx';
@@ -7,24 +9,24 @@ import EnumNode from './UMLComponents/EnumNode.jsx';
 import AbstractClassNode from './UMLComponents/AbstractClassNode.jsx';
 import { abstractClassNode, classNode, enumNode, initialNodes, interfaceNode } from './nodes.js';
 
-import HorizontalSidebar from "./UIComponents/HorizontalSidebar.jsx";
-import VerticalSidebar from "./UIComponents/VerticalSidebar.jsx";
+import HorizontalToolbar from "./UIComponents/HorizontalToolbar.jsx";
+import VerticalToolbar from "./UIComponents/VerticalToolbar.jsx";
 import Button from "./UIComponents/Button.jsx";
 import ContextMenu from "./UIComponents/ContextMenu/ContextMenu.jsx";
-import Sidebar from "./UMLComponents/SideBar.jsx"
-import ColorMapper from './UMLComponents/ColorMapper.jsx';
+import Sidebar from "./UIComponents/Sidebar/Sidebar.jsx"
+import ColorMapper from './UIComponents/ColorMapper/ColorMapper.jsx';
 
-import TextIcon from './assets/HorizontalSidebarIcons/Text.png'
-import NoteIcon from './assets/HorizontalSidebarIcons/Note.png'
-import ClassIcon from './assets/HorizontalSidebarIcons/Class.png'
-import AbstractClassIcon from './assets/HorizontalSidebarIcons/AbstractClass.png'
-import InterfaceIcon from './assets/HorizontalSidebarIcons/Interface.png'
-import EnumIcon from './assets/HorizontalSidebarIcons/Enum.png'
+import TextIcon from './assets/HorizontalToolbarIcons/Text.png'
+import NoteIcon from './assets/HorizontalToolbarIcons/Note.png'
+import ClassIcon from './assets/HorizontalToolbarIcons/Class.png'
+import AbstractClassIcon from './assets/HorizontalToolbarIcons/AbstractClass.png'
+import InterfaceIcon from './assets/HorizontalToolbarIcons/Interface.png'
+import EnumIcon from './assets/HorizontalToolbarIcons/Enum.png'
 
-import UndoIcon from './assets/VerticalSidebarIcons/Undo.png'
-import RedoIcon from './assets/VerticalSidebarIcons/Redo.png'
-import ExportIcon from './assets/VerticalSidebarIcons/Export.png'
-import ImportIcon from './assets/VerticalSidebarIcons/Import.png'
+import UndoIcon from './assets/VerticalToolbarIcons/Undo.png'
+import RedoIcon from './assets/VerticalToolbarIcons/Redo.png'
+import ExportIcon from './assets/VerticalToolbarIcons/Export.png'
+import ImportIcon from './assets/VerticalToolbarIcons/Import.png'
 import AssociationIcon from "./assets/DropdownMenuIcons/Association.png";
 import InheritanceIcon from "./assets/DropdownMenuIcons/Inheritance.png";
 import ImplementationIcon from "./assets/DropdownMenuIcons/Implementation.png";
@@ -129,7 +131,7 @@ function UMLDiagram() {
   }
 
   function handleGenerateCodeClick(e) {
-    window.location.href = `${window.location.origin}/CodeViewer`
+    window.location.href = `${window.location.origin}/code-viewer`
   }
 
 
@@ -265,13 +267,16 @@ function UMLDiagram() {
 
 
   return (
-      <div
+      <motion.div
           onClick={handleOnClick}
           onContextMenu={handleOnContextMenu}
           style={{
             width: window.innerWidth,
             height: window.innerHeight,
           }}
+          initial={{opacity: 0}}
+          animate={{opacity: 1}}
+          exit={{opacity: 0}}
       >
         <ReactFlow
             nodes={nodes}
@@ -286,18 +291,29 @@ function UMLDiagram() {
             snapToGrid={true}
             snapGrid={[16, 16]}
         >
-          <Controls className='controls' orientation="horizontal" position='bottom-right'/>
+          <Controls
+              className='controls'
+              orientation="horizontal"
+              position='bottom-right'
+              style= {
+                    {
+                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+                      position: "fixed",
+                      bottom: "10px"
+                    }
+                  }
+          />
           <Background style={{zIndex: -1}} gap={16} size={1.5}/>
         </ReactFlow>
 
-        <div className="generate-code-button-container">
+        <div className="generate-code-button-component">
           <Button text="GENERATE CODE" onClick={handleGenerateCodeClick}/>
         </div>
-        <div className="vertical-sidebar-container">
-          <VerticalSidebar items={verticalSidebarItems}/>
+        <div className="vertical-toolbar-component">
+          <VerticalToolbar items={verticalSidebarItems}/>
         </div>
-        <div className="horizontal-sidebar-container">
-          <HorizontalSidebar items={horizontalSidebarItems}/>
+        <div className="horizontal-toolbar-component">
+          <HorizontalToolbar items={horizontalSidebarItems}/>
         </div>
         <ContextMenu
             contextMenuRef={contextMenuRef}
@@ -306,7 +322,7 @@ function UMLDiagram() {
             positionY={contextMenuStatus.position.y}
             isToggled={contextMenuStatus.toggled}
         />
-        <div style={{ position: 'fixed', bottom: 5, left: 25 }}>
+        <div className='color-mapper-component'>
           <ColorMapper
             colors={[classColor, abstractClassColor, enumColor, interfaceColor]}
             onChangeFunctions={[
@@ -318,10 +334,15 @@ function UMLDiagram() {
           nodeTypes={['Class', 'Abstract Class', 'Interface',  'Enum']}
           />
         </div>
-        <div style={{position: 'absolute', left: 0, top: 70}}>
-          <Sidebar></Sidebar>
+        <div className="sidebar-component">
+          <Sidebar />
         </div>
-      </div>
+
+        <div className='project-name-container'>
+          <p className='codeless-uml'>CodelessUML</p>
+          <p className='project-name'>Project Name</p>
+        </div>
+      </motion.div>
 
   );
 }

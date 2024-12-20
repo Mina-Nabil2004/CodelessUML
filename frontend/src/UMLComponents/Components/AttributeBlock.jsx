@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import Input from "./Input";
 import './UMLStyles.css'
-import deleteIcon from '../../assets/deleteIcon.svg'
+import deleteIcon from '../../assets/DeleteIcon.svg'
 
 function AttributesBlock(props) {
   const [attributes, setAttributes] = useState(Array.from({ length: props.attributesNo }, (_, index) => index));

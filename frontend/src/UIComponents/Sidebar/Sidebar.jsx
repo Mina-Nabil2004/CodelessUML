@@ -30,6 +30,7 @@ const Sidebar = () => {
           </div>
         )}
       </div>
+      
       <div className='sidebar-handle-container'>
         <button className='sidebar-handle' onClick={toggleSidebar}>
          <img className='arrow-icon'

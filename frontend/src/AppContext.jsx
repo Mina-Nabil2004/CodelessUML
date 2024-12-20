@@ -18,11 +18,11 @@ export const AppProvider = ({ children }) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [nodeColors, setNodeColors] = useState({
-    class:'blue',
-    interface:'#a30096',
-    abstractClass: '#2ab600',
-    enum: '#00776b'
-  })
+    class:'#00b6ca',
+    abstractClass: '#05008e',
+    interface:'#00d131',
+    enum: '#dfef52'
+  });
 
   return (
     <AppContext.Provider

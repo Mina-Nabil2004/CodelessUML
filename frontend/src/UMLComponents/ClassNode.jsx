@@ -49,7 +49,6 @@ function ClassNode({ data }) {
             <PackageBlock packageName={data.packageName} width={data.width}/>
             <Dot id={data.id} />
             
-            
             <NameBlock color={nodeColors.class} width={data.width} type={data.type} name={data.name}/>
             
             <AttributesBlock data={data} attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight} 

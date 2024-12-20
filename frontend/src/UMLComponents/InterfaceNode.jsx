@@ -42,8 +42,6 @@ function InterfaceNode({ data }) {
 
    return (
       <div>
-         
-         
          <div
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}

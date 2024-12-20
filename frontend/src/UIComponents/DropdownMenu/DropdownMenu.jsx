@@ -33,23 +33,23 @@ function DropdownMenu({ items, icon}) {
         }
         >
           {items.map((item, index) => (
-              <DropDownMenuItem
-                  key={index}
-                  text={item.text}
-                  icon={item.icon}
-                  onClick={(e) => {
-                    item.onClick(e);
-                    handleSelectedIcon(e);
-                  }}
-              />
+            <DropDownMenuItem
+              key={index}
+              text={item.text}
+              icon={item.icon}
+              onClick={(e) => {
+                item.onClick(e);
+                handleSelectedIcon(e);
+              }}
+            />
           ))}
         </div>
 
         <div className={styles['icon']}>
           <Icon
-              src={selectedIcon.src}
-              alt={selectedIcon.alt}
-              onClick={handleIconClick}
+            src={selectedIcon.src}
+            alt={selectedIcon.alt}
+            onClick={handleIconClick}
           />
         </div>
       </div>

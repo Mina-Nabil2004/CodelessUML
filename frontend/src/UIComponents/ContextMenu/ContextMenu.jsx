@@ -1,21 +1,21 @@
 import './ContextMenu.css';
 
 function ContextMenu({
-                       positionX,
-                       positionY,
-                       isToggled,
-                       items,
-                       contextMenuRef
-                     }) {
+  positionX,
+  positionY,
+  isToggled,
+  items,
+  contextMenuRef
+}) {
 
   return (
       <div
-          ref={contextMenuRef}
-          className={`context-menu ${isToggled ? 'active' : ''}`}
-          style={{
-            top: positionY + 2 + 'px',
-            left: positionX + 2 + 'px',
-          }}
+        ref={contextMenuRef}
+        className={`context-menu ${isToggled ? 'active' : ''}`}
+        style={{
+          top: positionY + 2 + 'px',
+          left: positionX + 2 + 'px',
+        }}
       >
         {items.map((item, index) => (
             <div key={index}>

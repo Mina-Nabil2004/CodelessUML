@@ -32,8 +32,7 @@ import InheritanceIcon from "./assets/DropdownMenuIcons/Inheritance.png";
 import ImplementationIcon from "./assets/DropdownMenuIcons/Implementation.png";
 import DependencyIcon from "./assets/DropdownMenuIcons/Dependency.png";
 import CompositionIcon from "./assets/DropdownMenuIcons/Composition.png";
-
-
+import { useAppContext } from './AppContext.jsx';
 import '@xyflow/react/dist/style.css';
 
 import {
@@ -42,10 +41,10 @@ import {
   Background,
   useNodesState,
   useEdgesState,
+  MarkerType,
   addEdge,
   SmoothStepEdge
 } from '@xyflow/react';
-import { useAppContext } from './AppContext.jsx';
 
 const nodeTypes = {
   class: ClassNode,
@@ -56,6 +55,7 @@ const nodeTypes = {
 
 const edgeTypes = {
   smoothstep: SmoothStepEdge,
+
 };
 
 const initialEdges = [
@@ -63,6 +63,10 @@ const initialEdges = [
 ];
 
 function UMLDiagram() {
+
+  const {
+    nodeColors, setNodeColors
+  } = useAppContext();
 
   const contextMenuRef = useRef(null);
   const [contextMenuStatus, setContextMenuStatus] = useState({
@@ -98,13 +102,13 @@ function UMLDiagram() {
     }
 
     setContextMenuStatus(
-        {
-          position: {
-            x: x,
-            y: y
-          },
-          toggled: true
-        }
+      {
+        position: {
+          x: x,
+          y: y
+        },
+        toggled: true
+      }
     )
 
     console.log(contextMenuStatus)
@@ -134,8 +138,6 @@ function UMLDiagram() {
     window.location.href = `${window.location.origin}/code-viewer`
   }
 
-
-
   const dropdownMenuItems = [
     { text: "Association",
       icon: {src: AssociationIcon, alt: 'Association'},
@@ -163,10 +165,10 @@ function UMLDiagram() {
     }
   ]
 
-  const [classColor, setClassColor] = useState("#ff0000");
-  const [abstractClassColor, setAbstractClassColor] = useState("#00ff00");
-  const [enumColor, setEnumColor] = useState("#0000ff");
-  const [interfaceColor, setInterfaceColor] = useState("#ffff00");
+  // const [classColor, setClassColor] = useState("#ff0000");
+  // const [abstractClassColor, setAbstractClassColor] = useState("#00ff00");
+  // const [enumColor, setEnumColor] = useState("#0000ff");
+  // const [interfaceColor, setInterfaceColor] = useState("#ffff00");
 
   const horizontalSidebarItems = [
     { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleIconClick('Text') },
@@ -237,71 +239,94 @@ function UMLDiagram() {
   }, [setEdges]);
 
   const handleClassColorChange = (color) => {
-    setClassColor(color);
-    updateNodeColor('1', color); // Optional: Change color if node exists
+    // setClassColor(color);
+    setNodeColors((prevNodeColors) => {
+      return {
+        ...prevNodeColors,
+        class: color
+      }
+    })
+    // updateNodeColor('1', color); // Optional: Change color if node exists
   };
 
   const handleAbstractClassColorChange = (color) => {
-    setAbstractClassColor(color);
-    updateNodeColor('2', color); // Optional: Change color if node exists
+    // setAbstractClassColor(color);
+    setNodeColors((prevNodeColors) => {
+      return {
+        ...prevNodeColors,
+        abstractClass: color
+      }
+    })
+    // updateNodeColor('2', color); // Optional: Change color if node exists
   };
 
   const handleEnumColorChange = (color) => {
-    setEnumColor(color);
-    updateNodeColor('3', color); // Optional: Change color if node exists
+    // setEnumColor(color);
+    setNodeColors((prevNodeColors) => {
+      return {
+        ...prevNodeColors,
+        enum: color
+      }
+    })
+    // updateNodeColor('3', color); // Optional: Change color if node exists
   };
 
   const handleInterfaceColorChange = (color) => {
-    setInterfaceColor(color);
-    updateNodeColor('4', color); // Optional: Change color if node exists
+    // setInterfaceColor(color);
+    setNodeColors((prevNodeColors) => {
+      return {
+        ...prevNodeColors,
+        interface: color
+      }
+    })
+    // updateNodeColor('4', color); // Optional: Change color if node exists
   };
 
   // Function to update node color
-  const updateNodeColor = (nodeId, color) => {
-    setNodes((prevNodes) =>
-        prevNodes.map((node) => 
-            node.id === nodeId ? { ...node, color } : node
-        )
-    );
-};
+  
+  // const updateNodeColor = (nodeId, color) => {
+  //   setNodes((prevNodes) =>
+  //     prevNodes.map((node) => 
+  //       node.id === nodeId ? { ...node, color } : node
+  //     )
+  //   );
+  // };
 
 
   return (
       <motion.div
-          onClick={handleOnClick}
-          onContextMenu={handleOnContextMenu}
-          style={{
-            width: window.innerWidth,
-            height: window.innerHeight,
-          }}
-          initial={{opacity: 0}}
-          animate={{opacity: 1}}
-          exit={{opacity: 0}}
+        onClick={handleOnClick}
+        onContextMenu={handleOnContextMenu}
+        style={{
+          width: window.innerWidth,
+          height: window.innerHeight,
+        }}
+        initial={{opacity: 0}}
+        animate={{opacity: 1}}
+        exit={{opacity: 0}}
       >
         <ReactFlow
-            nodes={nodes}
-            nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            connectionLineStyle={{stroke: '#000000', strokeWidth: 2}}
-            connectionLineType="smoothstep"
-            snapToGrid={true}
-            snapGrid={[16, 16]}
+          nodes={nodes}
+          nodeTypes={nodeTypes}
+          edgeTypes={edgeTypes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          connectionLineStyle={{stroke: '#000000', strokeWidth: 2}}
+          connectionLineType="smoothstep"
+          snapToGrid={true}
+          snapGrid={[16, 16]}
         >
           <Controls
-              className='controls'
-              orientation="horizontal"
-              position='bottom-right'
-              style= {
-                    {
-                      boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
-                      position: "fixed",
-                      bottom: "10px"
-                    }
-                  }
+            className='controls'
+            orientation="horizontal"
+            position='bottom-right'
+            style= {{
+              boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
+              position: "fixed",
+              bottom: "10px"
+            }}
           />
           <Background style={{zIndex: -1}} gap={16} size={1.5}/>
         </ReactFlow>
@@ -309,31 +334,35 @@ function UMLDiagram() {
         <div className="generate-code-button-component">
           <Button text="GENERATE CODE" onClick={handleGenerateCodeClick}/>
         </div>
+        
         <div className="vertical-toolbar-component">
           <VerticalToolbar items={verticalSidebarItems}/>
         </div>
+
         <div className="horizontal-toolbar-component">
           <HorizontalToolbar items={horizontalSidebarItems}/>
         </div>
+        
         <ContextMenu
-            contextMenuRef={contextMenuRef}
-            items={menuItems}
-            positionX={contextMenuStatus.position.x}
-            positionY={contextMenuStatus.position.y}
-            isToggled={contextMenuStatus.toggled}
+          contextMenuRef={contextMenuRef}
+          items={menuItems}
+          positionX={contextMenuStatus.position.x}
+          positionY={contextMenuStatus.position.y}
+          isToggled={contextMenuStatus.toggled}
         />
+        
         <div className='color-mapper-component'>
           <ColorMapper
-            colors={[classColor, abstractClassColor, enumColor, interfaceColor]}
             onChangeFunctions={[
               handleClassColorChange,
               handleAbstractClassColorChange,
-              handleEnumColorChange,
               handleInterfaceColorChange,
+              handleEnumColorChange,
             ]}
-          nodeTypes={['Class', 'Abstract Class', 'Interface',  'Enum']}
+            nodeTypes={['Class', 'Abstract Class', 'Interface',  'Enum']}
           />
         </div>
+        
         <div className="sidebar-component">
           <Sidebar />
         </div>

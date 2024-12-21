@@ -2,28 +2,29 @@
 .color-mapper-container {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 7px;
     border-radius: 14px;
     background-color: #221C32;
-    padding: 12px;
+    padding: 14px;
 }
 
 .color-mapper-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
+    gap: 17px;
+    height: 16px;
 }
 
 .color-mapper-row > .node-type {
-    font-size: 13px;
+    font-size: 12px;
     font-weight: 500;
     color: white;
 }
 
 .color-input {
     width: 35px;
-    height: 15px;
+    height: 100%;
     cursor: pointer;
     background-color: transparent;
     border-radius: 5px;

@@ -5,7 +5,7 @@
     opacity: 0;
     display: flex;
     flex-direction: column;
-    width: 200px;
+    width: 180px;
     background: #f9f9f9;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -17,14 +17,6 @@
 .context-menu.active {
     visibility: visible;
     opacity: 1;
-    display: flex;
-    flex-direction: column;
-    width: 200px;
-    background: #f9f9f9;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-    padding: 4px 7px;
 }
 
 .menu-item {
@@ -34,7 +26,7 @@
     color: #4F4F4F;
     padding: 4px 4px;
     cursor: pointer;
-    font-size: 14px;
+    font-size: 12px;
     border-radius: 5px;
 }
 

@@ -7,7 +7,7 @@ export const classNode = {
   type: 'class',
   position: { x: 0, y: 0 },
   data: {
-    name: "newClass",
+    name: "Class",
     package: "src",
     scope: "public",
 
@@ -29,6 +29,8 @@ export const interfaceNode = {
   type: 'interface',
   position: { x: 0, y: 0 },
   data: {
+    name: "Interface",
+    package: "src",
     scope: "public",
 
     relations: {
@@ -47,6 +49,8 @@ export const abstractClassNode = {
   type: 'abstractClass',
   position: { x: 0, y: 0 },
   data: {
+    name: "AbstractClass",
+    package: "src",
     scope: "public",
 
     relations: {
@@ -68,6 +72,8 @@ export const enumNode = {
   type: 'enum',
   position: { x: 0, y: 0 },
   data: {
+    name: "Enum",
+    package: "src",
     scope: "public",
 
     methods: []

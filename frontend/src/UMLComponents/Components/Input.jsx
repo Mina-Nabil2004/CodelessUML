@@ -1,24 +1,21 @@
 import React, { useState } from 'react';
 
-const Input = ({ input, setInput }) => {
+const Input = ({ input }) => {
   const [name, setName] = useState(`${input}`);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
-    // input = e.target.value;
-    onInputChange(e.target.value)
-    console.log(input)
-    handleInput(e.target.value)
+    console.log(name.length);
   };
 
   return (
-    <div className="attribute">
+    <div className="input">
       <input
         type="text"
         value={name}
         onChange={handleNameChange}
         className="input"
-        style={{ width: `${name.length}ch` , fontFamily: "Inter, sans-serif"}}
+        style={{ width: `${name.length}ch` , fontFamily: "Roboto mono, monospace"}}
       />
     </div>
   );

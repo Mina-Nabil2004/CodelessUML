@@ -6,19 +6,14 @@ import {
   Position,
 } from '@xyflow/react';
 
-function NameBlock(name) {
+function NameBlock({ name, color }) {
   const styles = {
-    block: {
-      backgroundColor: `${name.color}`
-    },
-    input: {
-      backgroundColor: "red"
-    }
+    backgroundColor: `${color}`
   }
 
   return (
-    <div className="nameBlock" style={styles.block}>
-      <Input input={name} style={styles.input}/>
+    <div className="nameBlock" style={styles}>
+      <Input input={name} />
     </div>
   )
 }

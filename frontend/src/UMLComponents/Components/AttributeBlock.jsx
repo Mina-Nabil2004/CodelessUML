@@ -1,42 +1,40 @@
-import { useState, useEffect } from "react";
+import { useCallback } from "react";
 import Input from "./Input";
-import './UMLStyles.css'
-import deleteIcon from '../../assets/DeleteIcon.svg'
+import './UMLStyles.css';
+import deleteIcon from '../../assets/DeleteIcon.svg';
 
-function AttributesBlock({ attributes, setAttributes, isHovered }) {
+function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute }) {
 
+  const removeAttribute = useCallback((indexToRemove) => {
+    setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));
+  }, [setAttributes]);
 
-  // useEffect(() => {
-  //   // setAttributes(Array.from({ length: props.attributesNo }, (_, index) => index));
-  //   setAttributes([...attributes, {length: attributes.length}]);
-  // }, [attributes]);
-
-  const removeAttribute = (indexToRemove) => {
-    props.setAttributesNo(props.attributesNo-1);
-    props.setAttributesHeight(props.attributesHeight - 30);
-    setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));4
-  }
-  
   return (
-      <div className="attributesBlock">
-        {
-          attributes.map((_, index) => (
-            <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
-              
-              <div className="attribute">
-                <Input input={`attribute${index+1}`}/>
-                <span>:</span>
-                <Input input={"type"}/>
-              </div>
-              {
-                isHovered && (
-                  <img className="delete" onClick={() => removeAttribute(index)} src={deleteIcon}/>
-                )
-              }
-            </div>
-          ))
-        }
-      </div>
-    )
+    (attributes.length !== 0 || methods.length ===0) &&
+    (<div className="attributesBlock" style={{ paddingBottom: methods.length === 0 ? "10px" : '25px' }}>
+      
+      {attributes.map((_, index) => (
+        <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+          <Input input={`attribute ${index + 1}`} />
+          <span>&nbsp;:&nbsp;</span>
+          <Input input={"type"}/>
+          {isHovered && (
+            <img
+              className="delete"
+              onClick={() => removeAttribute(index)}
+              src={deleteIcon}
+              alt="Delete"
+            />
+          )}
+        </div>
+      ))}
+      {isHovered && attributes.length > 0 && methods.length > 0 && (
+        <button className="attribute-button" onClick={addAttribute} >
+          + attribute
+        </button>
+      )}
+    </div>)
+  );
 }
-export default AttributesBlock
+
+export default AttributesBlock;

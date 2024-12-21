@@ -3,73 +3,66 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState, useCallback } from "react"
-import classNames from"classnames"
+import { useState, useCallback } from "react";
 import Dot from "./Dot";
 
 import {
-   Handle,
-   Position,
+  Handle,
+  Position,
 } from '@xyflow/react';
 
-function EnumNode({ data }) {
+function ClassNode({ data }) {
 
-   const onChange = useCallback((evt) => {
-      console.log(evt.target.value);
-   }, []);
+  const onChange = useCallback((evt) => {
+    console.log(evt.target.value);
+  }, []);
 
-   const {
-      nodeColors
-   } = useAppContext();
+  const {
+    nodeColors
+  } = useAppContext();
 
-   const [methodesHeight, setMethodesHeight] = useState(30);
-   const [attributesHeight, setAttributesHeight] = useState(30);
-   const [methodesNo, setMethodesNo] = useState(0);
-   const [attributesNo, setAttributesNo] = useState(0);
-   const [isHovered, setIsHovered] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+  const [attributes, setAttributes] = useState([]);
+  const [methods, setMethods] = useState([]);
 
+  const addAttribute = () => {
+    setAttributes([...attributes, `Attribute ${attributes.length + 1}`]);
+  };
 
-   const addAttribute = () => {
-      setAttributesNo(attributesNo + 1);
-      setAttributesHeight(attributesHeight + 30);
-   };
+  const addMethode = () => {
+    setMethods([...methods, `Method ${methods.length + 1}`]);
+  };
 
-   const addMethode = () => {
-      setMethodesNo(methodesNo + 1);
-      setMethodesHeight(methodesHeight + 30);
-   };
-
-   return (
-      <div>
-         
-         <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-         >
-            
-            <PackageBlock packageName={data.packageName} width={data.width}/>
-            <Dot id={data.id} />
-            
-            
-            <NameBlock color={nodeColors.enum} width={data.width} type={data.type} name={data.name}/>
-            {/* <NameBlock color={nodeColors.enum} width={data.width} type={data.type} name={data.name}/> */}
-            
-            <AttributesBlock attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight} 
-            isHovered={isHovered} setAttributesNo={setAttributesNo} attributesNo={attributesNo} width={data.width}/>
-
-         </div>
-         
-         <div
-            className={classNames('buttons', { 'buttonsVisible': isHovered })}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-         >
-            
-            <button className="button" onClick={addAttribute}>+ attribute</button>
-         </div>
-
+  return (
+    <div >
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <PackageBlock packageName={data.package}/>
+        
+        <Dot id={data.id} />
+        
+        <NameBlock color={nodeColors.enum} name={data.name} />
+        
+        <AttributesBlock
+          data={data}
+          attributes={attributes}
+          setAttributes={setAttributes}
+          methods={methods}
+          isHovered={isHovered}
+          addAttribute={addAttribute}
+        />
       </div>
-   )
-  }
-  
-  export default EnumNode
+      {isHovered && (attributes.length === 0 || methods.length === 0) && (
+          <button className="attribute-buttons" onClick={addAttribute} onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+               style={{left:"50%"}}>
+            + attribute
+          </button>
+      )}
+    </div>
+  );
+}
+
+export default ClassNode;

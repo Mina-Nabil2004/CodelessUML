@@ -3,78 +3,83 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState, useCallback } from "react"
-import classNames from"classnames"
+import { useState, useCallback } from "react";
+import classNames from "classnames";
 import Dot from "./Dot";
 
 import {
-   Handle,
-   Position,
+  Handle,
+  Position,
 } from '@xyflow/react';
 
 function ClassNode({ data }) {
 
-   const onChange = useCallback((evt) => {
-      console.log(evt.target.value);
-   }, []);
+  const onChange = useCallback((evt) => {
+    console.log(evt.target.value);
+  }, []);
 
-   const {
-      nodeColors
-   } = useAppContext();
+  const {
+    nodeColors
+  } = useAppContext();
 
-   //const [methodesHeight, setMethodesHeight] = useState(30);
-   // const [attributesHeight, setAttributesHeight] = useState(30);
-   // const [methodesNo, setMethodesNo] = useState(0);
-   // const [attributesNo, setAttributesNo] = useState(0);
-   const [isHovered, setIsHovered] = useState(false);
-   const [attributes, setAttributes] = useState(data.attributes);
-   const [methods, setMethods] = useState(data.methods);
+  const [isHovered, setIsHovered] = useState(false);
+  const [attributes, setAttributes] = useState([]);
+  const [methods, setMethods] = useState([]);
 
-   const addAttribute = () => {
-      // setAttributesNo(attributesNo + 1);
-      setAttributes([...attributes, attributes.length])
-      // console.log(attributes);
-      
-   };
+  const addAttribute = () => {
+    setAttributes([...attributes, `Attribute ${attributes.length + 1}`]);
+  };
 
-   const addMethode = () => {
-      setMethods(...methods, methodes.length);
-   };
+  const addMethode = () => {
+    setMethods([...methods, `Method ${methods.length + 1}`]);
+  };
 
-   return (
-      <div>
-         
-         <div
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-         >
-            
-            <PackageBlock packageName={data.package} width={data.width}/>
-            <Dot id={data.id} />
-            
-            <NameBlock color={nodeColors.class} width={data.width} type={data.type} name={data.name}/>
-            
-            {/* <AttributesBlock data={data} attributesHeight={attributesHeight} setAttributesHeight={setAttributesHeight} 
-            isHovered={isHovered} setAttributesNo={setAttributesNo} attributesNo={attributesNo} width={data.width}/> */}
-            <AttributesBlock data={data} attributes={attributes} setAttributes={setAttributes} />
-
-            <MethodsBlock data={data} isHovered={isHovered} 
-            setMethodesNo={setMethodesNo} methodesNo={methodesNo} width={data.width}/>
-         
-         </div>
-         
-         <div
-            className={classNames('buttons', { 'buttonsVisible': isHovered })}
-            onMouseEnter={() => setIsHovered(true)}
-            onMouseLeave={() => setIsHovered(false)}
-         >
-            
-            <button className="button" onClick={addAttribute}>+ attribute</button>
-            <button className="button" onClick={addMethode}>+ method</button>
-         </div>
-
+  return (
+    <div >
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+      >
+        <PackageBlock packageName={data.package}/>
+        
+        <Dot id={data.id} />
+        
+        <NameBlock color={nodeColors.class} name={data.name} />
+        
+        <AttributesBlock
+          data={data}
+          attributes={attributes}
+          setAttributes={setAttributes}
+          methods={methods}
+          isHovered={isHovered}
+          addAttribute={addAttribute}
+        />
+        <MethodsBlock
+          data={data}
+          methods={methods}
+          setMethods={setMethods}
+          attributes={attributes}
+          isHovered={isHovered}
+          setIsHovered={setIsHovered}
+          addMethode={addMethode}
+        />
       </div>
-   )
-  }
-  
-  export default ClassNode
+      {isHovered && (attributes.length === 0 || methods.length === 0) && (
+          <button className="attribute-buttons" onClick={addAttribute} onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+               style={{left:"33%"}}>
+            + attribute
+          </button>
+      )}
+      {isHovered && (attributes.length === 0 || methods.length === 0) && (
+          <button className="method-buttons" onClick={addMethode} onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+               style={{right:"33%"}}>
+            + method
+          </button>
+      )}
+    </div>
+  );
+}
+
+export default ClassNode;

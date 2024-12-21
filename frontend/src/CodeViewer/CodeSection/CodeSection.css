@@ -4,6 +4,7 @@
     flex: 8;
     border-radius: 15px;
     position: relative;
+    overflow: hidden;
 }
 
 .code-section-container .buttons-container {
@@ -26,4 +27,16 @@
 
 .code-section-container .buttons-container .back-icon {
     height: 100%;
+}
+
+.cm-editor {
+    background: #1e1e1e;
+}
+
+.cm-content {
+    font-size: 18px;
+}
+
+.cm-gutter {
+    background: #1e1e1e;
 }

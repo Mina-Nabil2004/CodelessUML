@@ -20,7 +20,7 @@ function CodeViewer() {
           exit={{opacity: 0}}
         >
           <ProjectFilesSection projectFiles={projectFilesData} />
-          <CodeSection />
+          <CodeSection codeLines={"\n".repeat(30)}/>
         </motion.div>
     );
 }

@@ -1,5 +1,7 @@
 import React, { createContext, useContext, useState } from 'react';
 import { abstractClassNode, classNode, enumNode, initialNodes, interfaceNode } from './nodes.js';
+import { dependency, inheritance, association, composition, implementation } from './edges.jsx';
+
 import {
   ReactFlow,
   Controls,
@@ -18,18 +20,21 @@ export const AppProvider = ({ children }) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
   const [nodeColors, setNodeColors] = useState({
-    class:'#00b6ca',
-    abstractClass: '#05008e',
-    interface:'#00d131',
-    enum: '#dfef52'
+    class:'#0fd2e8',
+    abstractClass: '#0802c1',
+    interface:'#04da00',
+    enum: '#e9ff23'
   });
+
+  const [selectedEdge, setSelectedEdge] = useState(dependency)
 
   return (
     <AppContext.Provider
       value={{
         nodeColors, setNodeColors,
         nodes, setNodes, onNodesChange,
-        edges, setEdges, onEdgesChange
+        edges, setEdges, onEdgesChange,
+        selectedEdge, setSelectedEdge
       }}
     >
       {children}

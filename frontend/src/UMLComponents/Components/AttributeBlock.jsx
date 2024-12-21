@@ -3,12 +3,13 @@ import Input from "./Input";
 import './UMLStyles.css'
 import deleteIcon from '../../assets/DeleteIcon.svg'
 
-function AttributesBlock(props) {
-  const [attributes, setAttributes] = useState(Array.from({ length: props.attributesNo }, (_, index) => index));
+function AttributesBlock({ attributes, setAttributes, isHovered }) {
 
-  useEffect(() => {
-    setAttributes(Array.from({ length: props.attributesNo }, (_, index) => index));
-  }, [props.attributesNo]);
+
+  // useEffect(() => {
+  //   // setAttributes(Array.from({ length: props.attributesNo }, (_, index) => index));
+  //   setAttributes([...attributes, {length: attributes.length}]);
+  // }, [attributes]);
 
   const removeAttribute = (indexToRemove) => {
     props.setAttributesNo(props.attributesNo-1);
@@ -23,10 +24,12 @@ function AttributesBlock(props) {
             <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
               
               <div className="attribute">
-                <Input typeName={"attribute"} index={index}/>
+                <Input input={`attribute${index+1}`}/>
+                <span>:</span>
+                <Input input={"type"}/>
               </div>
               {
-                props.isHovered && (
+                isHovered && (
                   <img className="delete" onClick={() => removeAttribute(index)} src={deleteIcon}/>
                 )
               }

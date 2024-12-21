@@ -1,11 +1,16 @@
 import './UMLStyles.css'
+import Input from "./Input";
 
-function PackageBlock(props) {
+function PackageBlock( { packageName } ) {
+
+  function onInputChange(newName) {
+    console.log()
+  }
 
   return (
-      <div className="packageBlock">
-        {props.packageName}
-      </div>
-    )
+    <div className="packageBlock">
+      <Input input={packageName}/>
+    </div>
+  )
 }
 export default PackageBlock

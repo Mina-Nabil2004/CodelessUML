@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
 
-const Input = ({ typeName, index }) => {
-  const [name, setName] = useState(`${typeName} ${index + 1}`);
-  const [type, setType] = useState(`type`);
+const Input = ({ input, setInput }) => {
+  const [name, setName] = useState(`${input}`);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
-  };
-
-  const handleTypeChange = (e) => {
-    setType(e.target.value);
+    // input = e.target.value;
+    onInputChange(e.target.value)
+    console.log(input)
+    handleInput(e.target.value)
   };
 
   return (
@@ -18,14 +17,8 @@ const Input = ({ typeName, index }) => {
         type="text"
         value={name}
         onChange={handleNameChange}
-        style={{ border: 'none', outline: 'none', width: 'auto', minWidth: '10px' }}
-      />
-        :
-      <input
-        type="text"
-        value={type}
-        onChange={handleTypeChange}
-        style={{ border: 'none', outline: 'none', width: 'auto', minWidth: '10px' }}
+        className="input"
+        style={{ width: `${name.length}ch` , fontFamily: "Inter, sans-serif"}}
       />
     </div>
   );

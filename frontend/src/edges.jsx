@@ -2,51 +2,67 @@ import {
    MarkerType,
  } from '@xyflow/react';
 
-const association = {
-   id: 'A->B',
-   source: 'A',
-   target: 'B',
-   markerEnd: {
-      type: MarkerType.Arrow
+export const association = {
+   type: 'smoothstep',
+   style: { stroke: 'black', strokeWidth: 2 },
+   markerStart: {
+      type: MarkerType.Arrow,
+      width: 20,
+      height: 20,
+      color: 'black',
    }
 }
 
-const inheritance = {
-   id: 'A->B',
-   source: 'A',
-   target: 'B',
-   markerEnd: {
+export const inheritance = {
+
+   style: { stroke: 'black', strokeWidth: 2 },
+   type: 'smoothstep',
+   markerStart: {
       type: MarkerType.ArrowClosed,
+      width: 20,
+      height: 20,
+      color: 'black',
    }
 }
 
 
-const implementation = {
-   id: 'A->B',
-   source: 'A',
-   target: 'B',
-   markerEnd: {
+export const implementation = {
+
+   style: { stroke: 'blue', strokeWidth: 2 , strokeDasharray: '5,5'},
+   markerStart: {
       type: MarkerType.ArrowClosed,
+      width: 20,
+      height: 20,
+      color: 'black',
    },
-   type: 'dashed'
-}
-const dependency = {
-   id: 'A->B',
-   source: 'A',
-   target: 'B',
-   markerEnd: {
-      type: MarkerType.Arrow,
-   },
-   type: 'dashed'
+   type: 'smoothstep'
 }
 
-const composition = {
-   id: 'A->B',
-   source: 'A',
-   target: 'B',
-   markerEnd: {
+export const dependency = {
+
+   
+   markerStart: {
       type: MarkerType.Arrow,
+      width: 20,
+      height: 20,
+      color: 'black',
    },
+   type: 'smoothstep',
+   style: { stroke: 'black', strokeWidth: 2, strokeDasharray: '5,5' },
 }
+
+export const composition = {
+
+   markerStart: {
+      type: MarkerType.Arrow,
+      width: 20,
+      height: 20,
+      color: 'black',
+   },
+   style: { stroke: 'black', strokeWidth: 2 },
+   type: 'smoothstep',
+}
+
+
 
 

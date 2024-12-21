@@ -23,10 +23,10 @@ function DropdownMenuItem( {text, icon, onClick} ) {
 
   return (
       <div
-          style={styles}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-          onClick={onClick}
+        style={styles}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        onClick={onClick}
       >
         <p>{text}</p>
         <img

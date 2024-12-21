@@ -24,18 +24,18 @@ function HorizontalToolbar({ items }) {
           case "icon":
             return (
                 <Icon
-                    key={index}
-                    src={item.src}
-                    alt={item.alt}
-                    onClick={item.onClick}
+                  key={index}
+                  src={item.src}
+                  alt={item.alt}
+                  onClick={item.onClick}
                 />
             );
           case "dropdown":
             return (
                 <DropdownMenu
-                    key={index}
-                    items={item.items}
-                    icon={item.icon}
+                  key={index}
+                  items={item.items}
+                  icon={item.icon}
                 />
             );
         }

@@ -3,6 +3,9 @@ import './index.css';
 import { useState, useRef, useCallback } from 'react';
 import { motion } from 'framer-motion';
 
+import { dependency, inheritance, association, composition, implementation } from './edges.jsx';
+
+
 import ClassNode from './UMLComponents/ClassNode.jsx';
 import InterfaceNode from './UMLComponents/InterfaceNode.jsx';
 import EnumNode from './UMLComponents/EnumNode.jsx';
@@ -54,9 +57,14 @@ const nodeTypes = {
 };
 
 const edgeTypes = {
-  smoothstep: SmoothStepEdge,
-
+  association,
+  inheritance,
+  implementation,
+  dependency,
+  composition,
+  smoothstep: SmoothStepEdge, // Default edge type
 };
+
 
 const initialEdges = [
   // Add any initial edges here if needed
@@ -65,7 +73,8 @@ const initialEdges = [
 function UMLDiagram() {
 
   const {
-    nodeColors, setNodeColors
+    nodeColors, setNodeColors,
+    selectedEdge, setSelectedEdge
   } = useAppContext();
 
   const contextMenuRef = useRef(null);
@@ -131,6 +140,30 @@ function UMLDiagram() {
   }
 
   function handleIconClick(iconName) {
+    switch (iconName) {
+      case 'Association':
+        setSelectedEdge(association)
+        break;
+      case 'Implementation':
+        setSelectedEdge(implementation)
+        console.log(selectedEdge)
+        break;
+      case 'Dependency':
+        setSelectedEdge(dependency)
+        break;
+      case 'Inheritance':
+        setSelectedEdge(inheritance)
+        console.log(selectedEdge)
+        break;
+      case 'Composition':
+        setSelectedEdge(composition)
+        console.log(selectedEdge)
+        break;
+        
+      default:
+        setSelectedEdge(inheritance)
+        break;
+    }
     console.log(iconName)
   }
 
@@ -164,11 +197,6 @@ function UMLDiagram() {
       onClick: () => handleIconClick('Composition')
     }
   ]
-
-  // const [classColor, setClassColor] = useState("#ff0000");
-  // const [abstractClassColor, setAbstractClassColor] = useState("#00ff00");
-  // const [enumColor, setEnumColor] = useState("#0000ff");
-  // const [interfaceColor, setInterfaceColor] = useState("#ffff00");
 
   const horizontalSidebarItems = [
     { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleIconClick('Text') },
@@ -228,15 +256,25 @@ function UMLDiagram() {
   const onConnect = useCallback((params) => {
     setEdges((eds) =>
       addEdge(
-        {
-          ...params,
-          style: { stroke: 'black', strokeWidth: 2 },
-          type: 'smoothstep',
-        },
+        { ...selectedEdge, ...params },
         eds
       )
     );
-  }, [setEdges]);
+  }, [setEdges, selectedEdge, onEdgesChange]);
+  
+  // const onConnect = useCallback((params) => {
+  //     setEdges((eds) =>
+  //       addEdge(
+  //         {
+  //           ...params,
+  //           type: selectedEdge.type || "smoothstep",
+  //         },
+  //         eds
+  //       )
+  //     );
+  //   }, [setEdges, selectedEdge, onEdgesChange]);
+  
+
 
   const handleClassColorChange = (color) => {
     // setClassColor(color);
@@ -313,8 +351,8 @@ function UMLDiagram() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
-          connectionLineStyle={{stroke: '#000000', strokeWidth: 2}}
-          connectionLineType="smoothstep"
+          connectionLineStyle={selectedEdge.style}
+          connectionLineType={selectedEdge.type}
           snapToGrid={true}
           snapGrid={[16, 16]}
         >

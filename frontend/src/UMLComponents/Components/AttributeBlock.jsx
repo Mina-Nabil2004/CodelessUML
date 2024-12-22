@@ -3,7 +3,7 @@ import Input from "./Input";
 import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
 
-function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute }) {
+function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute, updateNodeData  }) {
 
   const removeAttribute = useCallback((indexToRemove) => {
     setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));

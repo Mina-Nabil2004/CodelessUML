@@ -23,48 +23,56 @@ export default function Dot( id ) {
       <Handle id={`${id}-8`} type="target" position={Position.Top} style={{transform: 'translateY(30px)'}}/> */}
 
       <Handle id={`${id}-3OUT`} type="source" position={Position.Top} style={{
-        height: '15px',
+        height: '20px',
         width: '90%',
         opacity: '0',
+        borderRadius: "0"
       }}/>
       <Handle id={`${id}-3IN`} type="target" position={Position.Top} style={{
-        height: '15px',
+        height: '20px',
         width: `90%`,
         opacity: '0',
+        borderRadius: "0"
       }}/>
 
       <Handle id={`${id}-1OUT`} type="source" position={Position.Left} style={{
         height: '90%',
-        width: '15px',
-        opacity: '0'
+        width: '20px',
+        opacity: '0',
+        borderRadius: "0"
       }}/>
       <Handle id={`${id}-1IN`} type="target" position={Position.Left} style={{
         height: '90%',
-        width: '15px',
-        opacity: '0'
+        width: '20px',
+        opacity: '0',
+        borderRadius: "0"
       }}/>
 
       <Handle id={`${id}-2OUT`} type="source" position={Position.Right} style={{
-        height: '80%',
-        width: '15px',
+        height: '90%',
+        width: '20px',
         opacity: '0',
+        borderRadius: "0"
       }}/>
       <Handle id={`${id}-2IN`} type="target" position={Position.Right} style={{
-        height: '80%',
-        width: '15px',
+        height: '90%',
+        width: '20px',
         opacity: '0',
+        borderRadius: "0"
       }}/>
       
       
       <Handle id={`${id}-4OUT`} type="source" position={Position.Bottom} style={{
         height: '30px',
         width: `90%`,
-        opacity: '0'
+        opacity: '0',
+        borderRadius: "0"
       }}/>
       <Handle id={`${id}-4IN`} type="target" position={Position.Bottom} style={{
         height: '30px',
         width: `90%`,
-        opacity: '0'
+        opacity: '0',
+        borderRadius: "0"
       }}/>
     </>
   );

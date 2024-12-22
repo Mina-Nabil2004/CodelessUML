@@ -28,13 +28,23 @@ export const AppProvider = ({ children }) => {
 
   const [selectedEdge, setSelectedEdge] = useState(dependency)
 
+
+  const updateNodeData = (id, key, value) => {
+    setNodes(prevNodes =>
+      prevNodes.map(node =>
+        node.id === id ? { ...node, [key]: value } : node
+      )
+    );
+  };
+
   return (
     <AppContext.Provider
       value={{
-        nodeColors, setNodeColors,
         nodes, setNodes, onNodesChange,
         edges, setEdges, onEdgesChange,
-        selectedEdge, setSelectedEdge
+        nodeColors, setNodeColors,
+        selectedEdge, setSelectedEdge,
+        updateNodeData
       }}
     >
       {children}

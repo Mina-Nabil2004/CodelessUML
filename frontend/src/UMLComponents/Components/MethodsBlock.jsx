@@ -3,7 +3,7 @@ import Input from "./Input";
 import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
 
-function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered, addMethode }) {
+function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered, addMethode, updateNodeData  }) {
 
   const removeMethod = useCallback((indexToRemove) => {
     setMethods((prevMethods) => prevMethods.filter((_, index) => index !== indexToRemove));

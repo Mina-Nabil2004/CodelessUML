@@ -12,27 +12,32 @@ import {
   Position,
 } from '@xyflow/react';
 
-function ClassNode({ data }) {
+function ClassNode({ data, id }) {
+
+  const {
+    nodes, setNodes,
+    nodeColors
+  } = useAppContext();
 
   const onChange = useCallback((evt) => {
     console.log(evt.target.value);
   }, []);
-
-  const {
-    nodeColors
-  } = useAppContext();
 
   const [isHovered, setIsHovered] = useState(false);
   const [attributes, setAttributes] = useState([]);
   const [methods, setMethods] = useState([]);
 
   const addAttribute = () => {
+    // data.name = "ahmed";
+    // console.log(newAttributes);
     setAttributes([...attributes, `Attribute ${attributes.length + 1}`]);
+    updateNodeData('attributes', newAttributes);
   };
 
   const addMethode = () => {
     setMethods([...methods, `Method ${methods.length + 1}`]);
   };
+
 
   return (
     <div>
@@ -44,7 +49,7 @@ function ClassNode({ data }) {
         <PackageBlock packageName={data.package}/>
       
         
-        <NameBlock color={nodeColors.class} name={data.name} />
+        <NameBlock color={nodeColors.class} name={data.name} id={id} />
         
         <AttributesBlock
           data={data}

@@ -35,14 +35,14 @@ function ClassNode({ data }) {
   };
 
   return (
-    <div >
+    <div>
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
+        <Dot id={data.id} height={data.height} width={data.width} />
         <PackageBlock packageName={data.package}/>
-        
-        <Dot id={data.id} />
+      
         
         <NameBlock color={nodeColors.class} name={data.name} />
         
@@ -78,6 +78,7 @@ function ClassNode({ data }) {
             + method
           </button>
       )}
+
     </div>
   );
 }

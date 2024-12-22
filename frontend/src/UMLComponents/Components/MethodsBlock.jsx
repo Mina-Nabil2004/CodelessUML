@@ -18,6 +18,14 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
     <div className="methodsBlock" style={{ marginTop: attributes.length === 0 ? 0 : '-19px', paddingBottom: attributes.length === 0 ? "5px" : '10px' }}>
       {methods.map((method, index) => (
         <div key={index} style={{ display: 'flex', alignItems: "center" }}>
+          
+          <select className="attribute-scope">
+            <option value="public">+</option>
+            <option value="private">-</option>
+            <option value="protected">~</option>
+            <option value="package">#</option>
+          </select>
+          
           <Input
             typeName={"method"}
             index={index}
@@ -26,7 +34,7 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
           />
           <span>&nbsp;:&nbsp;</span>
           <Input
-            input={"type"}
+            input={"returnType"}
             setInput={(newValue) => console.log(`Type for method ${index} changed to ${newValue}`)}
           />
           {isHovered && (

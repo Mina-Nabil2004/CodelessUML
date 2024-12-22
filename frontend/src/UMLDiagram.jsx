@@ -140,6 +140,7 @@ function UMLDiagram() {
   }
 
   function handleIconClick(iconName) {
+    console.log(nodes)
     switch (iconName) {
       case 'Association':
         setSelectedEdge(association)

@@ -15,9 +15,20 @@ function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAtt
       
       {attributes.map((_, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
+
+          <select className="attribute-scope">
+            <option value="public">+</option>
+            <option value="private">-</option>
+            <option value="protected">~</option>
+            <option value="package">#</option>
+          </select>
+
           <Input input={`attribute ${index + 1}`} />
+          
           <span>&nbsp;:&nbsp;</span>
+          
           <Input input={"type"}/>
+          
           {isHovered && (
             <img
               className="delete"
@@ -28,11 +39,13 @@ function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAtt
           )}
         </div>
       ))}
+
       {isHovered && attributes.length > 0 && methods.length > 0 && (
         <button className="attribute-button" onClick={addAttribute} >
           + attribute
         </button>
       )}
+      
     </div>)
   );
 }

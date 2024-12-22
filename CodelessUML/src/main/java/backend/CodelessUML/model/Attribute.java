@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 public class Attribute {
     private String scope;
     private String type;
+    
+    @JsonProperty("static")
     private boolean isStatic;
     private String name;
     private boolean getter;
@@ -22,4 +24,5 @@ public class Attribute {
 
     @JsonProperty("final")
     private boolean isFinal;
+
 }

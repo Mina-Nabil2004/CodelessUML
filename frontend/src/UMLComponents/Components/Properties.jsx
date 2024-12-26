@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import './UMLStyles.css';
 
 const Properties = () => {
   const [scope, setScope] = useState('public');
@@ -25,20 +26,51 @@ const Properties = () => {
           {scope === 'protected' && '~'}
           {scope === 'package' && '#'}
         </div>
-        {dropdownOpen && (
-          <div className="dropdown-menu">
-            <select
-              className="attribute-scope"
-              value={scope}
-              onChange={handleScopeChange}
-            >
-              <option value="public">+</option>
-              <option value="private">-</option>
-              <option value="protected">~</option>
-              <option value="package">#</option>
-            </select>
-
-            <div className="radio-buttons">
+      </div>
+      {dropdownOpen && (
+        <div className="dropdown-menu">
+          <div className="modal-content">
+            <span className="close" onClick={toggleDropdown}>&times;</span>
+            <div className="radio-buttons" style={{ display: "flex", flexDirection: "column" }}>
+              <label>
+                <input
+                  type="radio"
+                  value="public"
+                  checked={scope === 'public'}
+                  onChange={handleScopeChange}
+                />
+                + public
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="private"
+                  checked={scope === 'private'}
+                  onChange={handleScopeChange}
+                />
+                - private
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="protected"
+                  checked={scope === 'protected'}
+                  onChange={handleScopeChange}
+                />
+                ~ protected
+              </label>
+              <label>
+                <input
+                  type="radio"
+                  value="package"
+                  checked={scope === 'package'}
+                  onChange={handleScopeChange}
+                />
+                # package
+              </label>
+            </div>
+            --------------
+            <div className="pro" style={{ display: "flex", flexDirection: "column" }}>
               <label>
                 <input
                   type="checkbox"
@@ -73,8 +105,8 @@ const Properties = () => {
               </label>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import classNames from "classnames";
 import Dot from "./Dot";
 
@@ -25,19 +25,46 @@ function ClassNode({ data, id }) {
   }, []);
 
   const [isHovered, setIsHovered] = useState(false);
-  const [attributes, setAttributes] = useState([]);
-  const [methods, setMethods] = useState([]);
+  const [attributes, setAttributes] = useState(data.attributes);
+  const [methods, setMethods] = useState(data.methods);
 
   const addAttribute = () => {
-    // data.name = "ahmed";
-    // console.log(newAttributes);
-    setAttributes([...attributes, `Attribute ${attributes.length + 1}`]);
+    const newAttribute = {
+      type: "type",
+      name: "atrribute",
+      scope: "public",
+      isStatic: false,
+      getter: false,
+      setter: false,
+      final: false
+    }
+    setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
   };
 
   const addMethode = () => {
-    setMethods([...methods, `Method ${methods.length + 1}`]);
+    const newMethod = {
+      name: "method",
+      returnType: "returnType",
+      scope: "public",
+      parameters: "parameters",
+      isStatic: false,
+      final: false
+    }
+    setMethods([...methods, newMethod]);
+    updateNodeData(id, 'methods', methods);
   };
+  
+  useEffect(() => {
+    // push in undo stack
+    updateNodeData(id, 'attributes', attributes);
+    console.log("-----------------------------n----------------------------")
+  }, [attributes]);
+  
+  useEffect(() => {
+    // push in undo stack
+    updateNodeData(id, 'methods', methods);
+  }, [methods]);
 
 
   return (
@@ -55,7 +82,7 @@ function ClassNode({ data, id }) {
         <AttributesBlock
           data={data}
           id={id}
-          attributes={data.attributes}
+          attributes={attributes}
           setAttributes={setAttributes}
           methods={methods}
           isHovered={isHovered}

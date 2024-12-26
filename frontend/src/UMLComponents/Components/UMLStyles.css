@@ -100,6 +100,9 @@
 
 .packageBlock {
   height: 25px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   width: auto;
   max-width: 40%;
   background-color: rgb(197, 207, 214);
@@ -147,3 +150,46 @@
 .attribute-scope:focus {
   outline: none;
 }
+
+.attribute-scope-container {
+  position: relative;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 0;
+  left: 100%;
+  margin-left: 10px;
+  background-color: #fefefe;
+  padding: 10px;
+  border: 1px solid #888;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  background-color: #F1F1F1;
+  border-radius: 10px;
+  font-family: Roboto mono, monospace;
+  z-index: 3;
+}
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  width: 140px;
+}
+
+.close {
+  align-self: flex-end;
+  font-size: 20px;
+  cursor: pointer;
+  margin-bottom: -20px;
+  z-index: 4;
+}
+
+
+
+.dropdown-selected{
+  padding-top: 2px;
+  font-size: 20px;
+  font-family: Roboto mono, monospace;
+  cursor: pointer;
+}
+

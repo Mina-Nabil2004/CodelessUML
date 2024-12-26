@@ -1,11 +1,5 @@
 import './UMLStyles.css'
 import Input from "./Input";
-import { useAppContext } from '../../AppContext.jsx';
-
-import {
-  Handle,
-  Position,
-} from '@xyflow/react';
 
 function NameBlock({ name, color, id }) {
 

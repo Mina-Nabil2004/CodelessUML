@@ -7,11 +7,8 @@ const Input = ({ input, id, type }) => {
     updateNodeData
   } = useAppContext();
 
-  const [name, setName] = useState(`${input}`);
-
-  const handleNameChange = (e) => {
-    setName(e.target.value);
-    console.log(name.length);
+  const handleChange = (e) => {
+    console.log(input);
     updateNodeData(id, type, e.target.value);
   };
 
@@ -19,11 +16,10 @@ const Input = ({ input, id, type }) => {
     <div className="input">
       <input
         type="text"
-        value={name}
-        onChange={handleNameChange}
-        // onChange={handle}
+        value={input}
+        onChange={handleChange}
         className="input"
-        style={{ width: `${name.length}ch` , fontFamily: "Roboto mono, monospace"}}
+        style={{ width: `${input.length}ch` , fontFamily: "Roboto mono, monospace"}}
       />
     </div>
   );

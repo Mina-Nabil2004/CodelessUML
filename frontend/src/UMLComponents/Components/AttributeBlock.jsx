@@ -2,6 +2,7 @@ import { useCallback } from "react";
 import Input from "./Input";
 import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
+import Properties from "./Properties";
 
 function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute, updateNodeData  }) {
 
@@ -16,12 +17,7 @@ function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAtt
       {attributes.map((_, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
 
-          <select className="attribute-scope">
-            <option value="public">+</option>
-            <option value="private">-</option>
-            <option value="protected">~</option>
-            <option value="package">#</option>
-          </select>
+          <Properties />
 
           <Input input={`attribute ${index + 1}`} />
           

@@ -32,7 +32,7 @@ export const AppProvider = ({ children }) => {
   const updateNodeData = (id, key, value) => {
     setNodes(prevNodes =>
       prevNodes.map(node =>
-        node.id === id ? { ...node, [key]: value } : node
+        node.id === id ? { ...node, data: { ...node.data, [key]: value } } : node
       )
     );
   };

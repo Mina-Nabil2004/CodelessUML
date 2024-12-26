@@ -16,7 +16,8 @@ function ClassNode({ data, id }) {
 
   const {
     nodes, setNodes,
-    nodeColors
+    nodeColors,
+    updateNodeData
   } = useAppContext();
 
   const onChange = useCallback((evt) => {
@@ -31,7 +32,7 @@ function ClassNode({ data, id }) {
     // data.name = "ahmed";
     // console.log(newAttributes);
     setAttributes([...attributes, `Attribute ${attributes.length + 1}`]);
-    updateNodeData('attributes', newAttributes);
+    updateNodeData(id, 'attributes', attributes);
   };
 
   const addMethode = () => {
@@ -46,14 +47,15 @@ function ClassNode({ data, id }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         <Dot id={data.id} height={data.height} width={data.width} />
-        <PackageBlock packageName={data.package}/>
+        <PackageBlock packageName={data.package} id={id}/>
       
         
-        <NameBlock color={nodeColors.class} name={data.name} id={id} />
+        <NameBlock color={nodeColors.class} name={data.name} id={id}/>
         
         <AttributesBlock
           data={data}
-          attributes={attributes}
+          id={id}
+          attributes={data.attributes}
           setAttributes={setAttributes}
           methods={methods}
           isHovered={isHovered}

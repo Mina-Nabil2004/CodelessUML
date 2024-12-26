@@ -1,12 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './UMLStyles.css';
+import { useState } from 'react';
 
-const Properties = () => {
-  const [scope, setScope] = useState('public');
-  const [isStatic, setIsStatic] = useState(false);
-  const [isFinal, setIsFinal] = useState(false);
-  const [hasSetter, setHasSetter] = useState(false);
-  const [hasGetter, setHasGetter] = useState(false);
+const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFinal, hasSetter, setHasSetter, hasGetter, setHasGetter }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleScopeChange = (e) => {

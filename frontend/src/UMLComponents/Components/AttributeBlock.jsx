@@ -53,11 +53,21 @@ import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
 import Properties from "./Properties";
 
-function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute, updateNodeData ,id }) {
+function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute, id }) {
 
   const removeAttribute = useCallback((indexToRemove) => {
     setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));
   }, [setAttributes]);
+
+  const updateAttribute = useCallback((index, type, value) => {
+    const updatedAttribute = attributes.map((attribute, i) => {
+      if (i === index) {
+        return { ...attribute, [type]: value };
+      }
+      return attribute;
+    });
+    setAttributes(updatedAttribute);
+  }, [attributes, setAttributes]);
 
   return (
     (attributes.length !== 0 || methods.length ===0) &&
@@ -66,13 +76,36 @@ function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAtt
       {attributes.map((attribute, index) => (
         <div key={index} style={{ display: 'flex', alignItems: 'center' }}>
 
-          <Properties />
+          <Properties
+            scope={attribute.scope}
+            setScope={(value) => updateAttribute(index, 'scope', value)}
+            isStatic={attribute.isStatic}
+            setIsStatic={(value) => updateAttribute(index, 'isStatic', value)}
+            isFinal={attribute.final}
+            setIsFinal={(value) => updateAttribute(index, 'final', value)}
+            hasSetter={attribute.hasSetter}
+            setHasSetter={(value) => updateAttribute(index, 'setter', value)}
+            hasGetter={attribute.hasGetter}
+            setHasGetter={(value) => updateAttribute(index, 'getter', value)}
+          />  
 
-          <Input input={attribute.name} type={""} id={id}/>
+          <Input
+            typeName={"attribute"}
+            input={attribute.name}
+            setInput={(newValue) => updateAttribute(index, 'name', newValue)}
+            id={index}
+            type="attribute"
+          />
           
           <span>&nbsp;:&nbsp;</span>
           
-          <Input input={attribute.type}/>
+          <Input
+            input={attribute.type}
+            typeName={"attribute"}
+            setInput={(newValue) => updateAttribute(index, 'type', newValue)}
+            id={index}
+            type="attribute"
+          />
           
           {isHovered && (
             <img

@@ -42,9 +42,18 @@ public class ClassGenerator extends FileGenerator {
          // Generate class constructors
          generateConstructors(node.getName(), node.getConstructors());
          codeBuilder.append("\n");
+         
+         generateSetters(node.getAttributes());
+         codeBuilder.append("\n");
+         
+         generateGetters(node.getAttributes());
+         codeBuilder.append("\n");
 
          // Generate class methods
          generateMethods(node.getType(), node.getMethods());
+         codeBuilder.append("\n");
+
+         generateOverrideFunctions(node.getRelations());
          codeBuilder.append("\n");
 
          // Closing class brace

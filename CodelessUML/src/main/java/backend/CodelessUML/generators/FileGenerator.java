@@ -15,12 +15,143 @@ import lombok.Data;
 
 @Data
 public abstract class FileGenerator {
+   
    @Autowired
    NodesRepository nodesRepository;
 
    protected StringBuilder codeBuilder = new StringBuilder();
 
    public abstract String generate(Node node);
+
+   protected String generateGetter(String staticStr, String type, String name) {
+      StringBuilder getter = new StringBuilder("\tpublic %s".formatted(staticStr));
+      getter.append(type + " ");
+      getter.append("get");
+      getter.append(name.substring(0, 1).toUpperCase());
+      getter.append(name.substring(1));
+      getter.append("() {\n");
+
+      getter.append("\t\treturn %s;\n".formatted(name));
+
+      getter.append("\t}\n");
+
+      return getter.toString();
+   }
+
+   protected void generateGetters(List<Attribute> attributes) {
+      for (Attribute attribute : attributes) {
+         if (attribute.isGetter()) {
+            // codeBuilder.append(generateGetter(attribute.getType(), attribute.getName())).append("\n");
+            codeBuilder.append(generateGetter(attribute.isStatic() ? "static " : "", attribute.getType(), attribute.getName()))
+                       .append("\n");
+         }
+      }
+   }
+
+   protected String generateSetter(String staticStr, String type, String name) {
+      StringBuilder setter = new StringBuilder("\tpublic %s".formatted(staticStr));
+      // setter.append(type + " ");
+      setter.append("void set");
+      setter.append(name.substring(0, 1).toUpperCase());
+      setter.append(name.substring(1));
+      setter.append("(%s %s) {\n".formatted(type, name));
+
+      String thisStr = staticStr.equals("") ? "this." : "";
+      setter.append("\t\t%s%s = %s".formatted(thisStr, name, name)).append(";\n");
+
+      setter.append("\t}\n");
+
+      return setter.toString();
+   }
+
+   protected void generateSetters(List<Attribute> attributes) {
+      for (Attribute attribute : attributes) {
+         if (attribute.isSetter()) {
+            codeBuilder.append(generateSetter(attribute.isStatic() ? "static " : "", attribute.getType(), attribute.getName()))
+                       .append("\n");
+         }
+      }
+   }
+
+   protected void generateOverrideFunctions(Relation relations) {
+      if (relations == null) {
+         return;
+      }
+
+      // Handle "extends" relationship
+      if (relations.getExtendsId() != null) {
+         Node node = nodesRepository.getNodeById(relations.getExtendsId());
+         if (node != null) {
+               List<Method> methods = node.getMethods();
+               for (Method method : methods) {
+                  if (method.isAbstract()) {
+                     codeBuilder.append("\n\t@Override\n");
+                     codeBuilder.append("\t").append(method.getScope()).append(" ");
+                     if (method.isStatic()) {
+                           codeBuilder.append("static ");
+                     }
+                     codeBuilder.append(method.getReturnType())
+                                 .append(" ")
+                                 .append(method.getName())
+                                 .append("(");
+                     if (method.getParameters() != null && !method.getParameters().isEmpty()) {
+                           String parameters = method.getParameters().stream()
+                                 .map(param -> param.getType() + " " + param.getName())
+                                 .collect(Collectors.joining(", "));
+                           codeBuilder.append(parameters);
+                     }
+
+                     codeBuilder.append(") {\n");
+                     
+                     codeBuilder.append("\t\t// TODO: Implement logic for ")
+                                 .append(method.getName())
+                                 .append("\n");
+                     
+                     codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
+                                 .append(method.getName())
+                                 .append("\");\n");
+                     
+                     codeBuilder.append("\t}\n");
+                  }
+               }
+         }
+      }
+
+      // Handle "implements" relationships
+      if (relations.getImplementsIds() != null) {
+         for (String id : relations.getImplementsIds()) {
+               Node node = nodesRepository.getNodeById(id);
+               if (node != null) {
+                  List<Method> methods = node.getMethods();
+                  for (Method method : methods) {
+                     codeBuilder.append("\n\t@Override\n");
+                     codeBuilder.append("\t").append(method.getScope()).append(" ");
+                     if (method.isStatic()) {
+                           codeBuilder.append("static ");
+                     }
+                     codeBuilder.append(method.getReturnType())
+                                 .append(" ")
+                                 .append(method.getName())
+                                 .append("(");
+                     if (method.getParameters() != null && !method.getParameters().isEmpty()) {
+                           String parameters = method.getParameters().stream()
+                                 .map(param -> param.getType() + " " + param.getName())
+                                 .collect(Collectors.joining(", "));
+                           codeBuilder.append(parameters);
+                     }
+                     codeBuilder.append(") {\n");
+                     codeBuilder.append("\t\t// TODO: Implement logic for ")
+                                 .append(method.getName())
+                                 .append("\n");
+                     codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
+                                 .append(method.getName())
+                                 .append("\");\n");
+                     codeBuilder.append("\t}\n");
+                  }
+               }
+         }
+      }
+   }
 
    protected String getNodeNameById(String id) {
       if (id == null || id.isEmpty()) {
@@ -99,9 +230,10 @@ public abstract class FileGenerator {
          codeBuilder.append(") {\n");
          codeBuilder.append("\t\t// TODO: Implement logic for ").append(method.getName()).append("\n");
          codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
-               .append(method.getName()).append("\");\n");
+                    .append(method.getName()).append("\");\n");
          codeBuilder.append("\t}\n");
       }
+
    }
 
    protected void generateConstructors(String name, List<Constructor> constructors) {
@@ -184,12 +316,15 @@ public abstract class FileGenerator {
       if (attribute == null) {
          throw new IllegalArgumentException("Attribute cannot be null.");
       }
+      
       if (attribute.getName() == null || attribute.getName().isEmpty()) {
          throw new IllegalArgumentException("Attribute name cannot be null or empty.");
       }
+      
       if (attribute.getType() == null || attribute.getType().isEmpty()) {
          throw new IllegalArgumentException("Attribute type cannot be null or empty.");
       }
+
       if (attribute.getScope() == null || attribute.getScope().isEmpty()) {
          throw new IllegalArgumentException("Attribute scope cannot be null or empty.");
       }

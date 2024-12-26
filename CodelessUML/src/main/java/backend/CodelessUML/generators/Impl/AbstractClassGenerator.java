@@ -42,6 +42,12 @@ public class AbstractClassGenerator extends FileGenerator {
          generateConstructors(node.getName(), node.getConstructors());
          codeBuilder.append("\n");
 
+         generateSetters(node.getAttributes());
+         codeBuilder.append("\n");
+         
+         generateGetters(node.getAttributes());
+         codeBuilder.append("\n");
+
          // Generate abstract class methods
          generateMethods(node.getType(), node.getMethods());
          codeBuilder.append("\n");

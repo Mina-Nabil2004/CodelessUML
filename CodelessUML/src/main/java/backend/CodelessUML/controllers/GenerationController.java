@@ -32,10 +32,10 @@ public class GenerationController {
    @PostMapping(value = "/all")         // requested on opening the code viewer page
    public ResponseEntity<?> generateAll(@RequestBody List<Node> nodes) {
       nodesRepository.updateFromList(nodes);
-      return new ResponseEntity<>(generator.generate(nodes), HttpStatus.OK);
+      return new ResponseEntity<>(generator.generate(nodes).get(0), HttpStatus.OK);
    }
    
-   @PostMapping("/class") //when i want to generate a single class
+   @PostMapping("/class")        // when i want to generate a single class
    public String generateClasses(@RequestBody List<String> entity) {
       return entity.get(0);
    }

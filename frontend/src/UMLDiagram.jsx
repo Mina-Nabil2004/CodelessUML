@@ -1,6 +1,6 @@
 import './index.css';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 import { dependency, inheritance, association, composition, implementation } from './edges.jsx';
@@ -45,8 +45,13 @@ import {
   useNodesState,
   useEdgesState,
   MarkerType,
+  useOnSelectionChange,
+  // panOnDrag,
+  // panOnScroll,
+  // selectNodesOnDrag,
   addEdge,
-  SmoothStepEdge
+  SmoothStepEdge,
+  SelectionMode,
 } from '@xyflow/react';
 
 const nodeTypes = {
@@ -73,8 +78,13 @@ const initialEdges = [
 function UMLDiagram() {
 
   const {
+    nodes, setNodes, onNodesChange,
+    edges, setEdges, onEdgesChange,
     nodeColors, setNodeColors,
-    selectedEdge, setSelectedEdge
+    selectedEdgeType, setSelectedEdgeType,
+    onNodesDelete, onEdgesDelete,
+    selectedEdges, setSelectedEdges,
+    selectedNodes, setSelectedNodes
   } = useAppContext();
 
   const contextMenuRef = useRef(null);
@@ -85,6 +95,15 @@ function UMLDiagram() {
     },
     toggled: false,
   });
+
+  const onChange = useCallback(({ nodes, edges }) => {
+    setSelectedNodes(nodes.map((node) => node.id));
+    setSelectedEdges(edges.map((edge) => edge.id));
+  }, []);
+ 
+  // useOnSelectionChange({
+  //   onChange,
+  // });
 
   function handleOnContextMenu(e) {
 
@@ -125,6 +144,8 @@ function UMLDiagram() {
   }
 
   function handleOnClick() {
+    console.log("selected Nodes")
+    console.log(selectedNodes)
     setContextMenuStatus({
       ...contextMenuStatus,
       toggled: false
@@ -143,26 +164,26 @@ function UMLDiagram() {
     console.log(nodes)
     switch (iconName) {
       case 'Association':
-        setSelectedEdge(association)
+        setSelectedEdgeType(association)
         break;
       case 'Implementation':
-        setSelectedEdge(implementation)
-        console.log(selectedEdge)
+        setSelectedEdgeType(implementation)
+        console.log(selectedEdgeType)
         break;
       case 'Dependency':
-        setSelectedEdge(dependency)
+        setSelectedEdgeType(dependency)
         break;
       case 'Inheritance':
-        setSelectedEdge(inheritance)
-        console.log(selectedEdge)
+        setSelectedEdgeType(inheritance)
+        console.log(selectedEdgeType)
         break;
       case 'Composition':
-        setSelectedEdge(composition)
-        console.log(selectedEdge)
+        setSelectedEdgeType(composition)
+        console.log(selectedEdgeType)
         break;
         
       default:
-        setSelectedEdge(inheritance)
+        setSelectedEdgeType(inheritance)
         break;
     }
     console.log(iconName)
@@ -173,7 +194,8 @@ function UMLDiagram() {
   }
 
   const dropdownMenuItems = [
-    { text: "Association",
+    {
+      text: "Association",
       icon: {src: AssociationIcon, alt: 'Association'},
       onClick: () => handleIconClick('Association')
     },
@@ -232,10 +254,7 @@ function UMLDiagram() {
     { label: 'Generate setters', onClick: () => handleMenuClick('Generate setters') },
   ];
 
-  const {
-    nodes, setNodes, onNodesChange,
-    edges, setEdges, onEdgesChange,
-  } = useAppContext();
+
 
   function createClass() {
     setNodes((prevNodes) => [...prevNodes,{ ...classNode, id: `${nodes.length}` }]);
@@ -256,27 +275,12 @@ function UMLDiagram() {
 
   const onConnect = useCallback((params) => {
     setEdges((eds) =>
-      addEdge(
-        { ...selectedEdge, ...params },
-        eds
-      )
+      addEdge({ ...selectedEdgeType, ...params }, eds)
     );
-  }, [setEdges, selectedEdge, onEdgesChange]);
+  }, [setEdges, selectedEdgeType, onEdgesChange]);
   
-  // const onConnect = useCallback((params) => {
-  //     setEdges((eds) =>
-  //       addEdge(
-  //         {
-  //           ...params,
-  //           type: selectedEdge.type || "smoothstep",
-  //         },
-  //         eds
-  //       )
-  //     );
-  //   }, [setEdges, selectedEdge, onEdgesChange]);
+  // const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [],);
   
-
-
   const handleClassColorChange = (color) => {
     // setClassColor(color);
     setNodeColors((prevNodeColors) => {
@@ -351,11 +355,21 @@ function UMLDiagram() {
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
+          // onNodesDelete={onNodesDelete}
+          // onEdgesDelete={onEdgesDelete}
+          onSelectionChange={onChange}
           onConnect={onConnect}
-          connectionLineStyle={selectedEdge.style}
-          connectionLineType={selectedEdge.type}
+          connectionLineStyle={selectedEdgeType.style}
+          connectionLineType={selectedEdgeType.type}
           snapToGrid={true}
           snapGrid={[16, 16]}
+          // panOnScroll
+          // fitView
+          selectionOnDrag
+          panOnDrag={[1, 2]}
+          // selectNodesOnDrag
+          // SelectionMode={SelectionMode.Full}
+          selectionMode={SelectionMode.Partial}
         >
           <Controls
             className='controls'

@@ -5,7 +5,7 @@ export const initialNodes = []
 export const classNode = {
   id: '0',
   type: 'class',
-  position: { x: 0, y: 0 },
+  position: { x: 350, y: 200 },
   data: {
     name: "Class",
     package: "src",
@@ -27,7 +27,7 @@ export const classNode = {
 export const interfaceNode = {
   id: '0',
   type: 'interface',
-  position: { x: 0, y: 0 },
+  position: { x: 350, y: 200 },
   data: {
     name: "Interface",
     package: "src",
@@ -47,7 +47,7 @@ export const interfaceNode = {
 export const abstractClassNode = {
   id: '0',
   type: 'abstractClass',
-  position: { x: 0, y: 0 },
+  position: { x: 350, y: 200 },
   data: {
     name: "AbstractClass",
     package: "src",
@@ -70,7 +70,7 @@ export const abstractClassNode = {
 export const enumNode = {
   id: '0',
   type: 'enum',
-  position: { x: 0, y: 0 },
+  position: { x: 350, y: 200 },
   data: {
     name: "Enum",
     package: "src",

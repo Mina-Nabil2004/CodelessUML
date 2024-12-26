@@ -3,6 +3,7 @@ import {
  } from '@xyflow/react';
 
 export const association = {
+   name: 'association',
    type: 'smoothstep',
    style: { stroke: 'black', strokeWidth: 2 },
    markerStart: {
@@ -14,7 +15,7 @@ export const association = {
 }
 
 export const inheritance = {
-
+   name: 'inheritance',
    style: { stroke: 'black', strokeWidth: 2 },
    type: 'smoothstep',
    markerStart: {
@@ -27,7 +28,7 @@ export const inheritance = {
 
 
 export const implementation = {
-
+   name: 'implementation',
    style: { stroke: 'blue', strokeWidth: 2 , strokeDasharray: '5,5'},
    markerStart: {
       type: MarkerType.ArrowClosed,
@@ -39,8 +40,7 @@ export const implementation = {
 }
 
 export const dependency = {
-
-   
+   name: 'dependency',
    markerStart: {
       type: MarkerType.Arrow,
       width: 20,
@@ -52,7 +52,7 @@ export const dependency = {
 }
 
 export const composition = {
-
+   name: 'composition',
    markerStart: {
       type: MarkerType.Arrow,
       width: 20,
@@ -62,7 +62,3 @@ export const composition = {
    style: { stroke: 'black', strokeWidth: 2 },
    type: 'smoothstep',
 }
-
-
-
-

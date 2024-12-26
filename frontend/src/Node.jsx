@@ -31,10 +31,10 @@ function createInterface(node) {
 
    return (
     <InterfaceNode
-        color={node.color}
-        width={node.width}
-        packageName={node.packageName}
-        name={node.name}
+      color={node.color}
+      width={node.width}
+      packageName={node.packageName}
+      name={node.name}
     />
    )
 }
@@ -42,12 +42,12 @@ function createInterface(node) {
 function createEnum(node) {
 
    return (
-    <EnumNode
-        color={node.color}
-        width={node.width}
-        packageName={node.packageName}
-        name={node.name}
-    />
+      <EnumNode
+      color={node.color}
+      width={node.width}
+      packageName={node.packageName}
+      name={node.name}
+      />
    )
 }
 

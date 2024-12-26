@@ -3,7 +3,8 @@ import AttributesBlock from "./Components/AttributeBlock";
 import MethodsBlock from "./Components/MethodsBlock";
 import NameBlock from "./Components/NameBlock";
 import PackageBlock from "./Components/PackageBlock";
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
+import classNames from "classnames";
 import Dot from "./Dot";
 
 import {
@@ -11,58 +12,101 @@ import {
   Position,
 } from '@xyflow/react';
 
-function ClassNode({ data }) {
+function EnumNode({ data, id }) {
+
+  const {
+    nodes, setNodes,
+    nodeColors,
+    updateNodeData
+  } = useAppContext();
 
   const onChange = useCallback((evt) => {
     console.log(evt.target.value);
   }, []);
 
-  const {
-    nodeColors
-  } = useAppContext();
-
   const [isHovered, setIsHovered] = useState(false);
-  const [attributes, setAttributes] = useState([]);
-  const [methods, setMethods] = useState([]);
+  const [attributes, setAttributes] = useState(data.attributes);
+  const [methods, setMethods] = useState(data.methods);
 
   const addAttribute = () => {
-    setAttributes([...attributes, `Attribute ${attributes.length + 1}`]);
+    const newAttribute = {
+      type: "type",
+      name: "atrribute",
+      scope: "public",
+      isStatic: false,
+      getter: false,
+      setter: false,
+      final: false
+    }
+    setAttributes([...attributes, newAttribute]);
+    updateNodeData(id, 'attributes', attributes);
   };
 
   const addMethode = () => {
-    setMethods([...methods, `Method ${methods.length + 1}`]);
+    const newMethod = {
+      name: "method",
+      returnType: "returnType",
+      scope: "public",
+      parameters: "parameters",
+      isStatic: false,
+      final: false
+    }
+    setMethods([...methods, newMethod]);
+    updateNodeData(id, 'methods', methods);
   };
+  
+  useEffect(() => {
+    // push in undo stack
+    updateNodeData(id, 'attributes', attributes);
+    console.log("-----------------------------n----------------------------")
+  }, [attributes]);
+  
+  useEffect(() => {
+    // push in undo stack
+    updateNodeData(id, 'methods', methods);
+  }, [methods]);
+
 
   return (
-    <div >
+    <div>
       <div
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <PackageBlock packageName={data.package}/>
+        <Dot id={data.id} height={data.height} width={data.width} />
+        <PackageBlock packageName={data.package} id={id}/>
+      
         
-        <Dot id={data.id} />
-        
-        <NameBlock color={nodeColors.enum} name={data.name} />
+        <NameBlock color={nodeColors.enum} name={data.name} id={id}/>
         
         <AttributesBlock
           data={data}
+          id={id}
           attributes={attributes}
           setAttributes={setAttributes}
           methods={methods}
           isHovered={isHovered}
           addAttribute={addAttribute}
         />
+        <MethodsBlock
+          data={data}
+          methods={methods}
+          setMethods={setMethods}
+          attributes={attributes}
+          isHovered={isHovered}
+          setIsHovered={setIsHovered}
+          addMethode={addMethode}
+        />
       </div>
       {isHovered && (attributes.length === 0 || methods.length === 0) && (
           <button className="attribute-buttons" onClick={addAttribute} onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
                style={{left:"50%"}}>
-            + attribute
+            + value
           </button>
       )}
     </div>
   );
 }
 
-export default ClassNode;
+export default EnumNode;

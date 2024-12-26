@@ -2,6 +2,8 @@ package backend.CodelessUML.controllers;
 
 import java.util.List;
 
+import backend.CodelessUML.model.Edge;
+import backend.CodelessUML.model.dto.ClassDiagramDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,9 +32,12 @@ public class GenerationController {
    private NodesRepository nodesRepository;
  
    @PostMapping(value = "/all")         // requested on opening the code viewer page
-   public ResponseEntity<?> generateAll(@RequestBody List<Node> nodes) {
-      nodesRepository.updateFromList(nodes);
-      return new ResponseEntity<>(generator.generate(nodes).get(0), HttpStatus.OK);
+   public ResponseEntity<?> generateAll(@RequestBody ClassDiagramDto classDiagramDto) {
+      nodesRepository.updateFromList(classDiagramDto.getNodes());
+      for(Edge edge :  classDiagramDto.getEdges()){
+         edge.connect();
+      }
+      return new ResponseEntity<>(generator.generate(classDiagramDto.getNodes()), HttpStatus.OK);
    }
    
    @PostMapping("/class")        // when i want to generate a single class

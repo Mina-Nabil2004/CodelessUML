@@ -1,66 +1,3 @@
-// import { useCallback } from "react";
-// import Input from "./Input";
-// import './UMLStyles.css';
-// import deleteIcon from '../../assets/DeleteIcon.svg';
-// import Properties from "./Properties";
-
-// function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered, addMethode, updateNodeData  }) {
-
-//   const removeMethod = useCallback((indexToRemove) => {
-//     setMethods((prevMethods) => prevMethods.filter((_, index) => index !== indexToRemove));
-//   }, [setMethods]);
-
-//   const updateMethod = useCallback((index, newValue) => {
-//     setMethods((prevMethods) => prevMethods.map((method, i) => i === index ? newValue : method));
-//   }, [setMethods]);
-
-//   return (
-//     methods.length !== 0 &&
-//     <div className="methodsBlock" style={{ marginTop: attributes.length === 0 ? 0 : '-19px', paddingBottom: attributes.length === 0 ? "5px" : '10px' }}>
-//       {methods.map((method, index) => (
-//         <div key={index} style={{ display: 'flex', alignItems: "center" }}>
-          
-//           <Properties />
-          
-//           <Input
-//             typeName={"method"}
-//             index={index}
-//             input={`method ${index + 1}`}
-//             setInput={(newValue) => updateMethod(index, newValue)}
-//           />
-//           <span>&nbsp;(&nbsp;</span>
-//           <Input
-//           typeName={"param"}
-//           index={index}
-//           input={`parameters`}
-//           setInput={(newValue) => updateMethod(index, newValue)}
-//           />
-//           <span>&nbsp;)&nbsp;</span>
-//           <span>&nbsp;:&nbsp;</span>
-//           <Input
-//             input={"returnType"}
-//             setInput={(newValue) => console.log(`Type for method ${index} changed to ${newValue}`)}
-//           />
-//           {isHovered && (
-//             <img
-//               className="delete"
-//               onClick={() => removeMethod(index)}
-//               src={deleteIcon}
-//               alt="Delete"
-//             />
-//           )}
-//         </div>
-//       ))}
-//       {isHovered && methods.length > 0 && attributes.length > 0 && (
-//         <button className="method-button" onClick={addMethode} onMouseEnter={() => setIsHovered(true)}>
-//           + method
-//         </button>
-//       )}
-//     </div>
-//   );
-// }
-
-// export default MethodsBlock;
 import { useCallback } from "react";
 import Input from "./Input";
 import './UMLStyles.css';
@@ -73,9 +10,15 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
     setMethods((prevMethods) => prevMethods.filter((_, index) => index !== indexToRemove));
   }, [setMethods]);
 
-  const updateMethod = useCallback((index, newValue) => {
-    setMethods((prevMethods) => prevMethods.map((method, i) => i === index ? newValue : method));
-  }, [setMethods]);
+  const updateMethodAttribute = useCallback((index, attribute, value) => {
+    const updatedMethods = methods.map((method, i) => {
+      if (i === index) {
+        return { ...method, [attribute]: value };
+      }
+      return method;
+    });
+    setMethods(updatedMethods);
+  }, [methods, setMethods]);
 
   return (
     methods.length !== 0 &&
@@ -83,26 +26,42 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
       {methods.map((method, index) => (
         <div key={index} style={{ display: 'flex', alignItems: "center" }}>
           
-          <Properties />
+          <Properties
+            scope={method.scope}
+            setScope={(value) => updateMethodAttribute(index, 'scope', value)}
+            isStatic={method.isStatic}
+            setIsStatic={(value) => updateMethodAttribute(index, 'isStatic', value)}
+            isFinal={method.final}
+            setIsFinal={(value) => updateMethodAttribute(index, 'final', value)}
+            hasSetter={method.hasSetter}
+            setHasSetter={(value) => updateMethodAttribute(index, 'setter', value)}
+            hasGetter={method.hasGetter}
+            setHasGetter={(value) => updateMethodAttribute(index, 'getter', value)}
+          />
           
           <Input
             typeName={"method"}
-            index={index}
             input={method.name}
-            setInput={(newValue) => updateMethod(index, newValue)}
+            setInput={(newValue) => updateMethodAttribute(index, 'name', newValue)}
+            id={index}
+            type="method"
           />
           <span>&nbsp;(&nbsp;</span>
           <Input
-          typeName={"param"}
-          index={index}
-          input={method.parameters}
-          setInput={(newValue) => updateMethod(index, newValue)}
+            typeName={"method"}
+            input={method.parameters}
+            setInput={(newValue) => updateMethodAttribute(index, 'parameters', newValue)}
+            id={index}
+            type="method"
           />
           <span>&nbsp;)&nbsp;</span>
           <span>&nbsp;:&nbsp;</span>
           <Input
             input={method.returnType}
-            setInput={(newValue) => console.log(`Type for method ${index} changed to ${newValue}`)}
+            typeName={"method"}
+            setInput={(newValue) => updateMethodAttribute(index, 'returnType', newValue)}
+            id={index}
+            type="method"
           />
           {isHovered && (
             <img

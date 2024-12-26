@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useAppContext } from '../../AppContext';
 
-const Input = ({ input, id, type }) => {
+const Input = ({ input, setInput, id, type }) => {
 
   const {
     updateNodeData
@@ -9,6 +9,9 @@ const Input = ({ input, id, type }) => {
 
   const handleChange = (e) => {
     console.log(input);
+    if(type == "method" || type == "attribute"){
+      setInput(e.target.value);
+    }
     updateNodeData(id, type, e.target.value);
   };
 

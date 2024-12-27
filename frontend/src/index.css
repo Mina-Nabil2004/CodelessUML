@@ -1,6 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
 
+:root {
+  --primary-color: #221c32;
+  --primary-hover-color: #302949;
+  --primary-select-color: #423763;
+}
+
 html, body {
   font-family: "Instrument Sans", sans-serif;
   margin: 0;
@@ -19,7 +25,7 @@ html, body {
 .color-mapper-component {
   position: fixed;
   bottom: 10px;
-  left: 10px;
+  left: 40px;
 }
 
 .sidebar-component {
@@ -56,22 +62,22 @@ html, body {
   align-items: flex-end;
   gap: 10px;
   position: fixed;
-  bottom: 12px;
+  bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
 }
 
 .vertical-toolbar-component {
   position: fixed;
-  right: 12px;
+  right: 16px;
   top: 50%;
   transform: translateY(-50%);
 }
 
 .generate-code-button-component {
   position: fixed;
-  top: 12px;
-  right: 12px;
+  top: 16px;
+  right: 16px;
 }
 
 .project-name-container {

@@ -8,15 +8,15 @@ function CustomTreeItem({ title, item,
   return (
       <div className='tree-item-container'>
         {title}
-      <div className='tree-item-icons'>
-        {
-          item.isFolder &&
-          <IconButton src={addFolderIcon} onClick={handleAddFolder}/>}
-        {
-           item.index !== 'root' &&
-          <IconButton src={deleteIcon} onClick={handleDelete} />
-        }
-      </div>
+        <div className='tree-item-icons'>
+          {
+            item.isFolder &&
+            <IconButton src={addFolderIcon} onClick={handleAddFolder}/>}
+          {
+             item.index !== 'root' &&
+            <IconButton src={deleteIcon} onClick={handleDelete} />
+          }
+        </div>
       </div>
   )
 }

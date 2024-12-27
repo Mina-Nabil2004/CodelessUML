@@ -1,4 +1,5 @@
-import 'react-complex-tree/lib/style-modern.css';
+import './PackageTree.css'
+
 import { useAppContext } from "../../AppContext.jsx";
 import { ControlledTreeEnvironment, Tree } from 'react-complex-tree';
 import CustomTreeItem from "./CustomTreeItem/CustomTreeItem.jsx";

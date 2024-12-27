@@ -1,26 +1,27 @@
+
 .container {
     overflow: hidden;
     display: flex;
     flex-direction: row;
     align-items: stretch;
-    height: 320px;
+    height: 450px;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
     border-radius: 0 15px 15px 0;
 }
 
 .sidebar {
     font-size: 13px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
     color: white;
-    background-color: white;
-    overflow: auto;
-    padding: 5px 5px
+    background-color: var(--primary-color);
+    overflow-x: hidden;
+    overflow-y: auto;
+    padding: 20px 5px;
+    transition: max-width 0.3s ease-out;
 }
 
 .sidebar-content {
     margin: auto;
+    width: 100%;
 }
 
 .sidebar-handle-container {
@@ -29,7 +30,7 @@
 }
 
 .sidebar-handle {
-    background-color: white;
+    background-color: var(--primary-color);
     border: none;
     width: 24px;
     color: white;
@@ -37,6 +38,5 @@
 }
 
 .arrow-icon {
-    width: 65%;
-    filter: invert(1);
+    width: 50%;
 }

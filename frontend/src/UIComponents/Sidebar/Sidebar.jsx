@@ -18,18 +18,20 @@ const Sidebar = () => {
   return (
     <div className='container'>
       <div
-          className='sidebar'
+          className={'sidebar'}
           style={{
-            minWidth : isOpen ? '120px' : '0',
+            maxWidth: isOpen ? '100vh' : 0,
+            padding: isOpen ? '20px 5px': 0
           }}
       >
-        {isOpen && (
+        {
+          isOpen &&
           <div className='sidebar-content'>
-            <PackageTree />
+            <PackageTree/>
           </div>
-        )}
+        }
       </div>
-      
+
       <div className='sidebar-handle-container'>
         <button className='sidebar-handle' onClick={toggleSidebar}>
          <img className='arrow-icon'

@@ -45,11 +45,7 @@ function CodeSection({ codeLines }){
               alt='Download'
           />
         </div>
-      </div>
-
-
-)
-  ;
+      </div>)
 }
 
 export default CodeSection;

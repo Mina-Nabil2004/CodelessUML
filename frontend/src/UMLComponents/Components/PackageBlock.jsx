@@ -1,11 +1,11 @@
 import './UMLStyles.css'
 import Input from "./Input";
 
-function PackageBlock( { packageName, id } ) {
+function PackageBlock( { packageName } ) {
   
   return (
     <div className="packageBlock">
-      <Input input={packageName} id={id} type="package"/>
+      {packageName}
     </div>
   )
 }

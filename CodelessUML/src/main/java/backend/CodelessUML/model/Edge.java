@@ -1,17 +1,18 @@
 package backend.CodelessUML.model;
 
-import backend.CodelessUML.repository.NodesRepository;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+
+import backend.CodelessUML.repository.NodesRepository;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -31,24 +32,27 @@ public class Edge {
     @JsonIgnore
     public void connect() {
         Node sourceNode =  nodesRepository.getNodeById(this.source);
-        if(sourceNode != null) {
-            Relation relation =  sourceNode.getRelations();
-            if(relation == null) {
-                relation = new Relation();
-            }
-            if(name.equals( "inheritance")) {
-                relation.setExtendsId(this.target);
-            } else if (name.equals("implementation")) {
-                List<String> implementsIds = relation.getImplementsIds();
-                if(implementsIds == null) {
-                    implementsIds = new ArrayList<>();
-                }
-                implementsIds.add(this.target);
-                relation.setImplementsIds(implementsIds);
-            }
-            sourceNode.setRelations(relation);
-
-            nodesRepository.addNode(sourceNode);
+        Node targetNode =  nodesRepository.getNodeById(this.source);
+        
+        if(sourceNode == null || targetNode == null) return;
+        
+        Relation relation =  sourceNode.getRelations();
+        if(relation == null) {
+            relation = new Relation();
         }
+        
+        if(name.equals( "inheritance")) {
+            relation.setExtendsId(this.target);
+        } else if (name.equals("implementation")) {
+            List<String> implementsIds = relation.getImplementsIds();
+            if(implementsIds == null) {
+                implementsIds = new ArrayList<>();
+            }
+            implementsIds.add(this.target);
+            relation.setImplementsIds(implementsIds);
+        }
+
+        sourceNode.setRelations(relation);
+        nodesRepository.addNode(sourceNode);
     }
 }

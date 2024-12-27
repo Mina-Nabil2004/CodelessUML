@@ -77,14 +77,18 @@ public class AbstractClassGenerator extends FileGenerator {
          if (attribute == null) {
             continue; // Skip null attributes if any
          }
+         
          codeBuilder.append("\t");
          codeBuilder.append(attribute.getScope() + " ");
+         
          if (attribute.isStatic()) {
             codeBuilder.append("static ");
          }
+         
          if (attribute.isFinal()) {
             codeBuilder.append("final ");
          }
+
          codeBuilder.append(attribute.getType() + " ")
                     .append(attribute.getName())
                     .append(";\n");

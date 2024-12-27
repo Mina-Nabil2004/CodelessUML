@@ -1,7 +1,6 @@
 import 'react-complex-tree/lib/style-modern.css';
 import { useAppContext } from "../../AppContext.jsx";
 import { ControlledTreeEnvironment, Tree } from 'react-complex-tree';
-import { useCallback, useEffect} from 'react';
 import CustomTreeItem from "./CustomTreeItem/CustomTreeItem.jsx";
 
 import AddFolderIcon from '../../assets/PackageTree/AddFolderIcon.png'
@@ -52,68 +51,16 @@ export function packageNodeList (nodes, treeItems) {
 function PackageTree() {
 
   const {
-    nodes,
-    newNode,
-    deletedNodes, setDeletedNodes,
+    updateNode,
+    deleteNode,
     focusedItem, setFocusedItem,
     expandedItems, setExpandedItems,
     selectedItems, setSelectedItems,
     treeItems, setTreeItems
   } = useAppContext()
 
-
-  useEffect(() => {
-    handleAddUmlNode(newNode)
-  }, [newNode])
-
-  useEffect(() => {
-    deletedNodes.forEach(node => {
-      handleDelete(treeItems[node.id])
-    })
-  }, [deletedNodes]);
-
-
-  const handleAddUmlNode = useCallback(
-    (umlNode) => {
-      if (!umlNode) return
-
-      console.log('Adding new node to project tree.')
-
-      const focusedItemIndex = focusedItem?
-          (treeItems[focusedItem].isFolder ? focusedItem : treeItems[focusedItem].parentId)
-          : 'root'
-
-      console.log('Adding class to package: ', focusedItemIndex)
-
-      const treeClassItem = {
-        index: umlNode.id,
-        isFolder: false,
-        children: [],
-        data: umlNode.data.name,
-        parentId: focusedItemIndex
-      }
-
-      console.log('Adding item:', treeClassItem, 'to the tree')
-
-      let updatedTreeItems = treeItems
-
-      // Add new tree class item to the tree
-      updatedTreeItems[umlNode.id] = treeClassItem
-
-      // Append new tree class to focused item children list
-      const treeFocusedItem = updatedTreeItems[focusedItemIndex]
-      updatedTreeItems[focusedItemIndex] = {
-        ...treeFocusedItem,
-        children: [...treeFocusedItem.children, treeClassItem.index]
-      }
-
-      setTreeItems(() => updatedTreeItems)
-    }, [treeItems, focusedItem])
-
-
   const handleAddPackage = (e, item) => {
-
-    console.log('Adding package')
+    console.log('Adding package...')
 
     e.stopPropagation();
 
@@ -141,84 +88,17 @@ function PackageTree() {
 
 
   const handleDelete = (item) => {
-
-    if (!item || item.index === 'root') return
-
-    console.log('Deleting item: ', item, 'from tree items:', treeItems);
-    let updatedSelectedItems = [...selectedItems]
-    const updatedTreeItems = { ...treeItems };
-
-    // Recursively delete children
-    if (item.isFolder) {
-      item.children.forEach((child) => {
-        handleDelete(treeItems[child]);
-      })
-    }
-    else {
-      const deletedNode = nodes.find((node) => (node.id === item.index))
-      setDeletedNodes((prevDeletedNodes) => ([...prevDeletedNodes, deletedNode]))
-    }
-
-    // Delete tree item
-    delete updatedTreeItems[item.index];
-    updatedSelectedItems = updatedSelectedItems.filter((selectedItem) =>
-        (selectedItem.index !== item.index))
-
-    // Delete tree item from children list of all items
-    for (const treeItemKey in updatedTreeItems) {
-      let treeItem = updatedTreeItems[treeItemKey]
-      if (treeItem.isFolder) {
-        treeItem = {
-          ...treeItem,
-          children: treeItem.children.filter((i) => i !== item.index)
-        }
-        updatedTreeItems[treeItem.index] = treeItem;
-      }
-    }
-
-    setTreeItems(() => updatedTreeItems);
-    setSelectedItems(() => updatedSelectedItems)
-    setFocusedItem(() => (focusedItem === item.index)? null : focusedItem)
-    console.log('Updated tree items:', updatedTreeItems, 'after deleting item:', item)
+    deleteNode(item.index)
   }
 
-
   const handleOnDrop = (items, target) => {
-    const targetItem = treeItems[target.targetItem];
-    const updatedTreeItems = { ...treeItems };
-
-    items.forEach((item) => {
-      if (item.parentId) {
-        if (targetItem.index === item.parentId) return;
-
-        const parentItem = treeItems[item.parentId];
-        const updatedChildren = parentItem.children.filter((c) => c !== item.index);
-        updatedTreeItems[item.parentId] = {
-          ...parentItem,
-          children: updatedChildren,
-        };
-      }
-
-      updatedTreeItems[targetItem.index] = {
-        ...targetItem,
-        children: [...targetItem.children, item.index],
-      };
-
-      updatedTreeItems[item.index] = {
-        ...item,
-        parentId: targetItem.index,
-      };
-    });
-
-    setTreeItems(() => updatedTreeItems);
+    items.forEach(item => {
+      updateNode(item.index, 'package', target.targetItem)
+    })
   };
 
   const handleOnRename = (item, name) => {
-    const updatedTreeItems = { ...treeItems };
-
-    updatedTreeItems[item.index].data = name;
-
-    setTreeItems(() => updatedTreeItems);
+    updateNode(item.index, 'name', name)
   };
 
   const renderCustomTreeItem = (title, item) => {

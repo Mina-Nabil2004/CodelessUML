@@ -9,11 +9,13 @@ function CustomTreeItem({ title, item,
       <div className='tree-item-container'>
         {title}
       <div className='tree-item-icons'>
-        {item.isFolder && (<IconButton
-            src={addFolderIcon}
-            onClick={handleAddFolder}
-        />)}
-        <IconButton src={deleteIcon} onClick={handleDelete} />
+        {
+          item.isFolder &&
+          <IconButton src={addFolderIcon} onClick={handleAddFolder}/>}
+        {
+           item.index !== 'root' &&
+          <IconButton src={deleteIcon} onClick={handleDelete} />
+        }
       </div>
       </div>
   )

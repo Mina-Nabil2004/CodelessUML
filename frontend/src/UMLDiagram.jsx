@@ -80,7 +80,7 @@ function UMLDiagram() {
   const {
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
-    newNode, setNewNode,
+    createNode,
     nodeColors, setNodeColors,
     selectedEdgeType, setSelectedEdgeType,
     onNodesDelete, onEdgesDelete,
@@ -228,10 +228,10 @@ function UMLDiagram() {
   const horizontalSidebarItems = [
     { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleIconClick('Text') },
     { type: "icon", src: NoteIcon, alt: 'Note', onClick: () => handleIconClick('Note') },
-    { type: "icon", src: ClassIcon, alt: 'Class', onClick: () => createClass() },
-    { type: "icon", src: AbstractClassIcon, alt: 'Abstract Class', onClick: () => createAbstractClass() },
-    { type: "icon", src: InterfaceIcon, alt: 'Interface', onClick: () => createInterface() },
-    { type: "icon", src: EnumIcon, alt: 'Enum', onClick: () => createEnum() },
+    { type: "icon", src: ClassIcon, alt: 'Class', onClick: () => createNode('class') },
+    { type: "icon", src: AbstractClassIcon, alt: 'Abstract Class', onClick: () => createNode('abstractClass') },
+    { type: "icon", src: InterfaceIcon, alt: 'Interface', onClick: () => createNode('interface') },
+    { type: "icon", src: EnumIcon, alt: 'Enum', onClick: () => createNode('enum') },
     { type: "dropdown", items: dropdownMenuItems, icon: {src: AssociationIcon, alt: 'Association'}},
   ]
 
@@ -262,26 +262,21 @@ function UMLDiagram() {
   function createClass() {
     const newClassNode = { ...classNode, id: `class-${Date.now()}` }
     setNodes((prevNodes) => [...prevNodes, newClassNode]);
-    setNewNode(() => newClassNode)
   }
 
   function createInterface() {
     const newInterfaceNode = { ...interfaceNode, id: `interface-${Date.now()}` }
     setNodes((prevNodes) => [...prevNodes, newInterfaceNode]);
-    setNewNode(() => newInterfaceNode)
   }
 
   function createAbstractClass() {
     const newAbstractClassNode = { ...abstractClassNode, id: `abstractClass-${Date.now()}` }
     setNodes((prevNodes) => [...prevNodes, newAbstractClassNode]);
-    setNewNode(() => newAbstractClassNode)
-
   }
 
   function createEnum() {
     const newEnumNode = { ...enumNode, id: `enum-${Date.now()}` }
     setNodes((prevNodes) => [...prevNodes, newEnumNode]);
-    setNewNode(() => newEnumNode)
   }
   
 

@@ -80,6 +80,7 @@ const initialEdges = [
 function UMLDiagram() {
   
   const {
+    projectName, setProjectName,
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
     createNode,
@@ -419,7 +420,13 @@ function UMLDiagram() {
 
         <div className='project-name-container'>
           <p className='codeless-uml'>CodelessUML</p>
-          <p className='project-name'>Project Name</p>
+          <input
+            type="text"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            className="input"
+            style={{ width: `${projectName.length}ch`}}
+          />
         </div>
       </motion.div>
     </>

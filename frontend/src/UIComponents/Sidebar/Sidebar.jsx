@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import OpenArrowIcon from '../../assets/SidebarIcons/OpenArrow.png'
 import CloseArrowIcon from '../../assets/SidebarIcons/CloseArrow.png'
+import PackageTree from "../PackageTree/PackageTree.jsx";
 
 
 
@@ -17,16 +18,14 @@ const Sidebar = () => {
   return (
     <div className='container'>
       <div
-        className='sidebar'
-        style={{
-          width: isOpen ? '135px' : '0',
-          padding: isOpen ? '10px' : '0',
-        }}
+          className='sidebar'
+          style={{
+            minWidth : isOpen ? '120px' : '0',
+          }}
       >
         {isOpen && (
           <div className='sidebar-content'>
-            <h3>Sidebar Content</h3>
-            <p>This is the sidebar content.</p>
+            <PackageTree />
           </div>
         )}
       </div>

@@ -11,17 +11,16 @@
 .sidebar {
     font-size: 13px;
     display: flex;
+    flex-direction: row;
     align-items: center;
     color: white;
-    background-color: #221C32;
-    transition: width 0.3s;
+    background-color: white;
+    overflow: auto;
+    padding: 5px 5px
 }
 
 .sidebar-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
+    margin: auto;
 }
 
 .sidebar-handle-container {
@@ -30,7 +29,7 @@
 }
 
 .sidebar-handle {
-    background-color: #221C32;
+    background-color: white;
     border: none;
     width: 24px;
     color: white;
@@ -39,4 +38,5 @@
 
 .arrow-icon {
     width: 65%;
+    filter: invert(1);
 }

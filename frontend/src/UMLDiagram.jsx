@@ -80,11 +80,13 @@ function UMLDiagram() {
   const {
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
+    newNode, setNewNode,
     nodeColors, setNodeColors,
     selectedEdgeType, setSelectedEdgeType,
     onNodesDelete, onEdgesDelete,
     selectedEdges, setSelectedEdges,
-    selectedNodes, setSelectedNodes
+    selectedNodes, setSelectedNodes,
+    treeItems, setTreeItems
   } = useAppContext();
 
   const contextMenuRef = useRef(null);
@@ -97,6 +99,7 @@ function UMLDiagram() {
   });
 
   const onChange = useCallback(({ nodes, edges }) => {
+
     setSelectedNodes(nodes.map((node) => node.id));
     setSelectedEdges(edges.map((edge) => edge.id));
   }, []);
@@ -144,8 +147,8 @@ function UMLDiagram() {
   }
 
   function handleOnClick() {
-    console.log("selected Nodes")
-    console.log(selectedNodes)
+    console.log('Selected UML nodes:', selectedNodes)
+    console.log('Selected edges:', edges)
     setContextMenuStatus({
       ...contextMenuStatus,
       toggled: false
@@ -256,21 +259,29 @@ function UMLDiagram() {
   ];
 
 
-
   function createClass() {
-    setNodes((prevNodes) => [...prevNodes,{ ...classNode, id: `${nodes.length}` }]);
+    const newClassNode = { ...classNode, id: `class-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newClassNode]);
+    setNewNode(() => newClassNode)
   }
 
   function createInterface() {
-    setNodes((prevNodes) => [...prevNodes,{ ...interfaceNode, id: `${nodes.length}` }]);
+    const newInterfaceNode = { ...interfaceNode, id: `interface-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newInterfaceNode]);
+    setNewNode(() => newInterfaceNode)
   }
 
   function createAbstractClass() {
-    setNodes((prevNodes) => [...prevNodes,{ ...abstractClassNode, id: `${nodes.length}` }]);
+    const newAbstractClassNode = { ...abstractClassNode, id: `abstractClass-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newAbstractClassNode]);
+    setNewNode(() => newAbstractClassNode)
+
   }
 
   function createEnum() {
-    setNodes((prevNodes) => [...prevNodes,{ ...enumNode, id: `${nodes.length}` }]);
+    const newEnumNode = { ...enumNode, id: `enum-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newEnumNode]);
+    setNewNode(() => newEnumNode)
   }
   
 

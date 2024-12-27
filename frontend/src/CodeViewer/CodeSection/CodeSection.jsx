@@ -4,10 +4,18 @@ import {useEffect, useState} from "react";
 import CodeMirror from "@uiw/react-codemirror";
 import { java } from "@codemirror/lang-java";
 
+import {packageNodeList} from "../../UIComponents/PackageTree/PackageTree.jsx";
+
 import DownloadIcon from '../../assets/VerticalToolbarIcons/Import.png'
 import BackIcon from '../../assets/VerticalToolbarIcons/Undo.png'
+import {useAppContext} from "../../AppContext.jsx";
 
 function CodeSection({ codeLines }){
+
+  const {
+    nodes,
+    treeItems,
+  } = useAppContext();
 
   const [code, setCode] = useState("");
 
@@ -43,6 +51,7 @@ function CodeSection({ codeLines }){
               className='download-icon'
               src={DownloadIcon}
               alt='Download'
+              onClick={() => console.log(packageNodeList(nodes, treeItems))}
           />
         </div>
       </div>)

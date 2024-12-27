@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useContext, useCallback, useState } from 'react';
+import React, { createContext, useEffect, useContext, useCallback, useState, useRef } from 'react';
 import { abstractClassNode, classNode, enumNode, initialNodes, interfaceNode } from './nodes.js';
 import { dependency, inheritance, association, composition, implementation } from './edges.jsx';
 
@@ -18,12 +18,34 @@ const AppContext = createContext();
 
 // Create a provider component
 export const AppProvider = ({ children }) => {
+  const documentRef = useRef(document);
 
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
-
+  const [newNode, setNewNode] = useState(null)
+  const [deletedNodes, setDeletedNodes] = useState([])
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [selectedEdges, setSelectedEdges] = useState([]);
+
+  const [focusedItem, setFocusedItem] = useState(null);
+  const [expandedItems, setExpandedItems] = useState([]);
+  const [selectedItems, setSelectedItems] = useState([]);
+  const [treeItems, setTreeItems] = useState({
+    virtualRoot: {
+      index: 'virtualRoot',
+      isFolder: true,
+      children: ['root'],
+      data: '',
+    },
+    root: {
+      index: 'root',
+      canMove: true,
+      isFolder: true,
+      children: [],
+      data: 'src',
+      canRename: true,
+    }
+  });
 
   const [nodeColors, setNodeColors] = useState({
     class:'#0fd2e8',
@@ -181,7 +203,10 @@ export const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider
       value={{
+        documentRef,
         nodes, setNodes, onNodesChange,
+        newNode, setNewNode,
+        deletedNodes, setDeletedNodes,
         edges, setEdges, onEdgesChange,
         nodeColors, setNodeColors,
         selectedEdgeType, setSelectedEdgeType,
@@ -189,7 +214,11 @@ export const AppProvider = ({ children }) => {
         // onNodesDelete, 
         // onEdgesDelete,
         selectedNodes, setSelectedNodes,
-        selectedEdges, setSelectedEdges
+        selectedEdges, setSelectedEdges,
+        focusedItem, setFocusedItem,
+        expandedItems, setExpandedItems,
+        selectedItems, setSelectedItems,
+        treeItems, setTreeItems
       }}
     >
       {children}

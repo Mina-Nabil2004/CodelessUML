@@ -9,8 +9,11 @@ import { packageNodeList } from "../../UIComponents/PackageTree/PackageTree.jsx"
 import DownloadIcon from '../../assets/VerticalToolbarIcons/Import.png'
 import BackIcon from '../../assets/VerticalToolbarIcons/Undo.png'
 import { useAppContext } from "../../AppContext.jsx";
+import {useNavigate} from "react-router-dom";
 
 function CodeSection({ codeLines }) {
+
+  const navigate = useNavigate();
 
   const {
     nodes,
@@ -28,7 +31,7 @@ function CodeSection({ codeLines }) {
   };
 
   function handleBackButtonClick() {
-    window.location.href = `${window.location.origin}`
+    navigate('/');
   }
 
   return (

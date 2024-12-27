@@ -1,13 +1,11 @@
 import './ProjectFilesSection.css';
 
-import Folder from './Folder/Folder.jsx';
+import PackageTree from "../../UIComponents/PackageTree/PackageTree.jsx";
 
 const ProjectFilesSection = ({ projectFiles }) => {
   return (
       <div className='project-files-section-folders'>
-        {projectFiles.map((project_file, index) => (
-            <Folder key={index} folderName={project_file.name} files={project_file.files}/>
-        ))}
+        <PackageTree />
       </div>
   );
 };

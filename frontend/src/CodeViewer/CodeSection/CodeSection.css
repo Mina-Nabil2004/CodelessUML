@@ -36,7 +36,7 @@
 }
 
 .cm-content {
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .cm-gutter {
@@ -45,4 +45,8 @@
 
 .cm-scroller {
     overflow: auto;
+}
+
+.ͼo .cm-activeLine {
+    background: var(--primary-hover-color);
 }

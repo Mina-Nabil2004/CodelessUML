@@ -15,6 +15,7 @@
     background-color: var(--primary-color);
     overflow-x: hidden;
     overflow-y: auto;
+    scrollbar-width: none;
     padding: 20px 5px;
     transition: max-width 0.3s ease-out;
 }

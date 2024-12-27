@@ -54,6 +54,7 @@ import {
   SmoothStepEdge,
   SelectionMode,
 } from '@xyflow/react';
+import {useNavigate} from "react-router-dom";
 
 const nodeTypes = {
   class: ClassNode,
@@ -90,7 +91,9 @@ function UMLDiagram() {
     treeItems, setTreeItems,
     generateUniqueId,
   } = useAppContext();
-  
+
+  const navigate = useNavigate();
+
   const contextMenuRef = useRef(null);
   const [contextMenuStatus, setContextMenuStatus] = useState({
     position: {
@@ -195,7 +198,7 @@ function UMLDiagram() {
   }
 
   function handleGenerateCodeClick() {
-    window.location.href = `${window.location.origin}/code-viewer`
+    navigate('/code-viewer')
   }
 
   const dropdownMenuItems = [

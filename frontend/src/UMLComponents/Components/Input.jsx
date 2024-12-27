@@ -10,9 +10,9 @@ const Input = ({ input, setInput, id, type }) => {
   const handleChange = (e) => {
     console.log(input);
     if(type == "method" || type == "attribute"){
-      setInput(e.target.value);
+      setInput(e.target.value.replace(/\s+/g, ''));
     }
-    updateNodeData(id, type, e.target.value);
+    updateNodeData(id, type, e.target.value.replace(/\s+/g, ''));
   };
 
   return (

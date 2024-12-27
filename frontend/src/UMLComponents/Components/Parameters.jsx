@@ -3,7 +3,7 @@ import React from 'react';
 const Parameters = ({ input, setInput }) => {
 
   const handleChange = (e) => {
-    let value = e.target.value;
+    let value = e.target.value.replace(/\s+/g, '');
 
     if (value.endsWith(',')) {
       value += 'name:type';

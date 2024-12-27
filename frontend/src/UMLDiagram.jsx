@@ -2,6 +2,7 @@ import './index.css';
 
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import Comp from './edges.jsx';
 
 import { dependency, inheritance, association, composition, implementation } from './edges.jsx';
 
@@ -100,7 +101,7 @@ function UMLDiagram() {
     setSelectedNodes(nodes.map((node) => node.id));
     setSelectedEdges(edges.map((edge) => edge.id));
   }, []);
- 
+
   // useOnSelectionChange({
   //   onChange,
   // });
@@ -181,7 +182,7 @@ function UMLDiagram() {
         setSelectedEdgeType(composition)
         console.log(selectedEdgeType)
         break;
-        
+
       default:
         setSelectedEdgeType(inheritance)
         break;
@@ -196,27 +197,27 @@ function UMLDiagram() {
   const dropdownMenuItems = [
     {
       text: "Association",
-      icon: {src: AssociationIcon, alt: 'Association'},
+      icon: { src: AssociationIcon, alt: 'Association' },
       onClick: () => handleIconClick('Association')
     },
     {
       text: "Inheritance",
-      icon: {src: InheritanceIcon, alt: 'Inheritance'},
+      icon: { src: InheritanceIcon, alt: 'Inheritance' },
       onClick: () => handleIconClick('Inheritance')
     },
     {
       text: "Implementation",
-      icon: {src: ImplementationIcon, alt: 'Implementation'},
+      icon: { src: ImplementationIcon, alt: 'Implementation' },
       onClick: () => handleIconClick('Implementation')
     },
     {
       text: "Dependency",
-      icon: {src: DependencyIcon, alt: 'Dependency'},
+      icon: { src: DependencyIcon, alt: 'Dependency' },
       onClick: () => handleIconClick('Dependency')
     },
     {
       text: "Composition",
-      icon: {src: CompositionIcon, alt: 'Composition'},
+      icon: { src: CompositionIcon, alt: 'Composition' },
       onClick: () => handleIconClick('Composition')
     }
   ]
@@ -228,7 +229,7 @@ function UMLDiagram() {
     { type: "icon", src: AbstractClassIcon, alt: 'Abstract Class', onClick: () => createAbstractClass() },
     { type: "icon", src: InterfaceIcon, alt: 'Interface', onClick: () => createInterface() },
     { type: "icon", src: EnumIcon, alt: 'Enum', onClick: () => createEnum() },
-    { type: "dropdown", items: dropdownMenuItems, icon: {src: AssociationIcon, alt: 'Association'}},
+    { type: "dropdown", items: dropdownMenuItems, icon: { src: AssociationIcon, alt: 'Association' } },
   ]
 
   const verticalSidebarItems = [
@@ -239,9 +240,9 @@ function UMLDiagram() {
   ]
 
   const menuItems = [
-    { label: 'Copy', shortcut: 'Ctrl + C', onClick: () => handleMenuClick('Copy')},
-    { label: 'Cut', shortcut: 'Ctrl + X', onClick: () => handleMenuClick('Cut')},
-    { label: 'Paste', shortcut: 'Ctrl + V', onClick: () => handleMenuClick('Paste')},
+    { label: 'Copy', shortcut: 'Ctrl + C', onClick: () => handleMenuClick('Copy') },
+    { label: 'Cut', shortcut: 'Ctrl + X', onClick: () => handleMenuClick('Cut') },
+    { label: 'Paste', shortcut: 'Ctrl + V', onClick: () => handleMenuClick('Paste') },
     { label: 'Delete', divider: true },
     { label: 'Lock', shortcut: 'Ctrl + L', onClick: () => handleMenuClick('Lock'), divider: true },
     { label: 'Add attribute', onClick: () => handleMenuClick('Add attribute') },
@@ -257,30 +258,30 @@ function UMLDiagram() {
 
 
   function createClass() {
-    setNodes((prevNodes) => [...prevNodes,{ ...classNode, id: `${nodes.length}` }]);
+    setNodes((prevNodes) => [...prevNodes, { ...classNode, id: `${nodes.length}` }]);
   }
 
   function createInterface() {
-    setNodes((prevNodes) => [...prevNodes,{ ...interfaceNode, id: `${nodes.length}` }]);
+    setNodes((prevNodes) => [...prevNodes, { ...interfaceNode, id: `${nodes.length}` }]);
   }
 
   function createAbstractClass() {
-    setNodes((prevNodes) => [...prevNodes,{ ...abstractClassNode, id: `${nodes.length}` }]);
+    setNodes((prevNodes) => [...prevNodes, { ...abstractClassNode, id: `${nodes.length}` }]);
   }
 
   function createEnum() {
-    setNodes((prevNodes) => [...prevNodes,{ ...enumNode, id: `${nodes.length}` }]);
+    setNodes((prevNodes) => [...prevNodes, { ...enumNode, id: `${nodes.length}` }]);
   }
-  
+
 
   const onConnect = useCallback((params) => {
     setEdges((eds) =>
       addEdge({ ...selectedEdgeType, ...params }, eds)
     );
   }, [setEdges, selectedEdgeType, onEdgesChange]);
-  
+
   // const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [],);
-  
+
   const handleClassColorChange = (color) => {
     // setClassColor(color);
     setNodeColors((prevNodeColors) => {
@@ -326,7 +327,7 @@ function UMLDiagram() {
   };
 
   // Function to update node color
-  
+
   // const updateNodeColor = (nodeId, color) => {
   //   setNodes((prevNodes) =>
   //     prevNodes.map((node) => 
@@ -337,17 +338,20 @@ function UMLDiagram() {
 
 
   return (
-      <motion.div
+    <>
+    <>
+    <motion.div
         onClick={handleOnClick}
         onContextMenu={handleOnContextMenu}
         style={{
           width: window.innerWidth,
           height: window.innerHeight,
         }}
-        initial={{opacity: 0}}
-        animate={{opacity: 1}}
-        exit={{opacity: 0}}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       >
+        <Comp />
         <ReactFlow
           nodes={nodes}
           nodeTypes={nodeTypes}
@@ -371,31 +375,32 @@ function UMLDiagram() {
           // SelectionMode={SelectionMode.Full}
           selectionMode={SelectionMode.Partial}
         >
+
           <Controls
             className='controls'
             orientation="horizontal"
             position='bottom-right'
-            style= {{
+            style={{
               boxShadow: "0 0 5px rgba(0, 0, 0, 0.2)",
               position: "fixed",
               bottom: "10px"
             }}
           />
-          <Background style={{zIndex: -1}} gap={16} size={1.5}/>
+          <Background style={{ zIndex: -1 }} gap={16} size={1.5} />
         </ReactFlow>
 
         <div className="generate-code-button-component">
-          <Button text="GENERATE CODE" onClick={handleGenerateCodeClick}/>
+          <Button text="GENERATE CODE" onClick={handleGenerateCodeClick} />
         </div>
-        
+
         <div className="vertical-toolbar-component">
-          <VerticalToolbar items={verticalSidebarItems}/>
+          <VerticalToolbar items={verticalSidebarItems} />
         </div>
 
         <div className="horizontal-toolbar-component">
-          <HorizontalToolbar items={horizontalSidebarItems}/>
+          <HorizontalToolbar items={horizontalSidebarItems} />
         </div>
-        
+
         <ContextMenu
           contextMenuRef={contextMenuRef}
           items={menuItems}
@@ -403,7 +408,7 @@ function UMLDiagram() {
           positionY={contextMenuStatus.position.y}
           isToggled={contextMenuStatus.toggled}
         />
-        
+
         <div className='color-mapper-component'>
           <ColorMapper
             onChangeFunctions={[
@@ -412,10 +417,10 @@ function UMLDiagram() {
               handleInterfaceColorChange,
               handleEnumColorChange,
             ]}
-            nodeTypes={['Class', 'Abstract Class', 'Interface',  'Enum']}
+            nodeTypes={['Class', 'Abstract Class', 'Interface', 'Enum']}
           />
         </div>
-        
+
         <div className="sidebar-component">
           <Sidebar />
         </div>
@@ -425,6 +430,8 @@ function UMLDiagram() {
           <p className='project-name'>Project Name</p>
         </div>
       </motion.div>
+    </>
+    </>
 
   );
 }

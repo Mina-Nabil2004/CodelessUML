@@ -1,3 +1,5 @@
+import compositionIcon from './assets/compositionIcon.svg';
+
 import {
    MarkerType,
  } from '@xyflow/react';
@@ -53,12 +55,34 @@ export const dependency = {
 
 export const composition = {
    name: 'composition',
-   markerStart: {
-      type: MarkerType.Arrow,
-      width: 20,
-      height: 20,
-      color: 'black',
-   },
    style: { stroke: 'black', strokeWidth: 2 },
+   markerStart:'composition-marker',
+   
+   // markerEnd: { type: 'custom', id: 'composition-marker' },
    type: 'smoothstep',
 }
+
+
+
+
+export default function Comp() {
+   return (
+      <svg width="10" height="10" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <defs>
+            <marker
+               id="composition-marker"
+               viewBox="0 0 36 36"
+               refX="18"
+               refY="18"
+               markerWidth="18"
+               markerHeight="18"
+               orient="auto"
+            >
+               <rect x="35.832" y="17.916" width="15" height="15" transform="rotate(135 35.832 17.916)" fill="black" />
+
+            </marker>
+         </defs>
+      </svg>
+   )
+}
+

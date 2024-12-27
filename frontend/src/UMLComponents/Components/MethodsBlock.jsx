@@ -3,6 +3,7 @@ import Input from "./Input";
 import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
 import Properties from "./Properties";
+import Parameters from "./Parameters";
 
 function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered, addMethode, updateNodeData  }) {
 
@@ -13,7 +14,16 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
   const updateMethodAttribute = useCallback((index, attribute, value) => {
     const updatedMethods = methods.map((method, i) => {
       if (i === index) {
-        return { ...method, [attribute]: value };
+        if (attribute === "parameters") {
+          const paramsArray = value.split(',').map(param => {
+            const [name, type] = param.split(':').map(str => str.trim());
+            return { name, type };
+          }).filter(param => param.name);
+
+          return { ...method, parameters: paramsArray };
+        } else {
+          return { ...method, [attribute]: value };
+        }
       }
       return method;
     });
@@ -47,12 +57,9 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
             type="method"
           />
           <span>&nbsp;(&nbsp;</span>
-          <Input
-            typeName={"method"}
-            input={method.parameters}
+          <Parameters
+            input={method.parameters.map(param => `${param.name}:${param.type}`).join(', ')}
             setInput={(newValue) => updateMethodAttribute(index, 'parameters', newValue)}
-            id={index}
-            type="method"
           />
           <span>&nbsp;)&nbsp;</span>
           <span>&nbsp;:&nbsp;</span>

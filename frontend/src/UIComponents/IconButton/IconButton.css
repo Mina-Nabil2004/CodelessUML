@@ -1,0 +1,12 @@
+
+.icon-button {
+    display: inline-flex;
+    height: 60%;
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+
+.icon-button-img {
+    height: 100%;
+}

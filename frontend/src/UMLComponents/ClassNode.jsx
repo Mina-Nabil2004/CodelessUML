@@ -47,7 +47,7 @@ function ClassNode({ data, id }) {
       name: "method",
       returnType: "returnType",
       scope: "public",
-      parameters: "parameters",
+      parameters: [{name: "name", type:"type"}],
       isStatic: false,
       final: false
     }
@@ -74,7 +74,7 @@ function ClassNode({ data, id }) {
         onMouseLeave={() => setIsHovered(false)}
       >
         <Dot id={data.id} height={data.height} width={data.width} />
-        <PackageBlock packageName={data.package} id={id}/>
+        <PackageBlock packageName={data.package}/>
       
         
         <NameBlock color={nodeColors.class} name={data.name} id={id}/>

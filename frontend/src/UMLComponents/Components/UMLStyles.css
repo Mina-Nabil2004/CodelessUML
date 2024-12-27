@@ -5,7 +5,7 @@
 
 .attribute-button {
   position: absolute;
-  bottom: 5px;
+  bottom: 8px;
   left: 50%;
   transform: translateX(-50%);
 }
@@ -25,7 +25,7 @@
 .attribute-buttons,
 .method-buttons{
   position: absolute;
-  bottom: -10px;
+  bottom: -7px;
   transform: translateX(-50%);
 }
 
@@ -72,6 +72,7 @@
 .methodsBlock {
   padding-top: 10px;
   padding-bottom: 10px;
+  min-height: 35px;
 }
 
 .delete {

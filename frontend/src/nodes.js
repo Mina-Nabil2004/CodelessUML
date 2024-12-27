@@ -76,7 +76,7 @@ export const enumNode = {
     package: "src",
     scope: "public",
 
-    methods: []
+    attributes: []
 
   }
 }

@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import UMLDiagram from "./UMLDiagram.jsx";
-import CodeViewer from "./CodeViewer.jsx";
+import CodeViewer from "./CodeViewer/CodeViewer.jsx";
 import { AnimatePresence } from "framer-motion";
 
 function App() {

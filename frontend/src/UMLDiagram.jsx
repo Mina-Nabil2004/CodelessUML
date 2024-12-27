@@ -11,7 +11,7 @@ import ClassNode from './UMLComponents/ClassNode.jsx';
 import InterfaceNode from './UMLComponents/InterfaceNode.jsx';
 import EnumNode from './UMLComponents/EnumNode.jsx';
 import AbstractClassNode from './UMLComponents/AbstractClassNode.jsx';
-import { abstractClassNode, classNode, enumNode, initialNodes, interfaceNode } from './nodes.js';
+import { abstractClassNode, classNode, enumNode, interfaceNode } from './nodes.js';
 
 import HorizontalToolbar from "./UIComponents/HorizontalToolbar.jsx";
 import VerticalToolbar from "./UIComponents/VerticalToolbar.jsx";
@@ -68,7 +68,7 @@ const edgeTypes = {
   implementation,
   dependency,
   composition,
-  smoothstep: SmoothStepEdge, // Default edge type
+  smoothstep: SmoothStepEdge
 };
 
 
@@ -81,11 +81,13 @@ function UMLDiagram() {
   const {
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
+    createNode,
     nodeColors, setNodeColors,
     selectedEdgeType, setSelectedEdgeType,
     onNodesDelete, onEdgesDelete,
     selectedEdges, setSelectedEdges,
-    selectedNodes, setSelectedNodes
+    selectedNodes, setSelectedNodes,
+    treeItems, setTreeItems
   } = useAppContext();
 
   const contextMenuRef = useRef(null);
@@ -98,6 +100,7 @@ function UMLDiagram() {
   });
 
   const onChange = useCallback(({ nodes, edges }) => {
+
     setSelectedNodes(nodes.map((node) => node.id));
     setSelectedEdges(edges.map((edge) => edge.id));
   }, []);
@@ -145,8 +148,8 @@ function UMLDiagram() {
   }
 
   function handleOnClick() {
-    console.log("selected Nodes")
-    console.log(selectedNodes)
+    console.log('Selected UML nodes:', selectedNodes)
+    console.log('Selected edges:', edges)
     setContextMenuStatus({
       ...contextMenuStatus,
       toggled: false
@@ -190,7 +193,7 @@ function UMLDiagram() {
     console.log(iconName)
   }
 
-  function handleGenerateCodeClick(e) {
+  function handleGenerateCodeClick() {
     window.location.href = `${window.location.origin}/code-viewer`
   }
 
@@ -222,14 +225,15 @@ function UMLDiagram() {
     }
   ]
 
+
   const horizontalSidebarItems = [
     { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleIconClick('Text') },
     { type: "icon", src: NoteIcon, alt: 'Note', onClick: () => handleIconClick('Note') },
-    { type: "icon", src: ClassIcon, alt: 'Class', onClick: () => createClass() },
-    { type: "icon", src: AbstractClassIcon, alt: 'Abstract Class', onClick: () => createAbstractClass() },
-    { type: "icon", src: InterfaceIcon, alt: 'Interface', onClick: () => createInterface() },
-    { type: "icon", src: EnumIcon, alt: 'Enum', onClick: () => createEnum() },
-    { type: "dropdown", items: dropdownMenuItems, icon: { src: AssociationIcon, alt: 'Association' } },
+    { type: "icon", src: ClassIcon, alt: 'Class', onClick: () => createNode('class') },
+    { type: "icon", src: AbstractClassIcon, alt: 'Abstract Class', onClick: () => createNode('abstractClass') },
+    { type: "icon", src: InterfaceIcon, alt: 'Interface', onClick: () => createNode('interface') },
+    { type: "icon", src: EnumIcon, alt: 'Enum', onClick: () => createNode('enum') },
+    { type: "dropdown", items: dropdownMenuItems, icon: {src: AssociationIcon, alt: 'Association'}},
   ]
 
   const verticalSidebarItems = [
@@ -256,21 +260,24 @@ function UMLDiagram() {
   ];
 
 
-
   function createClass() {
-    setNodes((prevNodes) => [...prevNodes, { ...classNode, id: `${nodes.length}` }]);
+    const newClassNode = { ...classNode, id: `class-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newClassNode]);
   }
 
   function createInterface() {
-    setNodes((prevNodes) => [...prevNodes, { ...interfaceNode, id: `${nodes.length}` }]);
+    const newInterfaceNode = { ...interfaceNode, id: `interface-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newInterfaceNode]);
   }
 
   function createAbstractClass() {
-    setNodes((prevNodes) => [...prevNodes, { ...abstractClassNode, id: `${nodes.length}` }]);
+    const newAbstractClassNode = { ...abstractClassNode, id: `abstractClass-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newAbstractClassNode]);
   }
 
   function createEnum() {
-    setNodes((prevNodes) => [...prevNodes, { ...enumNode, id: `${nodes.length}` }]);
+    const newEnumNode = { ...enumNode, id: `enum-${Date.now()}` }
+    setNodes((prevNodes) => [...prevNodes, newEnumNode]);
   }
 
 
@@ -283,59 +290,40 @@ function UMLDiagram() {
   // const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [],);
 
   const handleClassColorChange = (color) => {
-    // setClassColor(color);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
         class: color
       }
     })
-    // updateNodeColor('1', color); // Optional: Change color if node exists
   };
 
   const handleAbstractClassColorChange = (color) => {
-    // setAbstractClassColor(color);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
         abstractClass: color
       }
     })
-    // updateNodeColor('2', color); // Optional: Change color if node exists
   };
 
   const handleEnumColorChange = (color) => {
-    // setEnumColor(color);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
         enum: color
       }
     })
-    // updateNodeColor('3', color); // Optional: Change color if node exists
   };
 
   const handleInterfaceColorChange = (color) => {
-    // setInterfaceColor(color);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
         interface: color
       }
     })
-    // updateNodeColor('4', color); // Optional: Change color if node exists
   };
-
-  // Function to update node color
-
-  // const updateNodeColor = (nodeId, color) => {
-  //   setNodes((prevNodes) =>
-  //     prevNodes.map((node) => 
-  //       node.id === nodeId ? { ...node, color } : node
-  //     )
-  //   );
-  // };
-
 
   return (
     <>

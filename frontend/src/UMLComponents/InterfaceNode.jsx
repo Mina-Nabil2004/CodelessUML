@@ -47,7 +47,7 @@ function AbstractClassNode({ data, id }) {
       name: "method",
       returnType: "returnType",
       scope: "public",
-      parameters: "parameters",
+      parameters: [{name: "name", type:"type"}],
       isStatic: false,
       final: false
     }

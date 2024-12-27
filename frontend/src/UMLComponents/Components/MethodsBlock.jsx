@@ -18,7 +18,7 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
           const paramsArray = value.split(',').map(param => {
             const [name, type] = param.split(':').map(str => str.trim());
             return { name, type };
-          }).filter(param => param.name);
+          }).filter(param => param.name || param.type);
 
           return { ...method, parameters: paramsArray };
         } else {
@@ -56,12 +56,12 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
             id={index}
             type="method"
           />
-          <span>&nbsp;(&nbsp;</span>
+          <span>(</span>
           <Parameters
             input={method.parameters.map(param => `${param.name}:${param.type}`).join(', ')}
             setInput={(newValue) => updateMethodAttribute(index, 'parameters', newValue)}
           />
-          <span>&nbsp;)&nbsp;</span>
+          <span>)</span>
           <span>&nbsp;:&nbsp;</span>
           <Input
             input={method.returnType}
@@ -87,6 +87,7 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
       )}
     </div>
   );
+  // );
 }
 
 export default MethodsBlock;

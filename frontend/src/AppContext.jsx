@@ -62,10 +62,8 @@ export const AppProvider = ({ children }) => {
     enum: '#e9ff23'
   });
 
-  const [selectedEdgeType, setSelectedEdgeType] = useState(dependency)
-  
+  const [selectedEdgeType, setSelectedEdgeType] = useState(association)
   const [copied, setCopied] = useState([])
-
 
   function nodeExists(id) {
     return nodes.some((node) => node.id === id)
@@ -125,7 +123,7 @@ export const AppProvider = ({ children }) => {
 
     const newNode = {
       ...node,
-      id: `${type}-${Date.now()}`,
+      id: generateUniqueId(),
       data: {
         ...node.data,
         package: treeItems[targetIndex].data
@@ -268,6 +266,10 @@ export const AppProvider = ({ children }) => {
     return updatedTreeItems
   }
 
+  function generateUniqueId() {
+    return crypto.randomUUID();
+  }
+
 
   useEffect(() => {
     const handleKeyDown = (event) => {
@@ -287,7 +289,9 @@ export const AppProvider = ({ children }) => {
           const nodeIdMap = {}; // Map old IDs to new IDs
   
           const newNodes = copied.nodes.map((node, index) => {
-            const newId = `${node.id}_copy_${index}`;
+            // const newId = `${node.id}_copy_${index}`;
+            const newId = generateUniqueId();
+
             nodeIdMap[node.id] = newId;
   
             return {
@@ -303,7 +307,7 @@ export const AppProvider = ({ children }) => {
   
           const newEdges = copied.edges.map((edge) => ({
             ...edge,
-            id: `${edge.id}_copy`,
+            id: generateUniqueId(),
             source: nodeIdMap[edge.source] || edge.source,
             target: nodeIdMap[edge.target] || edge.target,
           }));
@@ -311,6 +315,21 @@ export const AppProvider = ({ children }) => {
           setNodes((prevNodes) => [...prevNodes, ...newNodes]);
           if(newNodes.length == 1) return;
           setEdges((prevEdges) => [...prevEdges, ...newEdges]);
+        }
+
+      } else if(event.shiftKey || event.metaKey) {
+
+        if(event.key.toLowerCase() == 'c') {
+          createNode('class');
+          
+        } else if(event.key.toLowerCase() == 'i') {
+          createNode('interface');
+          
+        } else if(event.key.toLowerCase() == 'a') {
+          createNode('abstractClass');
+          
+        } else if(event.key.toLowerCase() == 'e') {
+          createNode('enum');
         }
       }
     };
@@ -346,7 +365,8 @@ export const AppProvider = ({ children }) => {
         deleteNode,
         deleteTreeItem,
         moveTreeItems,
-        updateNodeData, 
+        updateNodeData,
+        generateUniqueId,
         // onNodesDelete, 
         // onEdgesDelete,
         selectedNodes, setSelectedNodes,

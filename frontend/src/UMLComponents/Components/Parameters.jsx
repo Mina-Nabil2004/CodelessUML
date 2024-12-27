@@ -22,7 +22,7 @@ const Parameters = ({ input, setInput }) => {
         value={input}
         onChange={handleChange}
         className="input"
-        style={{ width: `${input.length}ch`, fontFamily: "Roboto mono, monospace" }}
+        style={{ width: `${input.length}ch`, fontFamily: "Roboto mono, monospace", padding:"2px", margin:"0" }}
       />
     </div>
   );

@@ -3,7 +3,7 @@ import './ColorMapper.css';
 import { useAppContext } from '../../AppContext.jsx';
 
 const ColorMapper = ({ onChangeFunctions, nodeTypes }) => {
-  
+
   const {
     nodeColors, setNodeColors
   } = useAppContext();
@@ -17,7 +17,7 @@ const ColorMapper = ({ onChangeFunctions, nodeTypes }) => {
           <span className='node-type'>
             {nodeType}
           </span>
-          
+
           <input
             className='color-input'
             type="color"

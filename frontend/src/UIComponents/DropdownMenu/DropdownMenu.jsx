@@ -3,7 +3,7 @@ import styles from './DropdownMenu.module.css'
 import DropDownMenuItem from "./DropdownMenuItem.jsx";
 import Icon from "../Icon.jsx";
 
-function DropdownMenu({ items, icon}) {
+function DropdownMenu({ items, icon }) {
 
   const [isOpen, setIsOpen] = useState(false);
   const [selectedIcon, setSelectedIcon] = useState(icon);
@@ -22,37 +22,37 @@ function DropdownMenu({ items, icon}) {
   }
 
   return (
-      <div className={styles['container']}>
+    <div className={styles['container']}>
 
-        <div className={styles['menu']}
+      <div className={styles['menu']}
         style={
           {
             visibility: isOpen ? 'visible' : 'hidden',
             opacity: isOpen ? '1' : '0',
           }
         }
-        >
-          {items.map((item, index) => (
-            <DropDownMenuItem
-              key={index}
-              text={item.text}
-              icon={item.icon}
-              onClick={(e) => {
-                item.onClick(e);
-                handleSelectedIcon(e);
-              }}
-            />
-          ))}
-        </div>
-
-        <div className={styles['icon']}>
-          <Icon
-            src={selectedIcon.src}
-            alt={selectedIcon.alt}
-            onClick={handleIconClick}
+      >
+        {items.map((item, index) => (
+          <DropDownMenuItem
+            key={index}
+            text={item.text}
+            icon={item.icon}
+            onClick={(e) => {
+              item.onClick(e);
+              handleSelectedIcon(e);
+            }}
           />
-        </div>
+        ))}
       </div>
+
+      <div className={styles['icon']}>
+        <Icon
+          src={selectedIcon.src}
+          alt={selectedIcon.alt}
+          onClick={handleIconClick}
+        />
+      </div>
+    </div>
   );
 }
 

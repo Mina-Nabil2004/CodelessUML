@@ -77,7 +77,7 @@ const initialEdges = [
 ];
 
 function UMLDiagram() {
-
+  
   const {
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
@@ -87,9 +87,10 @@ function UMLDiagram() {
     onNodesDelete, onEdgesDelete,
     selectedEdges, setSelectedEdges,
     selectedNodes, setSelectedNodes,
-    treeItems, setTreeItems
+    treeItems, setTreeItems,
+    generateUniqueId,
   } = useAppContext();
-
+  
   const contextMenuRef = useRef(null);
   const [contextMenuStatus, setContextMenuStatus] = useState({
     position: {
@@ -261,22 +262,22 @@ function UMLDiagram() {
 
 
   function createClass() {
-    const newClassNode = { ...classNode, id: `class-${Date.now()}` }
+    const newClassNode = { ...classNode, id: generateUniqueId() }
     setNodes((prevNodes) => [...prevNodes, newClassNode]);
   }
 
   function createInterface() {
-    const newInterfaceNode = { ...interfaceNode, id: `interface-${Date.now()}` }
+    const newInterfaceNode = { ...interfaceNode, id: generateUniqueId() }
     setNodes((prevNodes) => [...prevNodes, newInterfaceNode]);
   }
 
   function createAbstractClass() {
-    const newAbstractClassNode = { ...abstractClassNode, id: `abstractClass-${Date.now()}` }
+    const newAbstractClassNode = { ...abstractClassNode, id: generateUniqueId() }
     setNodes((prevNodes) => [...prevNodes, newAbstractClassNode]);
   }
 
   function createEnum() {
-    const newEnumNode = { ...enumNode, id: `enum-${Date.now()}` }
+    const newEnumNode = { ...enumNode, id: generateUniqueId() }
     setNodes((prevNodes) => [...prevNodes, newEnumNode]);
   }
 
@@ -356,7 +357,7 @@ function UMLDiagram() {
           snapToGrid={true}
           snapGrid={[16, 16]}
           // panOnScroll
-          // fitView
+          fitView
           selectionOnDrag
           panOnDrag={[1, 2]}
           // selectNodesOnDrag
@@ -389,13 +390,13 @@ function UMLDiagram() {
           <HorizontalToolbar items={horizontalSidebarItems} />
         </div>
 
-        <ContextMenu
+        {/* <ContextMenu
           contextMenuRef={contextMenuRef}
           items={menuItems}
           positionX={contextMenuStatus.position.x}
           positionY={contextMenuStatus.position.y}
           isToggled={contextMenuStatus.toggled}
-        />
+        /> */}
 
         <div className='color-mapper-component'>
           <ColorMapper

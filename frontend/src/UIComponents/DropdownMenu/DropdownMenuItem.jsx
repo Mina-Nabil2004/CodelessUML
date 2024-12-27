@@ -1,6 +1,6 @@
-import {useState} from "react";
+import { useState } from "react";
 
-function DropdownMenuItem( {text, icon, onClick} ) {
+function DropdownMenuItem({ text, icon, onClick }) {
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -22,24 +22,24 @@ function DropdownMenuItem( {text, icon, onClick} ) {
   }
 
   return (
-      <div
-        style={styles}
-        onMouseEnter={() => setIsHovered(true)}
-        onMouseLeave={() => setIsHovered(false)}
-        onClick={onClick}
-      >
-        <p>{text}</p>
-        <img
-          src={icon.src}
-          alt={icon.alt}
-          onClick={icon.onClick}
-          style={
-            {
-              height: "100%",
-            }
+    <div
+      style={styles}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onClick={onClick}
+    >
+      <p>{text}</p>
+      <img
+        src={icon.src}
+        alt={icon.alt}
+        onClick={icon.onClick}
+        style={
+          {
+            height: "100%",
           }
-        />
-      </div>
+        }
+      />
+    </div>
   )
 }
 

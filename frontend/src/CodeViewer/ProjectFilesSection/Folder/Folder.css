@@ -1,0 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap');
+
+.project-files-section-folder {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    gap: 15px;
+    font-family: Inter, sans-serif;
+}
+
+.project-files-section-arrow {
+    height: 8px;
+    width: 12px;
+}
+
+.project-files-section-files {
+    height: 0;
+    opacity: 0;
+    margin-top: 10px;
+    margin-left: 45px;
+    flex-direction: column;
+    gap: 8px;
+    transition: visibility 0.3s ease, opacity 0.3s ease, height 0.1s ease;
+}
+
+.project-files-section-files.open {
+    height: auto;
+    display: flex;
+    opacity: 1;
+}
+
+.project-files-section-file {
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}

@@ -1,0 +1,48 @@
+
+.code-section-container {
+    background: #1e1e1e;
+    flex: 8;
+    border-radius: 15px;
+    position: relative;
+    overflow: hidden;
+    height: 100%
+}
+
+.code-section-container .buttons-container {
+    position: absolute;
+    top: 25px;
+    right: 45px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    height: 12px;
+    background-color: #353535;
+    padding: 14px 15px;
+    border-radius: 10px;
+}
+
+.code-section-container .buttons-container img {
+    height: 100%;
+    cursor: pointer;
+}
+
+.code-section-container .buttons-container .back-icon {
+    height: 100%;
+}
+
+.cm-editor {
+    background: #1e1e1e;
+    height: 576px;
+}
+
+.cm-content {
+    font-size: 18px;
+}
+
+.cm-gutter {
+    background: #1e1e1e;
+}
+
+.cm-scroller {
+    overflow: auto;
+}

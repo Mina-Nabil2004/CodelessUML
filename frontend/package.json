@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@codemirror/lang-java": "^6.0.1",
+    "@uiw/react-codemirror": "^4.23.7",
     "@xyflow/react": "^12.3.6",
     "classnames": "^2.5.1",
     "framer-motion": "^11.15.0",

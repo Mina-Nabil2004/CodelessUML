@@ -1,0 +1,11 @@
+
+.project-files-section-folders {
+    padding: 35px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    background-color: #1e1e1e;
+    border-radius: 15px;
+    flex: 1.5;
+}

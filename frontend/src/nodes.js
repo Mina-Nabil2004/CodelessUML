@@ -11,10 +11,10 @@ export const classNode = {
     package: "src",
     scope: "public",
 
-    relations: {
-      extendsId: null,
-      implements: []
-    },
+    // relations: {
+    //   extendsId: null,
+    //   implements: []
+    // },
 
     attributes: [],
 
@@ -33,9 +33,9 @@ export const interfaceNode = {
     package: "src",
     scope: "public",
 
-    relations: {
-      extendsId: [],
-    },
+    // relations: {
+    //   extendsId: [],
+    // },
 
     attributes: [],
 
@@ -53,10 +53,10 @@ export const abstractClassNode = {
     package: "src",
     scope: "public",
 
-    relations: {
-      extendsId: null,
-      implements: []
-    },
+    // relations: {
+    //   extendsId: null,
+    //   implements: []
+    // },
 
     attributes: [],
 
@@ -93,10 +93,10 @@ export const initialNodes2 = [
     data: {
       scope: "public",
 
-      relations: {
-        extendsId: 3,
-        implements: [5, 2, 8, 9, 7]
-      },
+      // relations: {
+      //   extendsId: 3,
+      //   implements: [5, 2, 8, 9, 7]
+      // },
 
       attributes: [
         {
@@ -195,10 +195,10 @@ export const initialNodes2 = [
     data: {
       scope: "public",
 
-      relations: {
-        extendsId: 3,
-        implements: [5, 2, 8, 9, 7]
-      },
+      // relations: {
+      //   extendsId: 3,
+      //   implements: [5, 2, 8, 9, 7]
+      // },
 
       attributes: [
         {

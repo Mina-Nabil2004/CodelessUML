@@ -18,7 +18,7 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
           const paramsArray = value.split(',').map(param => {
             const [name, type] = param.split(':').map(str => str.trim());
             return { name, type };
-          }).filter(param => param.name && param.type);
+          }).filter(param => param.name);
 
           return { ...method, parameters: paramsArray };
         } else {

@@ -3,12 +3,14 @@ import Input from "./Input";
 import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
 import Properties from "./Properties";
-
+import { useAppContext } from "../../AppContext";
 function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute, id }) {
-
+  const { nodes, edges, nodeColors, Take_Action } = useAppContext();
   const removeAttribute = useCallback((indexToRemove) => {
+    Take_Action(nodes, edges, nodeColors);
     setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));
-  }, [setAttributes]);
+  }, [setAttributes, nodes, edges, nodeColors, Take_Action]);
+
 
   const updateAttribute = useCallback((index, type, value) => {
     const updatedAttribute = attributes.map((attribute, i) => {

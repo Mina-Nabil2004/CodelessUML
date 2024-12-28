@@ -19,6 +19,8 @@ import Button from "./UIComponents/Button.jsx";
 import ContextMenu from "./UIComponents/ContextMenu/ContextMenu.jsx";
 import Sidebar from "./UIComponents/Sidebar/Sidebar.jsx"
 import ColorMapper from './UIComponents/ColorMapper/ColorMapper.jsx';
+import Note from './Note.jsx';
+import TextFrame from './Textframe.jsx'; 
 
 import TextIcon from './assets/HorizontalToolbarIcons/Text.png'
 import NoteIcon from './assets/HorizontalToolbarIcons/Note.png'
@@ -57,6 +59,8 @@ import {
 import {useNavigate} from "react-router-dom";
 
 const nodeTypes = {
+  text: TextFrame,
+  note: Note,
   class: ClassNode,
   interface: InterfaceNode,
   enum: EnumNode,
@@ -90,6 +94,9 @@ function UMLDiagram() {
     selectedNodes, setSelectedNodes,
     treeItems, setTreeItems,
     generateUniqueId, setGeneratedCodes,
+    Take_Action, undoStack, redoStack,
+    setUndoStack, setRedoStack,
+    handleMouseDragStart,
   } = useAppContext();
 
   const navigate = useNavigate();
@@ -168,6 +175,18 @@ function UMLDiagram() {
     });
   }
 
+  function handleRemarks(iconName) {
+    Take_Action(nodes, edges, nodeColors);
+    const id = `${nodes.length}`;
+    const newNode = {
+      id,
+      type: iconName.toLowerCase(),
+      position: { x: Math.random() * 250, y: Math.random() * 250 },
+      data: { label: `${iconName} Node` },
+    };
+    setNodes((nds) => [...nds, newNode]);
+  }
+
   function handleIconClick(iconName) {
     console.log(nodes)
     switch (iconName) {
@@ -196,6 +215,33 @@ function UMLDiagram() {
     }
     console.log(iconName)
   }
+
+
+
+  function handleExportClick() {
+    const diagramState = { nodes, edges, nodeColors, treeItems};
+    const blob = new Blob([JSON.stringify(diagramState)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'diagram.json';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
+  const handleImportClick = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (loadEvent) => {
+      const diagramState = JSON.parse(loadEvent.target.result);
+      console.log(diagramState); // Check the structure of the imported data
+      setNodes(diagramState.nodes);
+      setEdges(diagramState.edges);
+      setNodeColors(diagramState.nodeColors);
+      setTreeItems(diagramState.treeItems);
+    };
+    reader.readAsText(file);
+  };
 
   async function handleGenerateCodeClick() {
     // console.log("{" )
@@ -243,6 +289,27 @@ function UMLDiagram() {
     navigate('/code-viewer')
   }
 
+  const handleUndo = () => {
+    if (undoStack.length === 0) {
+      return;}
+    const taken = undoStack.pop();
+    setRedoStack((prev) => [...prev, {Nodes: nodes, Edges: edges, nodeColors: nodeColors, treeItems: treeItems}]);
+    setNodes(taken.Nodes);
+    setEdges(taken.Edges);
+    setNodeColors(taken.nodeColors);
+    setTreeItems(taken.treeItems); };
+
+    const handleRedo = () => {
+      if (redoStack.length === 0) {
+        return;}
+      const taken = redoStack.pop();
+      setUndoStack((prev) => [...prev, {Nodes: nodes, Edges: edges, nodeColors: nodeColors, treeItems: treeItems}]);
+      setNodes(taken.Nodes);
+      setEdges(taken.Edges);
+      setNodeColors(taken.nodeColors);
+      setTreeItems(taken.treeItems); };
+
+
   const dropdownMenuItems = [
     {
       text: "Association",
@@ -273,8 +340,8 @@ function UMLDiagram() {
 
 
   const horizontalSidebarItems = [
-    { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleIconClick('Text') },
-    { type: "icon", src: NoteIcon, alt: 'Note', onClick: () => handleIconClick('Note') },
+    { type: "icon", src: TextIcon, alt: 'Text', onClick: () => handleRemarks('text') },
+    { type: "icon", src: NoteIcon, alt: 'Note', onClick: () => handleRemarks('note') },
     { type: "icon", src: ClassIcon, alt: 'Class', onClick: () => createNode('class') },
     { type: "icon", src: AbstractClassIcon, alt: 'Abstract Class', onClick: () => createNode('abstractClass') },
     { type: "icon", src: InterfaceIcon, alt: 'Interface', onClick: () => createNode('interface') },
@@ -283,10 +350,10 @@ function UMLDiagram() {
   ]
 
   const verticalSidebarItems = [
-    { src: UndoIcon, alt: 'Undo', onClick: () => handleIconClick('Undo') },
-    { src: RedoIcon, alt: 'Redo', onClick: () => handleIconClick('Redo') },
-    { src: ExportIcon, alt: 'Export', onClick: () => handleIconClick('Export') },
-    { src: ImportIcon, alt: 'Import', onClick: () => handleIconClick('Import') },
+    { src: UndoIcon, alt: 'Undo', onClick: () => handleUndo() },
+    { src: RedoIcon, alt: 'Redo', onClick: () => handleRedo() },
+    { src: ExportIcon, alt: 'Export', onClick: () => handleExportClick() },
+    { src: ImportIcon, alt: 'Import', onClick: () => document.getElementById('import-file').click() },
   ]
 
   const menuItems = [
@@ -328,14 +395,16 @@ function UMLDiagram() {
 
 
   const onConnect = useCallback((params) => {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setEdges((eds) =>
       addEdge({ ...selectedEdgeType, ...params }, eds)
     );
-  }, [setEdges, selectedEdgeType, onEdgesChange]);
+  }, [nodes, edges, nodeColors, treeItems, setEdges, selectedEdgeType, onEdgesChange]);
 
   // const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [],);
 
   const handleClassColorChange = (color) => {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -345,6 +414,7 @@ function UMLDiagram() {
   };
 
   const handleAbstractClassColorChange = (color) => {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -354,6 +424,7 @@ function UMLDiagram() {
   };
 
   const handleEnumColorChange = (color) => {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -362,7 +433,15 @@ function UMLDiagram() {
     })
   };
 
+  function deleteEdge(source, target) {
+    Take_Action(nodes, edges, nodeColors, treeItems);
+    setEdges((prevEdges) =>
+      prevEdges.filter((edge) => source !== edge.source || target !== edge.target)
+    );
+  }
+
   const handleInterfaceColorChange = (color) => {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -394,7 +473,7 @@ function UMLDiagram() {
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
           onNodesDelete={handleOnNodesDelete}
-          // onEdgesDelete={onEdgesDelete}
+          onEdgesDelete={deleteEdge}
           onSelectionChange={onChange}
           onConnect={onConnect}
           connectionLineStyle={selectedEdgeType.style}
@@ -408,6 +487,7 @@ function UMLDiagram() {
           // selectNodesOnDrag
           // SelectionMode={SelectionMode.Full}
           selectionMode={SelectionMode.Partial}
+          onNodeDragStart={handleMouseDragStart}
         >
 
           <Controls
@@ -463,7 +543,9 @@ function UMLDiagram() {
           <p className='codeless-uml'>CodelessUML</p>
           <p className='project-name'>Project Name</p>
         </div>
-      </motion.div>
+
+        <input type="file" id="import-file" accept=".json" onChange={handleImportClick} style={{ display: 'none' }} />
+        </motion.div>
     </>
     </>
 

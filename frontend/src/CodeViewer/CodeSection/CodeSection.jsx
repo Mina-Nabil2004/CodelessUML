@@ -64,7 +64,8 @@ function CodeSection({ codeLines }) {
       });
   
       if (!response.ok) {
-        alert(response.status)
+        // console.log(response)
+        alert("Error: There are multiple files with the same name and path.")
         throw new Error('Network response was not ok');
       }
   

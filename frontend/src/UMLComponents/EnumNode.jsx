@@ -27,7 +27,7 @@ function EnumNode({ data, id }) {
 
   const addAttribute = () => {
     const newAttribute = {
-      name: "value",
+      name: "VALUE",
     }
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);

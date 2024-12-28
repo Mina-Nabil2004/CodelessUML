@@ -136,43 +136,43 @@ public class AbstractClassGenerator extends FileGenerator {
       }
    }
 
-   /**
-    * Generates the abstract class methods, ensuring proper formatting and handling abstract methods.
-    */
-   @Override
-   protected void generateMethods(String type, List<Method> methods) {
-      if (methods == null || methods.isEmpty()) {
-         codeBuilder.append("\t// No methods defined for this class\n");
-         return;
-      }
+   // /**
+   //  * Generates the abstract class methods, ensuring proper formatting and handling abstract methods.
+   //  */
+   // @Override
+   // protected void generateMethods(String type, List<Method> methods) {
+   //    if (methods == null || methods.isEmpty()) {
+   //       codeBuilder.append("\t// No methods defined for this class\n");
+   //       return;
+   //    }
 
-      for (Method method : methods) {
-         if (method == null) {
-            continue; // Skip null methods if any
-         }
+   //    for (Method method : methods) {
+   //       if (method == null) {
+   //          continue; // Skip null methods if any
+   //       }
 
-         codeBuilder.append("\t");
-         codeBuilder.append(method.getScope() + " ");
+   //       codeBuilder.append("\t");
+   //       codeBuilder.append(method.getScope() + " ");
          
-         if (method.isStatic()) {
-            codeBuilder.append("static ");
-         }
+   //       if (method.isStatic()) {
+   //          codeBuilder.append("static ");
+   //       }
 
-         // For abstract methods, don't include body
-         if ("abstract class".equalsIgnoreCase(type)) {
-            codeBuilder.append("abstract ");
-         }
+   //       // For abstract methods, don't include body
+   //       if ("abstract class".equalsIgnoreCase(type) ) {
+   //          codeBuilder.append("abstract ");
+   //       }
 
-         codeBuilder.append(method.getReturnType() + " ")
-                    .append(method.getName())
-                    .append("(");
+   //       codeBuilder.append(method.getReturnType() + " ")
+   //                  .append(method.getName())
+   //                  .append("(");
          
-         String params = method.getParameters().stream()
-                 .map(param -> param.getType() + " " + param.getName())
-                 .collect(Collectors.joining(", "));
-         codeBuilder.append(params);
-         codeBuilder.append(");");
-         codeBuilder.append("\n");
-      }
-   }
+   //       String params = method.getParameters().stream()
+   //               .map(param -> param.getType() + " " + param.getName())
+   //               .collect(Collectors.joining(", "));
+   //       codeBuilder.append(params);
+   //       codeBuilder.append(");");
+   //       codeBuilder.append("\n");
+   //    }
+   // }
 }

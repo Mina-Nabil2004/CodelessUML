@@ -58,39 +58,7 @@ public class GenerationController {
       return entity.get(0);
    }
 
-   // @PostMapping("/download")
-   // public ResponseEntity<byte[]> generateZip(@RequestBody List<CodeDto> codeDtos) throws IOException {
-   //    ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-   //    try (ZipOutputStream zos = new ZipOutputStream(baos)) {
-   //       for (CodeDto codeDto : codeDtos) {
-   //          String folderPath = codeDto.getPackageName().replace('.', '/');
-   //          String filePath = folderPath + "/" + codeDto.getName() + ".java";
-
-   //          // Create a zip entry for each file
-   //          ZipEntry zipEntry = new ZipEntry(filePath);
-   //          zos.putNextEntry(zipEntry);
-
-   //          // Write file content
-   //          zos.write(codeDto.getCode().getBytes());
-
-   //          // Close entry
-   //          zos.closeEntry();
-   //       }
-   //    }
-
-   //    // Create the response
-   //    byte[] zipBytes = baos.toByteArray();
-   //    HttpHeaders headers = new HttpHeaders();
-   //    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-   //    headers.setContentDispositionFormData("attachment", "CodeFiles.zip");
-
-   //    return ResponseEntity.ok()
-   //          .headers(headers)
-   //          .body(zipBytes);
-   // }
-
-    @PostMapping("/download")
+   @PostMapping("/download")
    public ResponseEntity<?> generateZip(@RequestBody ProjectDto project) throws IOException {
       
       try {
@@ -125,7 +93,7 @@ public class GenerationController {
             .body(zipBytes);
       } catch (Exception e) {
 
-         return new ResponseEntity<>("Error: There are multiple files with the same name and path.", HttpStatus.BAD_REQUEST);
+         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: There are multiple files with the same name and path.");
       }
             
    }

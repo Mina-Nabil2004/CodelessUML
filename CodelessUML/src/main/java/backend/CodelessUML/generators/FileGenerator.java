@@ -244,6 +244,9 @@ public abstract class FileGenerator {
             continue;
          }
 
+         System.out.println(method.isAbstract());
+         System.out.println(type);
+
          if (method.isAbstract() && "abstract class".equals(type)) {
             codeBuilder.append("abstract ");
          }
@@ -257,7 +260,12 @@ public abstract class FileGenerator {
             codeBuilder.append(parameters);
          }
 
-         codeBuilder.append(") {\n");
+         codeBuilder.append(")");
+         if(method.isAbstract()) {
+            codeBuilder.append(";");
+            return;
+         }
+         codeBuilder.append(" {\n");
          codeBuilder.append("\t\t// TODO: Implement logic for ").append(method.getName()).append("\n");
          codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
                     .append(method.getName()).append("\");\n");

@@ -49,15 +49,18 @@ public class EnumGenerator extends FileGenerator {
             return;
         }
 
+        // for (String c :  node.getAttributes().getC) {
+
+        // }
         String constants = node.getAttributes().stream()
                 .map(Attribute::getName)
                 .filter(name -> name != null && !name.isEmpty())
-                .collect(Collectors.joining(", "));
+                .collect(Collectors.joining(",\n\t"));
 
         if (constants.isEmpty()) {
             codeBuilder.append("\t// No valid constants defined\n");
         } else {
-            codeBuilder.append("\t").append(constants).append(";");
+            codeBuilder.append("\t").append(constants);//.append(";");
         }
     }
 }

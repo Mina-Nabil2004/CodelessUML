@@ -13,7 +13,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import backend.CodelessUML.generators.FileGenerator;
+import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
+import backend.CodelessUML.model.dto.CodeDto;
 import backend.CodelessUML.model.dto.FileDTO;
 
 @Service
@@ -24,11 +26,13 @@ public class GeneratorService {
     @Autowired
     private Map<String, FileGenerator> fileGenerator;
 
-    public List<String> generate(List<Node> nodes) {
-        List<String> codeFiles = new ArrayList<>();
+    public List<CodeDto> generate(List<Node> nodes) {
+        findConstructors(nodes);
+        
+        List<CodeDto> codeFiles = new ArrayList<>();
 
         for (Node node : nodes) {
-            codeFiles.add(fileGenerator.get(node.getType()).generate(node));
+            codeFiles.add(new CodeDto(node.getId(), node.getPackageName(),node.getName(), fileGenerator.get(node.getType()).generate(node)));
         }
         return codeFiles;
     }
@@ -52,15 +56,36 @@ public class GeneratorService {
     }
 
 
+    private void findConstructors(List<Node> nodes) {
+        for (Node node :nodes) {
+            
+            if("interface".equals(node.getType()) || "enum".equals(node.getType())) continue;
+            
+            if(node.getMethods() == null) {
+                continue;
+            }
+            
+            for (Method method : node.getMethods()) {
+                if (method.getName() == node.getName()) {
+                    if(node.getConstructors() == null) {
+                        node.setConstructors(new ArrayList<>());
+                    }
+                    node.getConstructors().add(method.toConstructor());
+                    node.getMethods().remove(method);
+                }
+            }
+        }
+    }
 
-   private void saveCodeToFile(String filePath, String fileName, String content) {
-      try {
-         Files.createDirectories(Paths.get(filePath));
-         Files.writeString(Paths.get(filePath, fileName), content);
-      } catch (IOException e) {
-         throw new RuntimeException("Error writing file", e);
-      }
-   }
+
+    private void saveCodeToFile(String filePath, String fileName, String content) {
+        try {
+            Files.createDirectories(Paths.get(filePath));
+            Files.writeString(Paths.get(filePath, fileName), content);
+        } catch (IOException e) {
+            throw new RuntimeException("Error writing file", e);
+        }
+    }
 
     
     private static File createPackage(String packageName) throws IOException {

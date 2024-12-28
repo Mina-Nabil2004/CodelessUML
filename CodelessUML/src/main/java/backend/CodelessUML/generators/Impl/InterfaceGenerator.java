@@ -25,7 +25,8 @@ public class InterfaceGenerator extends FileGenerator {
 
         try {
             generatePackageHeader(node.getPackageName());
-            codeBuilder.append("\n");
+
+            generateImports(node.getRelations());
 
             generateClassHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
 

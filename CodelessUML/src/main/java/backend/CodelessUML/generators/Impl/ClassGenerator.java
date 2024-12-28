@@ -7,7 +7,6 @@ import org.springframework.stereotype.Component;
 
 import backend.CodelessUML.generators.FileGenerator;
 import backend.CodelessUML.model.Attribute;
-import backend.CodelessUML.model.Constructor;
 import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 
@@ -28,7 +27,8 @@ public class ClassGenerator extends FileGenerator {
       try {
          // Generate package header
          generatePackageHeader(node.getPackageName());
-         codeBuilder.append("\n");
+
+         generateImports(node.getRelations());
 
          // Generate class header (name, scope, relations)
          generateClassHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
@@ -40,7 +40,7 @@ public class ClassGenerator extends FileGenerator {
          codeBuilder.append("\n");
 
          // Generate class constructors
-         generateConstructors(node.getName(), node.getConstructors());
+         generateConstructors(node.getName(), node.getConstructors(), node.getAttributes());
          codeBuilder.append("\n");
          
          generateSetters(node.getAttributes());
@@ -95,39 +95,6 @@ public class ClassGenerator extends FileGenerator {
       }
    }
 
-   /**
-    * Generates the constructors for the class, ensuring proper formatting.
-    */
-   @Override
-   protected void generateConstructors(String name, List<Constructor> constructors) {
-      if (constructors == null || constructors.isEmpty()) {
-         codeBuilder.append("\t// No constructors defined for this class\n");
-         return;
-      }
-
-      for (Constructor constructor : constructors) {
-         if (constructor == null) {
-            continue; // Skip null constructors if any
-         }
-
-         codeBuilder.append("\t").append(constructor.getScope()).append(" ")
-                    .append(name).append("(");
-         
-         // Generate constructor parameters
-         String params = constructor.getParameters().stream()
-                .map(param -> param.getType() + " " + param.getName())
-                .collect(Collectors.joining(", "));
-         codeBuilder.append(params);
-         codeBuilder.append(") {\n");
-
-         // Generate constructor body (if any)
-         constructor.getParameters().forEach(param -> {
-            codeBuilder.append("\t\tthis." + param.getName() + " = " + param.getName() + ";\n");
-         });
-
-         codeBuilder.append("\t}\n");
-      }
-   }
 
    /**
     * Generates the class methods, ensuring proper formatting and error handling.

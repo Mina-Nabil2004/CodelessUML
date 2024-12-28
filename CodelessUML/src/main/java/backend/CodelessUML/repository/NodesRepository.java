@@ -12,11 +12,11 @@ import backend.CodelessUML.model.Node;
 
 @Component
 public class NodesRepository {
-   private Map<String, Node> map;
+   private Map<String, Node> map = new HashMap<>();
 
-   public NodesRepository() {
-      this.map = new HashMap<>();
-   }
+   // NodesRepository() {
+   //    this.map = new HashMap<>();
+   // }
 
    public Node getNodeById(String id) {
       return map.get(id);

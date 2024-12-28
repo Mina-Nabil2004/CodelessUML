@@ -29,12 +29,18 @@ public class GenerationController {
    
    @Autowired
    private NodesRepository nodesRepository;
+
+   GenerationController(GeneratorService generator, NodesRepository nodesRepository) {
+      this.generator = generator;
+      this.nodesRepository = nodesRepository;
+   }
  
    @PostMapping(value = "/all")         // requested on opening the code viewer page
    public ResponseEntity<?> generateAll(@RequestBody ClassDiagramDto classDiagramDto) {
       nodesRepository.updateFromList(classDiagramDto.getNodes());
+      
       for(Edge edge :  classDiagramDto.getEdges()){
-         edge.connect();
+         edge.connect(nodesRepository);
       }
       // ResponseEntity.status(HttpStatus.OK)
       //       .body(generator.generate(classDiagramDto.getNodes()));

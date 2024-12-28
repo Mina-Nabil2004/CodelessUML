@@ -38,6 +38,30 @@ public abstract class FileGenerator {
       return getter.toString();
    }
 
+   protected void generateImports(Relation relations) {
+      if (relations == null) {
+         return;
+      }
+
+      if (relations.getExtendsId() != null) {
+         Node node = nodesRepository.getNodeById(relations.getExtendsId());
+         if (node != null) {
+            codeBuilder.append("import ").append(node.getPackageName() + ".").append(node.getName()).append(";\n");
+         }
+      }
+
+      if (relations.getImplementsIds() != null) {
+         for (String id : relations.getImplementsIds()) {
+            Node node = nodesRepository.getNodeById(id);
+            if (node != null) {
+               codeBuilder.append("import ").append(node.getPackageName() + ".").append(node.getName()).append(";\n");
+            }
+         }
+      }
+      codeBuilder.append("\n");
+   }
+
+
    protected void generateGetters(List<Attribute> attributes) {
       for (Attribute attribute : attributes) {
          if (attribute.isGetter()) {
@@ -47,6 +71,7 @@ public abstract class FileGenerator {
          }
       }
    }
+
 
    protected String generateSetter(String staticStr, String type, String name) {
       StringBuilder setter = new StringBuilder("\tpublic %s".formatted(staticStr));
@@ -64,6 +89,7 @@ public abstract class FileGenerator {
       return setter.toString();
    }
 
+
    protected void generateSetters(List<Attribute> attributes) {
       for (Attribute attribute : attributes) {
          if (attribute.isSetter()) {
@@ -72,6 +98,7 @@ public abstract class FileGenerator {
          }
       }
    }
+
 
    protected void generateOverrideFunctions(Relation relations) {
       if (relations == null) {
@@ -82,76 +109,77 @@ public abstract class FileGenerator {
       if (relations.getExtendsId() != null) {
          Node node = nodesRepository.getNodeById(relations.getExtendsId());
          if (node != null) {
-               List<Method> methods = node.getMethods();
-               for (Method method : methods) {
-                  if (method.isAbstract()) {
-                     codeBuilder.append("\n\t@Override\n");
-                     codeBuilder.append("\t").append(method.getScope()).append(" ");
-                     if (method.isStatic()) {
-                           codeBuilder.append("static ");
-                     }
-                     codeBuilder.append(method.getReturnType())
-                                 .append(" ")
-                                 .append(method.getName())
-                                 .append("(");
-                     if (method.getParameters() != null && !method.getParameters().isEmpty()) {
-                           String parameters = method.getParameters().stream()
-                                 .map(param -> param.getType() + " " + param.getName())
-                                 .collect(Collectors.joining(", "));
-                           codeBuilder.append(parameters);
-                     }
-
-                     codeBuilder.append(") {\n");
-                     
-                     codeBuilder.append("\t\t// TODO: Implement logic for ")
-                                 .append(method.getName())
-                                 .append("\n");
-                     
-                     codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
-                                 .append(method.getName())
-                                 .append("\");\n");
-                     
-                     codeBuilder.append("\t}\n");
+            List<Method> methods = node.getMethods();
+            for (Method method : methods) {
+               if (method.isAbstract()) {
+                  codeBuilder.append("\n\t@Override\n");
+                  codeBuilder.append("\t").append(method.getScope()).append(" ");
+                  if (method.isStatic()) {
+                     codeBuilder.append("static ");
                   }
+                  codeBuilder.append(method.getReturnType())
+                        .append(" ")
+                        .append(method.getName())
+                        .append("(");
+                  if (method.getParameters() != null && !method.getParameters().isEmpty()) {
+                     String parameters = method.getParameters().stream()
+                           .map(param -> param.getType() + " " + param.getName())
+                           .collect(Collectors.joining(", "));
+                     codeBuilder.append(parameters);
+                  }
+
+                  codeBuilder.append(") {\n");
+
+                  codeBuilder.append("\t\t// TODO: Implement logic for ")
+                        .append(method.getName())
+                        .append("\n");
+
+                  codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
+                        .append(method.getName())
+                        .append("\");\n");
+
+                  codeBuilder.append("\t}\n");
                }
+            }
          }
       }
 
       // Handle "implements" relationships
       if (relations.getImplementsIds() != null) {
          for (String id : relations.getImplementsIds()) {
-               Node node = nodesRepository.getNodeById(id);
-               if (node != null) {
-                  List<Method> methods = node.getMethods();
-                  for (Method method : methods) {
-                     codeBuilder.append("\n\t@Override\n");
-                     codeBuilder.append("\t").append(method.getScope()).append(" ");
-                     if (method.isStatic()) {
-                           codeBuilder.append("static ");
-                     }
-                     codeBuilder.append(method.getReturnType())
-                                 .append(" ")
-                                 .append(method.getName())
-                                 .append("(");
-                     if (method.getParameters() != null && !method.getParameters().isEmpty()) {
-                           String parameters = method.getParameters().stream()
-                                 .map(param -> param.getType() + " " + param.getName())
-                                 .collect(Collectors.joining(", "));
-                           codeBuilder.append(parameters);
-                     }
-                     codeBuilder.append(") {\n");
-                     codeBuilder.append("\t\t// TODO: Implement logic for ")
-                                 .append(method.getName())
-                                 .append("\n");
-                     codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
-                                 .append(method.getName())
-                                 .append("\");\n");
-                     codeBuilder.append("\t}\n");
+            Node node = nodesRepository.getNodeById(id);
+            if (node != null) {
+               List<Method> methods = node.getMethods();
+               for (Method method : methods) {
+                  codeBuilder.append("\n\t@Override\n");
+                  codeBuilder.append("\t").append(method.getScope()).append(" ");
+                  if (method.isStatic()) {
+                     codeBuilder.append("static ");
                   }
+                  codeBuilder.append(method.getReturnType())
+                        .append(" ")
+                        .append(method.getName())
+                        .append("(");
+                  if (method.getParameters() != null && !method.getParameters().isEmpty()) {
+                     String parameters = method.getParameters().stream()
+                           .map(param -> param.getType() + " " + param.getName())
+                           .collect(Collectors.joining(", "));
+                     codeBuilder.append(parameters);
+                  }
+                  codeBuilder.append(") {\n");
+                  codeBuilder.append("\t\t// TODO: Implement logic for ")
+                        .append(method.getName())
+                        .append("\n");
+                  codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
+                        .append(method.getName())
+                        .append("\");\n");
+                  codeBuilder.append("\t}\n");
                }
+            }
          }
       }
    }
+
 
    protected String getNodeNameById(String id) {
       if (id == null || id.isEmpty()) {
@@ -164,12 +192,14 @@ public abstract class FileGenerator {
       return node.getName();
    }
 
+
    protected void generatePackageHeader(String packageName) {
       if (packageName == null || packageName.trim().isEmpty()) {
          throw new IllegalArgumentException("Package name cannot be null or empty.");
       }
       codeBuilder.append("package ").append(packageName.trim()).append(";").append("\n\n");
    }
+
 
    protected void generateClassHeader(String type, String name, String scope, Relation relations) {
       if (type == null || name == null || scope == null) {
@@ -236,7 +266,7 @@ public abstract class FileGenerator {
 
    }
 
-   protected void generateConstructors(String name, List<Constructor> constructors) {
+   protected void generateConstructors(String name, List<Constructor> constructors,List<Attribute> attributes) {
       if (constructors == null || constructors.isEmpty()) {
          return; // No constructors to generate
       }
@@ -256,10 +286,13 @@ public abstract class FileGenerator {
          codeBuilder.append(") {\n");
 
          if (constructor.getParameters() != null && !constructor.getParameters().isEmpty()) {
-            String assignments = constructor.getParameters().stream()
-                  .map(param -> "\t\tthis." + param.getName() + " = " + param.getName() + ";")
-                  .collect(Collectors.joining("\n"));
-            codeBuilder.append(assignments).append("\n");
+            if(attributes != null && !attributes.isEmpty()) {
+               for (Attribute attribute : attributes) {
+                  if (constructor.getParameters().stream().noneMatch(param -> param.getName().equals(attribute.getName()))) {
+                     codeBuilder.append("\t\tthis.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
+                  }
+               }
+            }
          }
 
          codeBuilder.append("\t}\n");

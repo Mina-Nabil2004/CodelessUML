@@ -28,7 +28,8 @@ public class AbstractClassGenerator extends FileGenerator {
       try {
          // Generate package header
          generatePackageHeader(node.getPackageName());
-         codeBuilder.append("\n");
+
+         generateImports(node.getRelations());
 
          // Generate class header (name, scope, relations)
          generateClassHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
@@ -39,7 +40,7 @@ public class AbstractClassGenerator extends FileGenerator {
          codeBuilder.append("\n");
 
          // Generate class constructors
-         generateConstructors(node.getName(), node.getConstructors());
+         generateConstructors(node.getName(), node.getConstructors(), node.getAttributes());
          codeBuilder.append("\n");
 
          generateSetters(node.getAttributes());
@@ -99,7 +100,7 @@ public class AbstractClassGenerator extends FileGenerator {
     * Generates the constructors for the class, ensuring proper formatting.
     */
    @Override
-   protected void generateConstructors(String name, List<Constructor> constructors) {
+   protected void generateConstructors(String name, List<Constructor> constructors, List<Attribute> attributes) {
       if (constructors == null || constructors.isEmpty()) {
          codeBuilder.append("\t// No constructors defined for this class\n");
          return;
@@ -121,9 +122,15 @@ public class AbstractClassGenerator extends FileGenerator {
          codeBuilder.append(") {\n");
 
          // Generate constructor body (if any)
-         constructor.getParameters().forEach(param -> {
-            codeBuilder.append("\t\tthis." + param.getName() + " = " + param.getName() + ";\n");
-         });
+         if (constructor.getParameters() != null && !constructor.getParameters().isEmpty()) {
+            if(attributes != null && !attributes.isEmpty()) {
+               for (Attribute attribute : attributes) {
+                  if (constructor.getParameters().stream().noneMatch(param -> param.getName().equals(attribute.getName()))) {
+                     codeBuilder.append("\t\tthis.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
+                  }
+               }
+            }
+         }
 
          codeBuilder.append("\t}\n");
       }

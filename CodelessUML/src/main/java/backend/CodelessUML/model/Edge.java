@@ -3,36 +3,31 @@ package backend.CodelessUML.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import backend.CodelessUML.repository.NodesRepository;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Data
 public class Edge {
+
     private String name;
+    
     @JsonProperty("target")
     private String source;
+    
     @JsonProperty("source")
     private String target;
-
-    @Autowired
+    
     @JsonIgnore
-    NodesRepository nodesRepository;
+    private NodesRepository nodesRepository;
+
 
     @JsonIgnore
-    public void connect() {
+    public void connect(NodesRepository nodesRepository) throws IllegalArgumentException {
         Node sourceNode =  nodesRepository.getNodeById(this.source);
-        Node targetNode =  nodesRepository.getNodeById(this.source);
+        Node targetNode =  nodesRepository.getNodeById(this.target);
         
         if(sourceNode == null || targetNode == null) return;
         
@@ -42,14 +37,27 @@ public class Edge {
         }
         
         if(name.equals( "inheritance")) {
-            relation.setExtendsId(this.target);
+            if(relation.getExtendsId() != null) {
+                throw new IllegalArgumentException("Multiple inheritance is not allowed");
+            }
+            // abstract class inheritance in version 2
+            if(sourceNode.getType().equals("class") && targetNode.getType().equals("class")
+                || sourceNode.getType().equals("interface") && targetNode.getType().equals("interface")) {
+                relation.setExtendsId(this.target);
+            }
+            relation.setExtendsId(targetNode.getId());
+
         } else if (name.equals("implementation")) {
             List<String> implementsIds = relation.getImplementsIds();
             if(implementsIds == null) {
                 implementsIds = new ArrayList<>();
             }
-            implementsIds.add(this.target);
-            relation.setImplementsIds(implementsIds);
+            
+            if(("class".equals(sourceNode.getType()) || "abstract class".equals(sourceNode.getType())) && 
+                "interface".equals(targetNode.getType())) {
+                implementsIds.add(this.target);
+                relation.setImplementsIds(implementsIds);
+            }
         }
 
         sourceNode.setRelations(relation);

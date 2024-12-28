@@ -31,7 +31,7 @@ export const inheritance = {
 
 export const implementation = {
    name: 'implementation',
-   style: { stroke: 'blue', strokeWidth: 2 , strokeDasharray: '5,5'},
+   style: { stroke: 'black', strokeWidth: 2 , strokeDasharray: '5,5'},
    markerStart: {
       type: MarkerType.ArrowClosed,
       width: 20,

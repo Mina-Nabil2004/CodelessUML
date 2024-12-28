@@ -80,17 +80,16 @@ const initialEdges = [
 function UMLDiagram() {
   
   const {
-    projectName, setProjectName,
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
     createNode,
     nodeColors, setNodeColors,
     selectedEdgeType, setSelectedEdgeType,
-    onNodesDelete, onEdgesDelete,
+    handleOnNodesDelete, onEdgesDelete,
     selectedEdges, setSelectedEdges,
     selectedNodes, setSelectedNodes,
     treeItems, setTreeItems,
-    generateUniqueId,
+    generateUniqueId, setGeneratedCodes,
   } = useAppContext();
 
   const navigate = useNavigate();
@@ -198,7 +197,49 @@ function UMLDiagram() {
     console.log(iconName)
   }
 
-  function handleGenerateCodeClick() {
+  async function handleGenerateCodeClick() {
+    // console.log("{" )
+    // console.log("nodes: ", nodes)
+    // console.log("edges: ", edges)
+    // console.log("}" )
+    // fetch to back
+    const body = {
+      nodes: nodes.map((node) => ({
+        ...node.data,
+        id: node.id,
+        type: node.type,
+      })),
+      edges: edges.map((edge) => ({
+        source: edge.source,
+        target: edge.target,
+        name: edge.name,
+      })),
+    };
+    
+    console.log(body)
+    
+    try {
+      const response = await fetch('http://localhost:8080/generate/all', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+  
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const generatedCodesFromBack = await response.json();
+      setGeneratedCodes(generatedCodesFromBack)
+      // copied = copiedShape
+      // generatedCode will be displayed
+  
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+    
     navigate('/code-viewer')
   }
 
@@ -352,7 +393,7 @@ function UMLDiagram() {
           edges={edges}
           onNodesChange={onNodesChange}
           onEdgesChange={onEdgesChange}
-          // onNodesDelete={onNodesDelete}
+          onNodesDelete={handleOnNodesDelete}
           // onEdgesDelete={onEdgesDelete}
           onSelectionChange={onChange}
           onConnect={onConnect}
@@ -420,13 +461,7 @@ function UMLDiagram() {
 
         <div className='project-name-container'>
           <p className='codeless-uml'>CodelessUML</p>
-          <input
-            type="text"
-            value={projectName}
-            onChange={(e) => setProjectName(e.target.value)}
-            className="input"
-            style={{ width: `${projectName.length}ch`}}
-          />
+          <p className='project-name'>Project Name</p>
         </div>
       </motion.div>
     </>

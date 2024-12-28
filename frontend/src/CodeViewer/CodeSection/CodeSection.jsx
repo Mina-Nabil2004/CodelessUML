@@ -18,6 +18,8 @@ function CodeSection({ codeLines }) {
   const {
     nodes,
     treeItems,
+    getCode,
+    selectedItems,
   } = useAppContext();
 
   const [code, setCode] = useState("");
@@ -33,6 +35,10 @@ function CodeSection({ codeLines }) {
   function handleBackButtonClick() {
     navigate('/');
   }
+
+  useEffect(() => {
+    setCode(getCode())
+  }, [selectedItems])
 
   return (
     <div className='code-section-container'>
@@ -52,6 +58,7 @@ function CodeSection({ codeLines }) {
         />
         <img
           className='download-icon'
+          style={{margin: '2px'}}
           src={DownloadIcon}
           alt='Download'
           onClick={() => console.log(packageNodeList(nodes, treeItems))}

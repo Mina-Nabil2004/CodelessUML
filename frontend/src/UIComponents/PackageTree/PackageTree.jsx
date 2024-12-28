@@ -8,7 +8,7 @@ import AddFolderIcon from '../../assets/PackageTree/AddFolderIcon.png'
 import DeleteIcon from '../../assets/PackageTree/DeleteIcon.png'
 
 
-export function packageNodeList (nodes, treeItems) {
+export function packageNodeList(nodes, treeItems) {
   let packagedNodes = [...nodes]
   let packageNames = []
 
@@ -25,7 +25,7 @@ export function packageNodeList (nodes, treeItems) {
 
       // Traverse to root and append package names
       while (currentTreeItem.index !== 'root') {
-        fullPackageName = `${fullPackageName !== ''? '.' : ''}` + fullPackageName
+        fullPackageName = `${fullPackageName !== '' ? '.' : ''}` + fullPackageName
         fullPackageName = currentTreeItem.data + fullPackageName
         currentTreeItem = treeItems[currentTreeItem.parentId]
       }
@@ -37,10 +37,12 @@ export function packageNodeList (nodes, treeItems) {
   // Add package attribute to UML nodes
   nodes.forEach((node) => {
     console.log('UML node: ', node)
-    let newNode = { ...node, data: {
+    let newNode = {
+      ...node, data: {
         ...node.data,
         package: packageNames[node.id]
-      }}
+      }
+    }
     console.log('Mapped UML node:', newNode)
     packagedNodes.push(newNode)
   })
@@ -62,7 +64,6 @@ function PackageTree() {
 
   const handleAddPackage = (e, item) => {
     console.log('Adding package...')
-
     e.stopPropagation();
 
     const itemIndex = item.index
@@ -104,47 +105,48 @@ function PackageTree() {
 
   const renderCustomTreeItem = (title, item) => {
     return (
-        <CustomTreeItem
-            title={title}
-            item={item}
-            addFolderIcon={AddFolderIcon}
-            handleAddFolder={(e) => handleAddPackage(e, item)}
-            deleteIcon={DeleteIcon}
-            handleDelete={(e) => {
-              e.stopPropagation()
-              handleDelete(item)
-            }}
-        />)
+      <CustomTreeItem
+        title={title}
+        item={item}
+        addFolderIcon={AddFolderIcon}
+        handleAddFolder={(e) => handleAddPackage(e, item)}
+        deleteIcon={DeleteIcon}
+        handleDelete={(e) => {
+          e.stopPropagation()
+          handleDelete(item)
+        }}
+      />
+    )
   }
 
 
   return (
-      <ControlledTreeEnvironment
-          items={treeItems}
-          getItemTitle={(item) => item.data}
-          viewState={{
-            ['tree-1']: {
-              focusedItem,
-              expandedItems,
-              selectedItems,
-            },
-          }}
-          canDragAndDrop={true}
-          canDropOnFolder={true}
-          canReorderItems={false}
-          canRename={true}
-          onRenameItem={(item, name) => handleOnRename(item, name)}
-          onFocusItem={(item) => setFocusedItem(item.index)}
-          onExpandItem={(item) => setExpandedItems([...expandedItems, item.index])}
-          onCollapseItem={(item) =>
-              setExpandedItems(expandedItems.filter((expandedItemIndex) => expandedItemIndex !== item.index))
-          }
-          onSelectItems={(items) => setSelectedItems(() => items)}
-          onDrop={(items, target) => handleOnDrop(items, target)}
-          renderItemTitle={({title, item}) => renderCustomTreeItem(title, item)}
-      >
-        <Tree treeId="tree-1" rootItem="virtualRoot" treeLabel="Tree Example" />
-      </ControlledTreeEnvironment>
+    <ControlledTreeEnvironment
+      items={treeItems}
+      getItemTitle={(item) => item.data}
+      viewState={{
+        ['tree-1']: {
+          focusedItem,
+          expandedItems,
+          selectedItems,
+        },
+      }}
+      canDragAndDrop={true}
+      canDropOnFolder={true}
+      canReorderItems={false}
+      canRename={true}
+      onRenameItem={(item, name) => handleOnRename(item, name)}
+      onFocusItem={(item) => setFocusedItem(item.index)}
+      onExpandItem={(item) => setExpandedItems([...expandedItems, item.index])}
+      onCollapseItem={(item) =>
+        setExpandedItems(expandedItems.filter((expandedItemIndex) => expandedItemIndex !== item.index))
+      }
+      onSelectItems={(items) => setSelectedItems(() => items)}
+      onDrop={(items, target) => handleOnDrop(items, target)}
+      renderItemTitle={({ title, item }) => renderCustomTreeItem(title, item)}
+    >
+      <Tree treeId="tree-1" rootItem="virtualRoot" treeLabel="Tree Example" />
+    </ControlledTreeEnvironment>
   );
 }
 

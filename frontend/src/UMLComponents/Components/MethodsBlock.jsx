@@ -39,14 +39,11 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
           <Properties
             scope={method.scope}
             setScope={(value) => updateMethodAttribute(index, 'scope', value)}
-            isStatic={method.isStatic}
-            setIsStatic={(value) => updateMethodAttribute(index, 'isStatic', value)}
+            isStatic={method.static}
+            setIsStatic={(value) => updateMethodAttribute(index, 'static', value)}
             isFinal={method.final}
             setIsFinal={(value) => updateMethodAttribute(index, 'final', value)}
-            hasSetter={method.hasSetter}
-            setHasSetter={(value) => updateMethodAttribute(index, 'setter', value)}
-            hasGetter={method.hasGetter}
-            setHasGetter={(value) => updateMethodAttribute(index, 'getter', value)}
+            method = {true}
           />
           
           <Input

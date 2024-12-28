@@ -14,6 +14,7 @@ import {
   getOutgoers,
   getConnectedEdges,
 } from '@xyflow/react';
+import { func } from 'prop-types';
 
 
 const NodeTypes = {
@@ -29,11 +30,13 @@ const AppContext = createContext();
 // Create a provider component
 export const AppProvider = ({ children }) => {
   const documentRef = useRef(document);
-  const [projectName, setProjectName] = useState("Project Name");
+
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [selectedNodes, setSelectedNodes] = useState([]);
   const [selectedEdges, setSelectedEdges] = useState([]);
+  
+  const [generatedCodes, setGeneratedCodes] = useState([]);
 
   const [focusedItem, setFocusedItem] = useState(null);
   const [expandedItems, setExpandedItems] = useState([]);
@@ -270,11 +273,21 @@ export const AppProvider = ({ children }) => {
     return crypto.randomUUID();
   }
 
+  function getCode() {
+    // [{id, name, code}...] : strings 
+    const generatedCode = generatedCodes.find((element) => element.id === selectedItems[0]);
 
+    // Return the code if the object exists, otherwise return null or undefined
+    return generatedCode ? generatedCode.code : "";
+  }
+
+
+  // copy and paste
   useEffect(() => {
     const handleKeyDown = (event) => {
       if (event.ctrlKey || event.metaKey) { // Support both Ctrl and Command keys
         if (event.key.toLowerCase() === 'c') {
+          console.log(selectedItems)
           // Copy selected nodes and edges
           setCopied({
             nodes: nodes.filter((node) => selectedNodes.includes(node.id)),
@@ -317,7 +330,7 @@ export const AppProvider = ({ children }) => {
           setEdges((prevEdges) => [...prevEdges, ...newEdges]);
         }
 
-      } else if(event.shiftKey || event.metaKey) {
+      } else if(event.altKey || event.metaKey) {
 
         if(event.key.toLowerCase() == 'c') {
           createNode('class');
@@ -341,6 +354,9 @@ export const AppProvider = ({ children }) => {
     };
   }, [nodes, edges, copied, selectedNodes, selectedEdges]);
   
+  function handleOnNodesDelete(deleted) {
+    deleted.map((node) => deleteNode(node.id))
+  }
 
   const handleNodesChange = useCallback((changes) => {
     onNodesChange(changes);
@@ -356,7 +372,6 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         documentRef,
-        projectName,setProjectName,
         nodes, setNodes, onNodesChange,
         edges, setEdges, onEdgesChange,
         nodeColors, setNodeColors,
@@ -368,7 +383,9 @@ export const AppProvider = ({ children }) => {
         moveTreeItems,
         updateNodeData,
         generateUniqueId,
-        // onNodesDelete, 
+        getCode,
+        generatedCodes, setGeneratedCodes,
+        handleOnNodesDelete, 
         // onEdgesDelete,
         selectedNodes, setSelectedNodes,
         selectedEdges, setSelectedEdges,

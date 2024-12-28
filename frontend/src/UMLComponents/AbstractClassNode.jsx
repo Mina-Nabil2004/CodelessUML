@@ -33,7 +33,7 @@ function AbstractClassNode({ data, id }) {
       type: "type",
       name: "atrribute",
       scope: "public",
-      isStatic: false,
+      static: false,
       getter: false,
       setter: false,
       final: false
@@ -48,7 +48,7 @@ function AbstractClassNode({ data, id }) {
       returnType: "returnType",
       scope: "public",
       parameters: [{name: "name", type:"type"}],
-      isStatic: false,
+      static: false,
       final: false
     }
     setMethods([...methods, newMethod]);

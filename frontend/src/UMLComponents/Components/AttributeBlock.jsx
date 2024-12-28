@@ -30,14 +30,15 @@ function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAtt
           <Properties
             scope={attribute.scope}
             setScope={(value) => updateAttribute(index, 'scope', value)}
-            isStatic={attribute.isStatic}
-            setIsStatic={(value) => updateAttribute(index, 'isStatic', value)}
+            isStatic={attribute.static}
+            setIsStatic={(value) => updateAttribute(index, 'static', value)}
             isFinal={attribute.final}
             setIsFinal={(value) => updateAttribute(index, 'final', value)}
             hasSetter={attribute.hasSetter}
             setHasSetter={(value) => updateAttribute(index, 'setter', value)}
             hasGetter={attribute.hasGetter}
             setHasGetter={(value) => updateAttribute(index, 'getter', value)}
+            method={false}
           />  
 
           <Input

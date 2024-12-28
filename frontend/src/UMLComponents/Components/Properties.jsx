@@ -2,7 +2,7 @@ import React from 'react';
 import './UMLStyles.css';
 import { useState } from 'react';
 
-const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFinal, hasSetter, setHasSetter, hasGetter, setHasGetter }) => {
+const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFinal, hasSetter, setHasSetter, hasGetter, setHasGetter, method }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleScopeChange = (e) => {
@@ -75,30 +75,34 @@ const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFina
                 />
                 Static
               </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={isFinal}
-                  onChange={() => setIsFinal(!isFinal)}
-                />
-                Final
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={hasSetter}
-                  onChange={() => setHasSetter(!hasSetter)}
-                />
-                Setter
-              </label>
-              <label>
-                <input
-                  type="checkbox"
-                  checked={hasGetter}
-                  onChange={() => setHasGetter(!hasGetter)}
-                />
-                Getter
-              </label>
+              {!method && (
+                <>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={isFinal}
+                      onChange={() => setIsFinal(!isFinal)}
+                    />
+                    Final
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={hasSetter}
+                      onChange={() => setHasSetter(!hasSetter)}
+                    />
+                    Setter
+                  </label>
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={hasGetter}
+                      onChange={() => setHasGetter(!hasGetter)}
+                    />
+                    Getter
+                  </label>
+                </>
+              )}
             </div>
           </div>
         </div>

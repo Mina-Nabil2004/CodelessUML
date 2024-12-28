@@ -4,8 +4,13 @@ import { motion } from 'framer-motion';
 
 import ProjectFilesSection from "./ProjectFilesSection/ProjectFilesSection.jsx";
 import CodeSection from "./CodeSection/CodeSection.jsx";
+import { useAppContext } from '../AppContext.jsx';
 
 function CodeViewer() {
+  const {
+    getCode,
+  } = useAppContext();
+  
   const projectFilesData = [
     { name: 'package_a', files: ['ClassA.java', 'ClassB.java'] },
     { name: 'package_b', files: ['ClassA.java', 'ClassB.java', 'ClassC.java'] },
@@ -20,7 +25,8 @@ function CodeViewer() {
       exit={{ opacity: 0 }}
     >
       <ProjectFilesSection projectFiles={projectFilesData} />
-      <CodeSection codeLines={"\n".repeat(30)} />
+      {/* <CodeSection codeLines={"\n".repeat(30)} /> */}
+      <CodeSection codeLines={getCode()} />
     </motion.div>
   );
 }

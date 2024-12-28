@@ -18,7 +18,7 @@ function EnumNode({ data, id }) {
     updateNodeData,
     edges, setEdges,
     treeItems, setTreeItems,
-    Take_Action
+    takeAction
   } = useAppContext();
 
   const onChange = useCallback((evt) => {
@@ -32,7 +32,7 @@ function EnumNode({ data, id }) {
     const newAttribute = {
       value: "value",
     }
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
   };

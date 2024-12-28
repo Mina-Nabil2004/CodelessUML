@@ -5,11 +5,11 @@ import deleteIcon from '../../assets/DeleteIcon.svg';
 import Properties from "./Properties";
 import { useAppContext } from "../../AppContext";
 function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAttribute, id }) {
-  const { nodes, edges, nodeColors, Take_Action } = useAppContext();
+  const { nodes, edges, nodeColors, takeAction } = useAppContext();
   const removeAttribute = useCallback((indexToRemove) => {
-    Take_Action(nodes, edges, nodeColors);
+    takeAction(nodes, edges, nodeColors);
     setAttributes((prevAttributes) => prevAttributes.filter((_, index) => index !== indexToRemove));
-  }, [setAttributes, nodes, edges, nodeColors, Take_Action]);
+  }, [setAttributes, nodes, edges, nodeColors, takeAction]);
 
 
   const updateAttribute = useCallback((index, type, value) => {

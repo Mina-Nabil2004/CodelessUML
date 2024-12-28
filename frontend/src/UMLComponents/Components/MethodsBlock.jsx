@@ -7,12 +7,12 @@ import Parameters from "./Parameters";
 import { useAppContext } from "../../AppContext";
 
 function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered, addMethode, updateNodeData  }) {
-  const { nodes, edges, nodeColors, Take_Action } = useAppContext();
+  const { nodes, edges, nodeColors, takeAction } = useAppContext();
 
   const removeMethod = useCallback((indexToRemove) => {
-    Take_Action(nodes, edges, nodeColors); // Capture state before removal
+    takeAction();
     setMethods((prevMethods) => prevMethods.filter((_, index) => index !== indexToRemove));
-  }, [setMethods, nodes, edges, nodeColors, Take_Action]);
+  }, [setMethods, nodes, edges, nodeColors, takeAction]);
 
   const updateMethodAttribute = useCallback((index, attribute, value) => {
     const updatedMethods = methods.map((method, i) => {

@@ -96,7 +96,7 @@ function UMLDiagram() {
     selectedNodes, setSelectedNodes,
     treeItems, setTreeItems,
     generateUniqueId, setGeneratedCodes,
-    Take_Action,
+    takeAction,
     handleUndo, handleRedo,
     handleMouseDragStart,
     generatedCodes,
@@ -179,7 +179,7 @@ function UMLDiagram() {
   }
 
   function handleRemarks(iconName) {
-    Take_Action(nodes, edges, nodeColors);
+    takeAction();
     const id = `${nodes.length}`;
     const newNode = {
       id,
@@ -351,7 +351,7 @@ function UMLDiagram() {
 
 
   const onConnect = useCallback((params) => {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setEdges((eds) =>
       addEdge({ ...selectedEdgeType, ...params }, eds)
     );
@@ -360,7 +360,7 @@ function UMLDiagram() {
   // const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), [],);
 
   const handleClassColorChange = (color) => {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -370,7 +370,7 @@ function UMLDiagram() {
   };
 
   const handleAbstractClassColorChange = (color) => {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -380,7 +380,7 @@ function UMLDiagram() {
   };
 
   const handleEnumColorChange = (color) => {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,
@@ -390,14 +390,14 @@ function UMLDiagram() {
   };
 
   function deleteEdge(source, target) {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setEdges((prevEdges) =>
       prevEdges.filter((edge) => source !== edge.source || target !== edge.target)
     );
   }
 
   const handleInterfaceColorChange = (color) => {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setNodeColors((prevNodeColors) => {
       return {
         ...prevNodeColors,

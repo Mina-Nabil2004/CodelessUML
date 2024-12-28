@@ -27,7 +27,7 @@ import backend.CodelessUML.services.GeneratorService;
 
 @RestController
 @RequestMapping("/generate")
-@CrossOrigin("http://localhost:5173")
+@CrossOrigin
 public class GenerationController {
 
    @Autowired

@@ -19,7 +19,7 @@ function ClassNode({ data, id }) {
     nodeColors,
     updateNodeData,
     edges, setEdges,
-    treeItems, Take_Action
+    treeItems, takeAction
   } = useAppContext();
 
   const onChange = useCallback((evt) => {
@@ -40,7 +40,7 @@ function ClassNode({ data, id }) {
       setter: false,
       final: false
     }
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
   };
@@ -54,7 +54,7 @@ function ClassNode({ data, id }) {
       isStatic: false,
       final: false
     }
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setMethods([...methods, newMethod]);
     updateNodeData(id, 'methods', methods);
   };

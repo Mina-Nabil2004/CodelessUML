@@ -4,7 +4,7 @@ import { useAppContext } from '../../AppContext';
 const Input = ({ input, setInput, id, type }) => {
 
   const {
-    updateNodeData
+    updateNode
   } = useAppContext();
 
   const handleChange = (e) => {
@@ -12,7 +12,7 @@ const Input = ({ input, setInput, id, type }) => {
     if(type == "method" || type == "attribute"){
       setInput(e.target.value.replace(/\s+/g, ''));
     }
-    updateNodeData(id, type, e.target.value.replace(/\s+/g, ''));
+    updateNode(id, type, e.target.value.replace(/\s+/g, ''));
   };
 
   return (

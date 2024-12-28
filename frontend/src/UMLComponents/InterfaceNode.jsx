@@ -20,7 +20,7 @@ function AbstractClassNode({ data, id }) {
     updateNodeData,
     edges, setEdges,
     treeItems, setTreeItems,
-    Take_Action,
+    takeAction,
   } = useAppContext();
 
   const onChange = useCallback((evt) => {
@@ -41,7 +41,7 @@ function AbstractClassNode({ data, id }) {
       setter: false,
       final: false
     }
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
   };
@@ -55,7 +55,7 @@ function AbstractClassNode({ data, id }) {
       isStatic: false,
       final: false
     }
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction();
     setMethods([...methods, newMethod]);
     updateNodeData(id, 'methods', methods);
   };

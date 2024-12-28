@@ -204,7 +204,7 @@ export const AppProvider = ({ children }) => {
 
     console.log('New node:', newNode)
     setNodes((prevNodes) => ([...prevNodes, newNode]))
-    addTreeItem(newNode, targetIndex)
+    addTreeItems([newNode], targetIndex)
   }
 
 
@@ -290,33 +290,67 @@ export const AppProvider = ({ children }) => {
   }
 
 
-  function addTreeItem(newNode, targetIndex) {
+  function addTreeItems(newNodes, targetIndex) {
     console.log('Adding new node to project tree...')
 
     console.log('Adding class to package: ', targetIndex)
 
-    const treeClassItem = {
-      index: newNode.id,
-      isFolder: false,
-      children: [],
-      data: newNode.data.name,
-      parentId: targetIndex
-    }
+    let updatedTreeItems = structuredClone(treeItems)
 
-    console.log('Adding item:', treeClassItem, 'to the tree')
+    newNodes.map(((node) => {
+      const treeClassItem = {
+        index: node.id,
+        isFolder: false,
+        children: [],
+        data: node.data.name,
+        parentId: targetIndex
+      }
+      console.log('Adding item:', treeClassItem, 'to the tree')
 
-    let updatedTreeItems = treeItems
+      // Add new tree class item to the tree
+      updatedTreeItems[node.id] = treeClassItem
 
-    // Add new tree class item to the tree
-    updatedTreeItems[newNode.id] = treeClassItem
+      // Append new tree class to target package children list
+      const targetItem = updatedTreeItems[targetIndex]
+      updatedTreeItems[targetIndex] = {
+        ...targetItem,
+        children: [...targetItem.children, treeClassItem.index]
+      }
 
-    // Append new tree class to target package children list
-    const targetItem = updatedTreeItems[targetIndex]
-    updatedTreeItems[targetIndex] = {
-      ...targetItem,
-      children: [...targetItem.children, treeClassItem.index]
-    }
+      return treeClassItem
+    }))
 
+    setTreeItems(() => updatedTreeItems)
+  }
+
+  function cloneTreeItems(newNodes) {
+    console.log('Adding new nodes to project tree...')
+
+    let updatedTreeItems = structuredClone(treeItems)
+
+    newNodes.map(((node) => {
+      const newId = generateUniqueId()
+      const treeClassItem = {
+        index: newId,
+        isFolder: false,
+        children: [],
+        data: node.data.name,
+        parentId: treeItems[node.id].parentId
+      }
+
+      // Add new tree class item to the tree
+      updatedTreeItems[newId] = treeClassItem
+
+      // Append new tree class to target package children list
+      const targetItem = treeItems[treeItems[node.id].parentId]
+      updatedTreeItems[targetItem.index] = {
+        ...targetItem,
+        children: [...targetItem.children, treeClassItem.index]
+      }
+
+      return treeClassItem
+    }))
+    console.log('Updated tree items:', updatedTreeItems)
     setTreeItems(() => updatedTreeItems)
   }
 
@@ -418,7 +452,7 @@ export const AppProvider = ({ children }) => {
             const newId = generateUniqueId();
 
             nodeIdMap[node.id] = newId;
-  
+
             return {
               ...node,
               id: newId,
@@ -438,6 +472,7 @@ export const AppProvider = ({ children }) => {
           }));
   
           setNodes((prevNodes) => [...prevNodes, ...newNodes]);
+          cloneTreeItems(copied.nodes)
           if(newNodes.length == 1) return;
           setEdges((prevEdges) => [...prevEdges, ...newEdges]);
         }
@@ -467,7 +502,7 @@ export const AppProvider = ({ children }) => {
   }, [nodes, edges, copied, selectedNodes, selectedEdges]);
   
   function handleOnNodesDelete(deleted) {
-    takeAction(nodes, edges, nodeColors, treeItems);
+    takeAction();
     deleted.map((node) => deleteNode(node.id))
   }
 
@@ -507,11 +542,12 @@ export const AppProvider = ({ children }) => {
         expandedItems, setExpandedItems,
         selectedItems, setSelectedItems,
         treeItems, setTreeItems,
-        Take_Action: takeAction,
+        takeAction,
         handleUndo, handleRedo,
         undoStack, redoStack,
         handleMouseDragStart,
-        addTreePackage
+        addTreePackage,
+        addTreeItems
       }}
     >
       {children}

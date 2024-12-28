@@ -38,6 +38,8 @@ function AttributesBlock({ attributes, setAttributes, methods, isHovered, addAtt
             setHasSetter={(value) => updateAttribute(index, 'setter', value)}
             hasGetter={attribute.hasGetter}
             setHasGetter={(value) => updateAttribute(index, 'getter', value)}
+            isAbstract={attribute.abstract}
+            setIsAbstract={(value) => updateAttribute(index, 'abstract', value)}
             method={false}
           />  
 

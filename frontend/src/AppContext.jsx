@@ -30,7 +30,7 @@ const AppContext = createContext();
 // Create a provider component
 export const AppProvider = ({ children }) => {
   const documentRef = useRef(document);
-
+  const [projectName, setProjectName] = useState("Project Name");
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [selectedNodes, setSelectedNodes] = useState([]);
@@ -372,6 +372,7 @@ export const AppProvider = ({ children }) => {
     <AppContext.Provider
       value={{
         documentRef,
+        projectName, setProjectName,
         nodes, setNodes, onNodesChange,
         edges, setEdges, onEdgesChange,
         nodeColors, setNodeColors,

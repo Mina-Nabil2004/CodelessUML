@@ -16,6 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Method {
    private String scope;
+   @JsonProperty("abstract")
    private boolean isAbstract;
    
    @JsonProperty("static")

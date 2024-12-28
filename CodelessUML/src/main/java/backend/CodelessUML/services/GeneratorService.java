@@ -1,10 +1,6 @@
 package backend.CodelessUML.services;
 
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -28,46 +24,46 @@ public class GeneratorService {
 
     public List<CodeDto> generate(List<Node> nodes) {
         findConstructors(nodes);
-        
+
         List<CodeDto> codeFiles = new ArrayList<>();
 
         for (Node node : nodes) {
-            codeFiles.add(new CodeDto(node.getId(), node.getPackageName(),node.getName(), fileGenerator.get(node.getType()).generate(node)));
+            codeFiles.add(new CodeDto(node.getId(), node.getPackageName(), node.getName(),
+            fileGenerator.get(node.getType()).generate(node)));
         }
         return codeFiles;
     }
-    
 
     public File download(List<FileDTO> sourceCode) {
         // List<String> codeFiles = new ArrayList<>();
-        
-        //  for (String code : sourceCode) {
-        //     String[] lines = code.split("\n");
-        //     String packageName = lines[0].split(" ")[1];
-        //     String className = lines[1].split(" ")[1];
-        //     String filePath = BASE_PATH + File.separator + packageName;
-        //     String fileName = className + ".java";
-        //     String content = code;
-        //     saveCodeToFile(filePath, fileName, content);
+
+        // for (String code : sourceCode) {
+        // String[] lines = code.split("\n");
+        // String packageName = lines[0].split(" ")[1];
+        // String className = lines[1].split(" ")[1];
+        // String filePath = BASE_PATH + File.separator + packageName;
+        // String fileName = className + ".java";
+        // String content = code;
+        // saveCodeToFile(filePath, fileName, content);
         // }
-        
-        //  return codeFiles;
+
+        // return codeFiles;
         return null;
     }
 
-
     private void findConstructors(List<Node> nodes) {
-        for (Node node :nodes) {
-            
-            if("interface".equals(node.getType()) || "enum".equals(node.getType())) continue;
-            
-            if(node.getMethods() == null) {
+        for (Node node : nodes) {
+
+            if ("interface".equals(node.getType()) || "enum".equals(node.getType()))
+                continue;
+
+            if (node.getMethods() == null) {
                 continue;
             }
-            
+
             for (Method method : node.getMethods()) {
                 if (method.getName() == node.getName()) {
-                    if(node.getConstructors() == null) {
+                    if (node.getConstructors() == null) {
                         node.setConstructors(new ArrayList<>());
                     }
                     node.getConstructors().add(method.toConstructor());
@@ -77,33 +73,31 @@ public class GeneratorService {
         }
     }
 
+    // private void saveCodeToFile(String filePath, String fileName, String content) {
+    //     try {
+    //         Files.createDirectories(Paths.get(filePath));
+    //         Files.writeString(Paths.get(filePath, fileName), content);
+    //     } catch (IOException e) {
+    //         throw new RuntimeException("Error writing file", e);
+    //     }
+    // }
 
-    private void saveCodeToFile(String filePath, String fileName, String content) {
-        try {
-            Files.createDirectories(Paths.get(filePath));
-            Files.writeString(Paths.get(filePath, fileName), content);
-        } catch (IOException e) {
-            throw new RuntimeException("Error writing file", e);
-        }
-    }
+    // private static File createPackage(String packageName) throws IOException {
+    //     // Convert package name to directory path
+    //     String packagePath = packageName.replaceAll(".", File.separator);
+    //     Path fullPath = Paths.get(BASE_PATH, packagePath);
 
-    
-    private static File createPackage(String packageName) throws IOException {
-        // Convert package name to directory path
-        String packagePath = packageName.replaceAll(".", File.separator);
-        Path fullPath = Paths.get(BASE_PATH, packagePath);
-        
-        // Create directories
-        Files.createDirectories(fullPath);
-        System.out.println("Created package: " + fullPath);
-        
-        return fullPath.toFile();
-    }
-    
-    private static void generateJavaFile(File packageDir, String className) throws IOException {
-        
-    }
-    
+    //     // Create directories
+    //     Files.createDirectories(fullPath);
+    //     System.out.println("Created package: " + fullPath);
+
+    //     return fullPath.toFile();
+    // }
+
+    // private static void generateJavaFile(File packageDir, String className) throws IOException {
+
+    // }
+
     // public Resource packageCodeAsZip(String projectPath) {
     // String zipFilePath = projectPath + ".zip";
     // try (ZipOutputStream zipOut = new ZipOutputStream(new
@@ -126,4 +120,3 @@ public class GeneratorService {
     // return new FileSystemResource(zipFilePath);
     // }
 }
-

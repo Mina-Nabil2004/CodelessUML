@@ -19,10 +19,16 @@ public class NodesRepository {
    // }
 
    public Node getNodeById(String id) {
+      System.out.println("---------------------------------");
+      System.out.println(id);
+      System.out.println("-----------------------------------");
       return map.get(id);
    }
 
    public Node addNode(Node node) {
+      System.out.println("--------------------------------------------###################-----------------");
+      System.out.println(node.toString());
+      System.out.println("--------------------------------------------###################3-------");
       return map.put(node.getId(), node);
    }
 

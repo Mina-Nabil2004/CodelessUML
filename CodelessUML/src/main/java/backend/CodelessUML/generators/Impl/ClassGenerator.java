@@ -14,10 +14,14 @@ import backend.CodelessUML.model.Node;
 public class ClassGenerator extends FileGenerator {
 
    @Override
-   public String generate(Node node) {
+   public String generate(Node node) throws IllegalArgumentException {
+      // System.out.println("--------------------------------------------###################-----------------");
+      // System.out.println(node.toString());
+      // System.out.println("--------------------------------------------###################3-------");
       if (node == null) {
          throw new IllegalArgumentException("Node cannot be null");
       }
+
       if (!"class".equalsIgnoreCase(node.getType())) {
          throw new IllegalArgumentException("Invalid node type for ClassGenerator: " + node.getType());
       }

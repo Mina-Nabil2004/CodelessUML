@@ -80,6 +80,7 @@ const initialEdges = [
 function UMLDiagram() {
   
   const {
+    projectName, setProjectName,
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
     createNode,
@@ -90,6 +91,7 @@ function UMLDiagram() {
     selectedNodes, setSelectedNodes,
     treeItems, setTreeItems,
     generateUniqueId, setGeneratedCodes,
+    generatedCodes,
   } = useAppContext();
 
   const navigate = useNavigate();
@@ -233,6 +235,7 @@ function UMLDiagram() {
   
       const generatedCodesFromBack = await response.json();
       setGeneratedCodes(generatedCodesFromBack)
+      console.log(generatedCodes)
       // copied = copiedShape
       // generatedCode will be displayed
   
@@ -461,7 +464,13 @@ function UMLDiagram() {
 
         <div className='project-name-container'>
           <p className='codeless-uml'>CodelessUML</p>
-          <p className='project-name'>Project Name</p>
+          <input
+            type="text"
+            value={projectName}
+            onChange={(e) => setProjectName(e.target.value)}
+            className="input"
+            style={{ width: `${projectName.length}ch`}}
+          />
         </div>
       </motion.div>
     </>

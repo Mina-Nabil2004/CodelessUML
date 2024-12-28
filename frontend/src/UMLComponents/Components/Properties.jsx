@@ -2,7 +2,7 @@ import React from 'react';
 import './UMLStyles.css';
 import { useState } from 'react';
 
-const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFinal, hasSetter, setHasSetter, hasGetter, setHasGetter, method }) => {
+const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFinal, hasSetter, setHasSetter, hasGetter, setHasGetter, isAbstract, setIsAbstract, method }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const handleScopeChange = (e) => {
@@ -103,6 +103,15 @@ const Properties = ({ scope, setScope, isStatic, setIsStatic, isFinal, setIsFina
                   </label>
                 </>
               )}
+              {isAbstract != null && (
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={isAbstract}
+                      onChange={() => setIsAbstract(!isAbstract)}
+                    />
+                    Abstract
+                  </label>)}
             </div>
           </div>
         </div>

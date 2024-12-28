@@ -36,7 +36,8 @@ function AbstractClassNode({ data, id }) {
       static: false,
       getter: false,
       setter: false,
-      final: false
+      final: false,
+      abstract: false
     }
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
@@ -49,7 +50,8 @@ function AbstractClassNode({ data, id }) {
       scope: "public",
       parameters: [{name: "name", type:"type"}],
       static: false,
-      final: false
+      final: false,
+      abstract: false
     }
     setMethods([...methods, newMethod]);
     updateNodeData(id, 'methods', methods);

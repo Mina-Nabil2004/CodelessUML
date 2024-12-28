@@ -20,6 +20,8 @@ function CodeSection({ codeLines }) {
     treeItems,
     getCode,
     selectedItems,
+    generatedCodes, setGeneratedCodes,
+    projectName
   } = useAppContext();
 
   const [code, setCode] = useState("");
@@ -40,6 +42,51 @@ function CodeSection({ codeLines }) {
     setCode(getCode())
   }, [selectedItems])
 
+  async function handleDownload() {
+    console.log(generatedCodes)
+    try {
+      const response = await fetch('http://localhost:8080/generate/download', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({projectName: projectName, codeDtos: generatedCodes}),
+      });
+  
+      if (!response.ok) {
+        alert(response.status)
+        throw new Error('Network response was not ok');
+      }
+  
+      // Convert response to a blob
+      const folder = await response.blob();
+  
+      // Create a download link
+      const url = window.URL.createObjectURL(folder);
+      const link = document.createElement('a');
+      link.href = url;
+
+      // const link = document.createElement('a');
+      // link.href = URL.createObjectURL(blob);
+      // link.download = 'data.xml';
+      // link.click();
+  
+      // Set the desired file name
+      link.setAttribute('download', 'GeneratedFiles.zip');
+  
+      // Append the link to the body and trigger the download
+      document.body.appendChild(link);
+      link.click();
+  
+      // Clean up and remove the link
+      link.remove();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error: ', error);
+    }
+  }
+  
+
   return (
     <div className='code-section-container'>
       <CodeMirror
@@ -49,6 +96,7 @@ function CodeSection({ codeLines }) {
         onChange={handleChange}
         theme='dark'
       />
+      
       <div className='buttons-container'>
         <img
           className='back-icon'
@@ -61,7 +109,7 @@ function CodeSection({ codeLines }) {
           style={{margin: '2px'}}
           src={DownloadIcon}
           alt='Download'
-          onClick={() => console.log(packageNodeList(nodes, treeItems))}
+          onClick={handleDownload}
         />
       </div>
     </div>)

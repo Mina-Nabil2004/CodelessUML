@@ -43,6 +43,8 @@ function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered
             setIsStatic={(value) => updateMethodAttribute(index, 'static', value)}
             isFinal={method.final}
             setIsFinal={(value) => updateMethodAttribute(index, 'final', value)}
+            isAbstract={method.abstract}
+            setIsAbstract={(value) => updateMethodAttribute(index, 'abstract', value)}
             method = {true}
           />
           

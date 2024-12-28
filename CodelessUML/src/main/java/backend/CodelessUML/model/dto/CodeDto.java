@@ -17,8 +17,4 @@ public class CodeDto {
     String packageName;
     String name;
     String code;
-    public CodeDto(String id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 }

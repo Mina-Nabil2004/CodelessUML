@@ -4,12 +4,15 @@ import './UMLStyles.css';
 import deleteIcon from '../../assets/DeleteIcon.svg';
 import Properties from "./Properties";
 import Parameters from "./Parameters";
+import { useAppContext } from "../../AppContext";
 
 function MethodsBlock({ methods, setMethods, attributes, isHovered, setIsHovered, addMethode, updateNodeData  }) {
+  const { nodes, edges, nodeColors, Take_Action } = useAppContext();
 
   const removeMethod = useCallback((indexToRemove) => {
+    Take_Action(nodes, edges, nodeColors); // Capture state before removal
     setMethods((prevMethods) => prevMethods.filter((_, index) => index !== indexToRemove));
-  }, [setMethods]);
+  }, [setMethods, nodes, edges, nodeColors, Take_Action]);
 
   const updateMethodAttribute = useCallback((index, attribute, value) => {
     const updatedMethods = methods.map((method, i) => {

@@ -15,9 +15,10 @@ import {
   getConnectedEdges,
 } from '@xyflow/react';
 import { func } from 'prop-types';
+import TextFrame from './Textframe.jsx';
 
 
-const NodeTypes = {
+const NodeTypes ={
   class: classNode,
   interface: interfaceNode,
   abstractClass: abstractClassNode,
@@ -67,6 +68,8 @@ export const AppProvider = ({ children }) => {
 
   const [selectedEdgeType, setSelectedEdgeType] = useState(association)
   const [copied, setCopied] = useState([])
+  const [undoStack, setUndoStack] = useState([])
+  const [redoStack, setRedoStack] = useState([])
 
   function nodeExists(id) {
     return nodes.some((node) => node.id === id)
@@ -112,6 +115,26 @@ export const AppProvider = ({ children }) => {
     )
   }
 
+  const Take_Action = (Nodes, Edges, nodeColors, treeItems) => {
+    const action = {Nodes, Edges, nodeColors, treeItems};
+    setUndoStack((prev) => [...prev, action]); // Push to undo stack
+    setRedoStack([]); // Clear redo stack
+  };
+
+  function handleMouseDragStart(event, node) {
+    const currentNodesState = nodes.map(n => ({ ...n }));
+    Take_Action(currentNodesState, edges, nodeColors, treeItems); // Pass the current state
+    console.log(`Node ${node.id} moved to`, node.position); // Log the node movement
+    setNodes((nds) => {
+    // Capture the current state before updating
+    const updatedNodes = nds.map((n) => 
+      (n.id === node.id ? { ...n, position: node.position } : n)
+    );
+
+    console.log(`Node ${node.id} moved to`, node.position); // Log the node movement
+    return updatedNodes;
+  });
+  }
 
   function createNode(type) {
     console.log('Creating node with type:', type)
@@ -123,6 +146,8 @@ export const AppProvider = ({ children }) => {
     const node = NodeTypes[type]
 
     console.log('Creating:', node)
+
+    Take_Action(nodes, edges, nodeColors, treeItems);
 
     const newNode = {
       ...node,
@@ -139,6 +164,7 @@ export const AppProvider = ({ children }) => {
 
 
   function deleteNode(id) {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     const { updatedTreeItems, updatedNodes } = deleteNodeRec(id, treeItems, nodes);
     const updatedSelectedItems = selectedItems.filter((selectedItem) => (selectedItem.index !== id))
     setNodes(() => updatedNodes);
@@ -180,7 +206,7 @@ export const AppProvider = ({ children }) => {
     console.log('Adding class to package: ', targetIndex)
 
 
-    // Get target package
+    Take_Action(nodes, edges, nodeColors, treeItems);
     const treeClassItem = {
       index: newNode.id,
       isFolder: false,
@@ -215,7 +241,7 @@ export const AppProvider = ({ children }) => {
   }
 
   function moveTreeItems(items, targetIndex) {
-
+    Take_Action(nodes, edges, nodeColors, treeItems);
     const targetItem = treeItems[targetIndex];
     const updatedTreeItems = { ...treeItems };
 
@@ -249,6 +275,7 @@ export const AppProvider = ({ children }) => {
   function deleteTreeItem(item, treeItems){
     if (!item || item.index === 'root') return
 
+    Take_Action(nodes, edges, nodeColors, treeItems);
     console.log('Deleting item: ', item, 'from tree items:', treeItems);
     const updatedTreeItems = { ...treeItems };
 
@@ -355,6 +382,7 @@ export const AppProvider = ({ children }) => {
   }, [nodes, edges, copied, selectedNodes, selectedEdges]);
   
   function handleOnNodesDelete(deleted) {
+    Take_Action(nodes, edges, nodeColors, treeItems);
     deleted.map((node) => deleteNode(node.id))
   }
 
@@ -393,7 +421,9 @@ export const AppProvider = ({ children }) => {
         focusedItem, setFocusedItem,
         expandedItems, setExpandedItems,
         selectedItems, setSelectedItems,
-        treeItems, setTreeItems
+        treeItems, setTreeItems,
+        Take_Action, undoStack, setUndoStack, redoStack, setRedoStack,
+        handleMouseDragStart,
       }}
     >
       {children}

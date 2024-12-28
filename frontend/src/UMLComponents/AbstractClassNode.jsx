@@ -17,7 +17,10 @@ function AbstractClassNode({ data, id }) {
   const {
     nodes, setNodes,
     nodeColors,
-    updateNodeData
+    updateNodeData,
+    edges, setEdges,
+    treeItems, setTreeItems,
+    Take_Action,
   } = useAppContext();
 
   const onChange = useCallback((evt) => {
@@ -33,12 +36,13 @@ function AbstractClassNode({ data, id }) {
       type: "type",
       name: "atrribute",
       scope: "public",
-      static: false,
+      isStatic: false,
       getter: false,
       setter: false,
       final: false,
       abstract: false
     }
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
   };
@@ -53,20 +57,35 @@ function AbstractClassNode({ data, id }) {
       final: false,
       abstract: false
     }
+    Take_Action(nodes, edges, nodeColors, treeItems);
     setMethods([...methods, newMethod]);
     updateNodeData(id, 'methods', methods);
   };
   
   useEffect(() => {
-    // push in undo stack
-    updateNodeData(id, 'attributes', attributes);
-    console.log("-----------------------------n----------------------------")
+    if (data.attributes !== attributes) {
+      updateNodeData(id, 'attributes', attributes);
+      console.log("Attributes updated:", attributes);
+    }
   }, [attributes]);
   
   useEffect(() => {
-    // push in undo stack
-    updateNodeData(id, 'methods', methods);
+    if (data.methods !== methods) {
+      updateNodeData(id, 'methods', methods);
+      console.log("Methods updated:", methods);
+    }
   }, [methods]);
+
+  useEffect(() => {
+    if (data.attributes !== attributes) {
+      setAttributes(data.attributes);
+      console.log("Attributes initialized:", data.attributes);
+    }
+    if (data.methods !== methods) {
+      setMethods(data.methods);
+      console.log("Methods initialized:", data.methods);
+    }
+  }, [data]);
 
 
   return (

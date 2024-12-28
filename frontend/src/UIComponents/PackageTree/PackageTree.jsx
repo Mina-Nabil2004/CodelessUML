@@ -9,8 +9,10 @@ import DeleteIcon from '../../assets/PackageTree/DeleteIcon.png'
 
 
 export function packageNodeList(nodes, treeItems) {
-  let packagedNodes = [...nodes]
-  let packageNames = []
+  console.log('Packaging nodes from:', nodes, 'and tree items:', treeItems)
+
+  let packagedNodes = []
+  let packageNames = {}
 
   // Loop over tree nodes
   for (const treeItemKey in treeItems) {
@@ -24,13 +26,12 @@ export function packageNodeList(nodes, treeItems) {
       console.log(currentTreeItem)
 
       // Traverse to root and append package names
-      while (currentTreeItem.index !== 'root') {
+      while (currentTreeItem.index !== 'virtualRoot') {
         fullPackageName = `${fullPackageName !== '' ? '.' : ''}` + fullPackageName
         fullPackageName = currentTreeItem.data + fullPackageName
         currentTreeItem = treeItems[currentTreeItem.parentId]
       }
-
-      packageNames.push({ nodeId: treeItem.index, packageName: fullPackageName })
+      packageNames[treeItem.index] = fullPackageName
     }
   }
 
@@ -38,10 +39,10 @@ export function packageNodeList(nodes, treeItems) {
   nodes.forEach((node) => {
     console.log('UML node: ', node)
     let newNode = {
-      ...node, data: {
-        ...node.data,
-        package: packageNames[node.id]
-      }
+      ...node.data,
+      package: packageNames[node.id],
+      id: node.id,
+      type: node.type
     }
     console.log('Mapped UML node:', newNode)
     packagedNodes.push(newNode)
@@ -51,7 +52,7 @@ export function packageNodeList(nodes, treeItems) {
 }
 
 
-function PackageTree() {
+function PackageTree( {canRename, canDragAndDrop} ) {
 
   const {
     updateNode,
@@ -59,33 +60,14 @@ function PackageTree() {
     focusedItem, setFocusedItem,
     expandedItems, setExpandedItems,
     selectedItems, setSelectedItems,
-    treeItems, setTreeItems
+    treeItems, setTreeItems,
+    addTreePackage,
   } = useAppContext()
 
   const handleAddPackage = (e, item) => {
     console.log('Adding package...')
     e.stopPropagation();
-
-    const itemIndex = item.index
-
-    const newFolderId = `package-${Date.now()}`;
-    const newFolder = {
-      index: newFolderId,
-      isFolder: true,
-      children: [],
-      data: 'new_package',
-      canRename: true,
-      parentId: itemIndex,
-    };
-
-    const updatedTreeItems = { ...treeItems };
-    updatedTreeItems[newFolderId] = newFolder;
-    updatedTreeItems[itemIndex] = {
-      ...updatedTreeItems[itemIndex],
-      children: [...updatedTreeItems[itemIndex].children, newFolderId],
-    };
-
-    setTreeItems(updatedTreeItems);
+    addTreePackage(item)
   };
 
 
@@ -131,12 +113,15 @@ function PackageTree() {
           selectedItems,
         },
       }}
-      canDragAndDrop={true}
+      canDragAndDrop={canDragAndDrop}
       canDropOnFolder={true}
       canReorderItems={false}
-      canRename={true}
+      canRename={canRename}
       onRenameItem={(item, name) => handleOnRename(item, name)}
-      onFocusItem={(item) => setFocusedItem(item.index)}
+      onFocusItem={(item) => {
+        console.log('Focused tree item:', item)
+        setFocusedItem(item.index)
+      }}
       onExpandItem={(item) => setExpandedItems([...expandedItems, item.index])}
       onCollapseItem={(item) =>
         setExpandedItems(expandedItems.filter((expandedItemIndex) => expandedItemIndex !== item.index))

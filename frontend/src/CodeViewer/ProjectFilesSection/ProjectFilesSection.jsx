@@ -2,10 +2,10 @@ import './ProjectFilesSection.css';
 
 import PackageTree from "../../UIComponents/PackageTree/PackageTree.jsx";
 
-const ProjectFilesSection = ({ projectFiles }) => {
+const ProjectFilesSection = () => {
   return (
       <div className='project-files-section-folders'>
-        <PackageTree />
+        <PackageTree canRename={false} canDragAndDrop={false}/>
       </div>
   );
 };

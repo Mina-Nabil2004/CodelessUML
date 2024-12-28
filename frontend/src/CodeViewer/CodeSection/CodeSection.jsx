@@ -16,22 +16,32 @@ function CodeSection({ codeLines }) {
   const navigate = useNavigate();
 
   const {
-    nodes,
     treeItems,
     getCode,
-    selectedItems,
+    focusedItem,
     generatedCodes, setGeneratedCodes,
     projectName
   } = useAppContext();
 
-  const [code, setCode] = useState("");
+  const [code, setCode] = useState(codeLines);
 
   useEffect(() => {
     setCode(codeLines);
   }, [])
 
   const handleChange = (value) => {
+    console.log('Updating file:', focusedItem)
+    const updatedGeneratedCodes = [...generatedCodes]
+    const index = updatedGeneratedCodes.findIndex((file) => (file.id === focusedItem));
+    if (index !== -1) {
+      updatedGeneratedCodes[index] = {
+        ...updatedGeneratedCodes[index],
+        code: value
+      }
+    }
+    setGeneratedCodes(() => updatedGeneratedCodes)
     setCode(value);
+    console.log('Updated generated codes:', generatedCodes)
   };
 
   function handleBackButtonClick() {
@@ -40,7 +50,7 @@ function CodeSection({ codeLines }) {
 
   useEffect(() => {
     setCode(getCode())
-  }, [selectedItems])
+  }, [focusedItem])
 
   async function handleDownload() {
     console.log(generatedCodes)
@@ -65,11 +75,6 @@ function CodeSection({ codeLines }) {
       const url = window.URL.createObjectURL(folder);
       const link = document.createElement('a');
       link.href = url;
-
-      // const link = document.createElement('a');
-      // link.href = URL.createObjectURL(blob);
-      // link.download = 'data.xml';
-      // link.click();
   
       // Set the desired file name
       link.setAttribute('download', 'GeneratedFiles.zip');
@@ -95,6 +100,7 @@ function CodeSection({ codeLines }) {
         extensions={[java()]}
         onChange={handleChange}
         theme='dark'
+        readOnly={!treeItems[focusedItem] || treeItems[focusedItem].isFolder}
       />
       
       <div className='buttons-container'>

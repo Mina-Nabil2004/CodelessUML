@@ -56,6 +56,7 @@ export const AppProvider = ({ children }) => {
       children: [],
       data: 'src',
       canRename: true,
+      parentId: 'virtualRoot'
     }
   });
 
@@ -68,9 +69,8 @@ export const AppProvider = ({ children }) => {
 
   const [selectedEdgeType, setSelectedEdgeType] = useState(association)
   const [copied, setCopied] = useState([])
-  const [undoStack, setUndoStack] = useState([])
-  const [redoStack, setRedoStack] = useState([])
-
+  const undoStack= useRef([])
+  const redoStack = useRef([])
   function nodeExists(id) {
     return nodes.some((node) => node.id === id)
   }
@@ -81,6 +81,7 @@ export const AppProvider = ({ children }) => {
    * function for all other components to use.
    */
   function updateNode(id, key, value) {
+    takeAction()
     switch (key) {
       case 'package':
         moveTreeItems([treeItems[id]], value)
@@ -115,15 +116,60 @@ export const AppProvider = ({ children }) => {
     )
   }
 
-  const Take_Action = (Nodes, Edges, nodeColors, treeItems) => {
-    const action = {Nodes, Edges, nodeColors, treeItems};
-    setUndoStack((prev) => [...prev, action]); // Push to undo stack
-    setRedoStack([]); // Clear redo stack
-  };
+
+  const takeAction = useCallback(() => {
+    const action = {
+      nodes: structuredClone(nodes),
+      edges: structuredClone(edges),
+      nodeColors: structuredClone(nodeColors),
+      treeItems: structuredClone(treeItems)};
+    undoStack.current.push(action)
+    redoStack.current = []
+    console.log('Undo stack:', undoStack.current)
+  }, [nodes, edges, nodeColors, treeItems])
+
+
+  const handleUndo = () => {
+    console.log('Undo stack:', undoStack)
+    if (undoStack.current.length === 0) return
+    const currentState = {
+      nodes: structuredClone(nodes),
+      edges: structuredClone(edges),
+      nodeColors: structuredClone(nodeColors),
+      treeItems: structuredClone(treeItems)};
+    const previousState = undoStack.current.pop();
+    redoStack.current.push(currentState)
+    console.log('Current state:', currentState)
+    console.log('Previous state:', previousState)
+    setNodes(previousState.nodes);
+    setEdges(previousState.edges);
+    setNodeColors(previousState.nodeColors);
+    setTreeItems(previousState.treeItems);
+    setFocusedItem(null)
+    setSelectedItems([])
+  }
+
+  const handleRedo = () => {
+    console.log('Redo stack:', redoStack)
+    if (redoStack.current.length === 0) return
+    const currentState = {
+      nodes: structuredClone(nodes),
+      edges: structuredClone(edges),
+      nodeColors: structuredClone(nodeColors),
+      treeItems: structuredClone(treeItems)};
+    const nextState = redoStack.current.pop();
+    undoStack.current.push(currentState)
+    console.log('Next state:', nextState)
+    setNodes(nextState.nodes);
+    setEdges(nextState.edges);
+    setNodeColors(nextState.nodeColors);
+    setTreeItems(nextState.treeItems)
+    setFocusedItem(null)
+    setSelectedItems([])
+  }
 
   function handleMouseDragStart(event, node) {
-    const currentNodesState = nodes.map(n => ({ ...n }));
-    Take_Action(currentNodesState, edges, nodeColors, treeItems); // Pass the current state
+    takeAction()
     console.log(`Node ${node.id} moved to`, node.position); // Log the node movement
     setNodes((nds) => {
     // Capture the current state before updating
@@ -137,6 +183,7 @@ export const AppProvider = ({ children }) => {
   }
 
   function createNode(type) {
+    takeAction()
     console.log('Creating node with type:', type)
 
     const targetIndex = focusedItem ?
@@ -146,8 +193,6 @@ export const AppProvider = ({ children }) => {
     const node = NodeTypes[type]
 
     console.log('Creating:', node)
-
-    Take_Action(nodes, edges, nodeColors, treeItems);
 
     const newNode = {
       ...node,
@@ -164,7 +209,7 @@ export const AppProvider = ({ children }) => {
 
 
   function deleteNode(id) {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction()
     const { updatedTreeItems, updatedNodes } = deleteNodeRec(id, treeItems, nodes);
     const updatedSelectedItems = selectedItems.filter((selectedItem) => (selectedItem.index !== id))
     setNodes(() => updatedNodes);
@@ -200,13 +245,56 @@ export const AppProvider = ({ children }) => {
   //   return edges.filter((edge) => !ids.includes(edge.source) && !ids.includes(edge.target))
   // }
 
+
+  // useEffect(() => {
+  //   if (undoRedoOperation.current) {
+  //     undoRedoOperation.current = false
+  //     return
+  //   }
+  //   if (!batchOperation.current) {
+  //     takeAction();
+  //   }
+  // }, [nodes, edges, nodeColors, treeItems]);
+
+  useEffect(() => {
+    takeAction()
+  }, []);
+
+  function addTreePackage(item) {
+    const itemIndex = item.index
+
+    const newFolderId = `package-${Date.now()}`;
+    const newFolder = {
+      index: newFolderId,
+      isFolder: true,
+      children: [],
+      data: 'new_package',
+      canRename: true,
+      parentId: itemIndex,
+    };
+
+    const updatedTreeItems = { ...treeItems };
+
+    // Add new folder to tree
+    updatedTreeItems[newFolderId] = newFolder;
+
+    // Add package to its parent children array
+    updatedTreeItems[itemIndex] = {
+      ...updatedTreeItems[itemIndex],
+      children: [...updatedTreeItems[itemIndex].children, newFolderId],
+    };
+
+    setTreeItems(updatedTreeItems);
+
+    takeAction()
+  }
+
+
   function addTreeItem(newNode, targetIndex) {
     console.log('Adding new node to project tree...')
 
     console.log('Adding class to package: ', targetIndex)
 
-
-    Take_Action(nodes, edges, nodeColors, treeItems);
     const treeClassItem = {
       index: newNode.id,
       isFolder: false,
@@ -241,7 +329,6 @@ export const AppProvider = ({ children }) => {
   }
 
   function moveTreeItems(items, targetIndex) {
-    Take_Action(nodes, edges, nodeColors, treeItems);
     const targetItem = treeItems[targetIndex];
     const updatedTreeItems = { ...treeItems };
 
@@ -275,7 +362,6 @@ export const AppProvider = ({ children }) => {
   function deleteTreeItem(item, treeItems){
     if (!item || item.index === 'root') return
 
-    Take_Action(nodes, edges, nodeColors, treeItems);
     console.log('Deleting item: ', item, 'from tree items:', treeItems);
     const updatedTreeItems = { ...treeItems };
 
@@ -301,8 +387,7 @@ export const AppProvider = ({ children }) => {
   }
 
   function getCode() {
-    // [{id, name, code}...] : strings 
-    const generatedCode = generatedCodes.find((element) => element.id === selectedItems[0]);
+    const generatedCode = generatedCodes.find((element) => element.id === focusedItem);
 
     // Return the code if the object exists, otherwise return null or undefined
     return generatedCode ? generatedCode.code : "";
@@ -382,7 +467,7 @@ export const AppProvider = ({ children }) => {
   }, [nodes, edges, copied, selectedNodes, selectedEdges]);
   
   function handleOnNodesDelete(deleted) {
-    Take_Action(nodes, edges, nodeColors, treeItems);
+    takeAction(nodes, edges, nodeColors, treeItems);
     deleted.map((node) => deleteNode(node.id))
   }
 
@@ -422,8 +507,11 @@ export const AppProvider = ({ children }) => {
         expandedItems, setExpandedItems,
         selectedItems, setSelectedItems,
         treeItems, setTreeItems,
-        Take_Action, undoStack, setUndoStack, redoStack, setRedoStack,
+        Take_Action: takeAction,
+        handleUndo, handleRedo,
+        undoStack, redoStack,
         handleMouseDragStart,
+        addTreePackage
       }}
     >
       {children}

@@ -10,12 +10,6 @@ function CodeViewer() {
   const {
     getCode,
   } = useAppContext();
-  
-  const projectFilesData = [
-    { name: 'package_a', files: ['ClassA.java', 'ClassB.java'] },
-    { name: 'package_b', files: ['ClassA.java', 'ClassB.java', 'ClassC.java'] },
-    { name: 'package_c', files: ['ClassA.java'] },
-  ];
 
   return (
     <motion.div
@@ -24,8 +18,7 @@ function CodeViewer() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
     >
-      <ProjectFilesSection projectFiles={projectFilesData} />
-      {/* <CodeSection codeLines={"\n".repeat(30)} /> */}
+      <ProjectFilesSection />
       <CodeSection codeLines={getCode()} />
     </motion.div>
   );

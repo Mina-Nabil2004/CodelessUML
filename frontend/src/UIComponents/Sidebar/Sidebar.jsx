@@ -27,7 +27,7 @@ const Sidebar = () => {
         {
           isOpen &&
           <div className='sidebar-content'>
-            <PackageTree/>
+            <PackageTree canRename={true} canDragAndDrop={true}/>
           </div>
         }
       </div>

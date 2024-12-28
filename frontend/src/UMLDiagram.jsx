@@ -57,6 +57,7 @@ import {
   SelectionMode,
 } from '@xyflow/react';
 import {useNavigate} from "react-router-dom";
+import {packageNodeList} from "./UIComponents/PackageTree/PackageTree.jsx";
 
 const nodeTypes = {
   text: TextFrame,
@@ -95,8 +96,8 @@ function UMLDiagram() {
     selectedNodes, setSelectedNodes,
     treeItems, setTreeItems,
     generateUniqueId, setGeneratedCodes,
-    Take_Action, undoStack, redoStack,
-    setUndoStack, setRedoStack,
+    Take_Action,
+    handleUndo, handleRedo,
     handleMouseDragStart,
     generatedCodes,
   } = useAppContext();
@@ -246,17 +247,11 @@ function UMLDiagram() {
   };
 
   async function handleGenerateCodeClick() {
-    // console.log("{" )
-    // console.log("nodes: ", nodes)
-    // console.log("edges: ", edges)
-    // console.log("}" )
-    // fetch to back
+    const packagedNodes = packageNodeList(nodes, treeItems)
+    console.log('Nodes:', packagedNodes)
+    console.log('Packaged nodes:', packagedNodes)
     const body = {
-      nodes: nodes.map((node) => ({
-        ...node.data,
-        id: node.id,
-        type: node.type,
-      })),
+      nodes: packagedNodes,
       edges: edges.map((edge) => ({
         source: edge.source,
         target: edge.target,
@@ -291,27 +286,6 @@ function UMLDiagram() {
     
     navigate('/code-viewer')
   }
-
-  const handleUndo = () => {
-    if (undoStack.length === 0) {
-      return;}
-    const taken = undoStack.pop();
-    setRedoStack((prev) => [...prev, {Nodes: nodes, Edges: edges, nodeColors: nodeColors, treeItems: treeItems}]);
-    setNodes(taken.Nodes);
-    setEdges(taken.Edges);
-    setNodeColors(taken.nodeColors);
-    setTreeItems(taken.treeItems); };
-
-    const handleRedo = () => {
-      if (redoStack.length === 0) {
-        return;}
-      const taken = redoStack.pop();
-      setUndoStack((prev) => [...prev, {Nodes: nodes, Edges: edges, nodeColors: nodeColors, treeItems: treeItems}]);
-      setNodes(taken.Nodes);
-      setEdges(taken.Edges);
-      setNodeColors(taken.nodeColors);
-      setTreeItems(taken.treeItems); };
-
 
   const dropdownMenuItems = [
     {
@@ -374,27 +348,6 @@ function UMLDiagram() {
     { label: 'Generate getters', onClick: () => handleMenuClick('Generate getters') },
     { label: 'Generate setters', onClick: () => handleMenuClick('Generate setters') },
   ];
-
-
-  function createClass() {
-    const newClassNode = { ...classNode, id: generateUniqueId() }
-    setNodes((prevNodes) => [...prevNodes, newClassNode]);
-  }
-
-  function createInterface() {
-    const newInterfaceNode = { ...interfaceNode, id: generateUniqueId() }
-    setNodes((prevNodes) => [...prevNodes, newInterfaceNode]);
-  }
-
-  function createAbstractClass() {
-    const newAbstractClassNode = { ...abstractClassNode, id: generateUniqueId() }
-    setNodes((prevNodes) => [...prevNodes, newAbstractClassNode]);
-  }
-
-  function createEnum() {
-    const newEnumNode = { ...enumNode, id: generateUniqueId() }
-    setNodes((prevNodes) => [...prevNodes, newEnumNode]);
-  }
 
 
   const onConnect = useCallback((params) => {

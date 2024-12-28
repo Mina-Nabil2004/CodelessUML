@@ -61,7 +61,7 @@ export const abstractClassNode = {
     attributes: [],
 
     methods: [],
-    abstractmethods: [],
+    // abstractmethods: [],
 
     constructors: []
   }

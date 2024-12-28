@@ -28,8 +28,8 @@ function ValuesBlock({ attributes, setAttributes, isHovered }) {
 
           <Input
             typeName={"attribute"}
-            input={attribute.value}
-            setInput={(newValue) => updateAttribute(index, 'value', newValue)}
+            input={attribute.name}
+            setInput={(newValue) => updateAttribute(index, 'name', newValue)}
             id={index}
             type="attribute"
           />

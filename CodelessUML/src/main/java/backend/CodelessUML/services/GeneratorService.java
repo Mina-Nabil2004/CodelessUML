@@ -28,6 +28,7 @@ public class GeneratorService {
         List<CodeDto> codeFiles = new ArrayList<>();
 
         for (Node node : nodes) {
+            node.setType(node.getType().replaceAll("abstractClass", "abstract class"));
             codeFiles.add(new CodeDto(node.getId(), node.getPackageName(), node.getName(),
             fileGenerator.get(node.getType()).generate(node)));
         }

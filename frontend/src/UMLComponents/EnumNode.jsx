@@ -15,10 +15,7 @@ function EnumNode({ data, id }) {
   const {
     nodes, setNodes,
     nodeColors,
-    updateNodeData,
-    edges, setEdges,
-    treeItems, setTreeItems,
-    takeAction
+    updateNodeData
   } = useAppContext();
 
   const onChange = useCallback((evt) => {
@@ -30,26 +27,16 @@ function EnumNode({ data, id }) {
 
   const addAttribute = () => {
     const newAttribute = {
-      value: "value",
+      name: "value",
     }
-    takeAction();
     setAttributes([...attributes, newAttribute]);
     updateNodeData(id, 'attributes', attributes);
   };
   
   useEffect(() => {
-    if (data.attributes !== attributes) {
-      updateNodeData(id, 'attributes', attributes);
-      console.log("Attributes updated:", attributes);
-    }
+    // push in undo stack
+    updateNodeData(id, 'attributes', attributes);
   }, [attributes]);
-  
-  useEffect(() => {
-    if (data.attributes !== attributes) {
-      setAttributes(data.attributes);
-      console.log("Attributes initialized:", data.attributes);
-    }
-  }, [data]);
 
   return (
     <div>

@@ -1,4 +1,4 @@
-package backend.CodelessUML.generators.Impl;
+package backend.CodelessUML.generators.java;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,15 +55,15 @@ public class JavaInterfaceGenerator extends FileGenerator {
 
             try {
                 codeBuilder.append("\t")
-                .append(method.getScope()).append(" ")
-                .append(method.getReturnType()).append(" ")
-                .append(method.getName()).append("(");
+                        .append(method.getScope()).append(" ")
+                        .append(method.getReturnType()).append(" ")
+                        .append(method.getName()).append("(");
 
                 // Generate method parameters
                 String params = method.getParameters().stream()
-                    .map(param -> param.getType() + " " + param.getName())
-                    .collect(Collectors.joining(", "));
-                
+                        .map(param -> param.getType() + " " + param.getName())
+                        .collect(Collectors.joining(", "));
+
                 codeBuilder.append(params);
 
                 codeBuilder.append(");\n");

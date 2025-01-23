@@ -1,3 +1,10 @@
+package backend.CodelessUML.generators;
+
+import org.springframework.stereotype.Component;
+
+import backend.CodelessUML.model.Attribute;
+import backend.CodelessUML.model.Constructor;
+import backend.CodelessUML.model.Method;
 
 @Component
 public class Validator {
@@ -6,15 +13,15 @@ public class Validator {
       if (method == null) {
          throw new IllegalArgumentException("Method cannot be null.");
       }
-      
+
       if (method.getName() == null || method.getName().isEmpty()) {
          throw new IllegalArgumentException("Method name cannot be null or empty.");
       }
-      
+
       if (method.getReturnType() == null || method.getReturnType().isEmpty()) {
          throw new IllegalArgumentException("Method return type cannot be null or empty.");
       }
-      
+
       if (method.getScope() == null || method.getScope().isEmpty()) {
          throw new IllegalArgumentException("Method scope cannot be null or empty.");
       }
@@ -33,7 +40,7 @@ public class Validator {
       if (attribute == null) {
          throw new IllegalArgumentException("Attribute cannot be null.");
       }
-      
+
       if (attribute.getName() == null || attribute.getName().isEmpty()) {
          throw new IllegalArgumentException("Attribute name cannot be null or empty.");
       }

@@ -1,9 +1,12 @@
 package backend.CodelessUML.services;
 
-import java.io.File;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,15 +15,17 @@ import backend.CodelessUML.generators.FileGenerator;
 import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 import backend.CodelessUML.model.dto.CodeDto;
-import backend.CodelessUML.model.dto.FileDTO;
+import backend.CodelessUML.model.dto.ProjectDto;
 
 @Service
 public class GeneratorService {
 
-    private static final String BASE_PATH = "src";
-
     @Autowired
-    private Map<String, FileGenerator> fileGenerator;
+    private final Map<String, FileGenerator> fileGenerator;
+
+    public GeneratorService(Map<String, FileGenerator> fileGenerator) {
+        this.fileGenerator = fileGenerator;
+    }
 
     public List<CodeDto> generate(List<Node> nodes) {
         findConstructors(nodes);
@@ -29,41 +34,26 @@ public class GeneratorService {
 
         for (Node node : nodes) {
             node.setType(node.getType().replaceAll("abstractClass", "abstract class"));
-            codeFiles.add(new CodeDto(node.getId(), node.getPackageName(), node.getName(),
-            fileGenerator.get(node.getType()).generate(node)));
+            // codeFiles.add(new CodeDto(node.getId(), node.getPackageName(),
+            // node.getName(),
+            // fileGenerator.get(node.getType()).generate(node)));
         }
         return codeFiles;
-    }
-
-    public File download(List<FileDTO> sourceCode) {
-        // List<String> codeFiles = new ArrayList<>();
-
-        // for (String code : sourceCode) {
-        // String[] lines = code.split("\n");
-        // String packageName = lines[0].split(" ")[1];
-        // String className = lines[1].split(" ")[1];
-        // String filePath = BASE_PATH + File.separator + packageName;
-        // String fileName = className + ".java";
-        // String content = code;
-        // saveCodeToFile(filePath, fileName, content);
-        // }
-
-        // return codeFiles;
-        return null;
     }
 
     private void findConstructors(List<Node> nodes) {
         for (Node node : nodes) {
 
-            if ("interface".equals(node.getType()) || "enum".equals(node.getType()))
+            if ("interface".equals(node.getType()) || "enum".equals(node.getType())) {
                 continue;
+            }
 
             if (node.getMethods() == null) {
                 continue;
             }
 
             for (Method method : node.getMethods()) {
-                if (method.getName() == node.getName()) {
+                if (method.getName().equals(node.getName())) {
                     if (node.getConstructors() == null) {
                         node.setConstructors(new ArrayList<>());
                     }
@@ -74,50 +64,30 @@ public class GeneratorService {
         }
     }
 
-    // private void saveCodeToFile(String filePath, String fileName, String content) {
-    //     try {
-    //         Files.createDirectories(Paths.get(filePath));
-    //         Files.writeString(Paths.get(filePath, fileName), content);
-    //     } catch (IOException e) {
-    //         throw new RuntimeException("Error writing file", e);
-    //     }
-    // }
+    public byte[] generateFolder(ProjectDto project) throws IOException {
+        List<CodeDto> codeDtos = project.getCodeDtos();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-    // private static File createPackage(String packageName) throws IOException {
-    //     // Convert package name to directory path
-    //     String packagePath = packageName.replaceAll(".", File.separator);
-    //     Path fullPath = Paths.get(BASE_PATH, packagePath);
+        try (ZipOutputStream zos = new ZipOutputStream(baos)) {
+            for (CodeDto codeDto : codeDtos) {
+                String folderPath = codeDto.getPackageName().replace('.', '/');
+                String filePath = folderPath + "/" + codeDto.getName() + "." + codeDto.getType();
 
-    //     // Create directories
-    //     Files.createDirectories(fullPath);
-    //     System.out.println("Created package: " + fullPath);
+                // Create a zip entry for each file
+                ZipEntry zipEntry = new ZipEntry(filePath);
+                zos.putNextEntry(zipEntry);
 
-    //     return fullPath.toFile();
-    // }
+                // Write file content
+                zos.write(codeDto.getCode().getBytes());
 
-    // private static void generateJavaFile(File packageDir, String className) throws IOException {
+                // Close entry
+                zos.closeEntry();
+            }
 
-    // }
+            byte[] zipBytes = baos.toByteArray();
 
-    // public Resource packageCodeAsZip(String projectPath) {
-    // String zipFilePath = projectPath + ".zip";
-    // try (ZipOutputStream zipOut = new ZipOutputStream(new
-    // FileOutputStream(zipFilePath))) {
-    // Files.walk(Paths.get(projectPath))
-    // .filter(Files::isRegularFile)
-    // .forEach(path -> {
-    // try {
-    // ZipEntry zipEntry = new ZipEntry(projectPath.relativize(path).toString());
-    // zipOut.putNextEntry(zipEntry);
-    // Files.copy(path, zipOut);
-    // zipOut.closeEntry();
-    // } catch (IOException e) {
-    // throw new RuntimeException("Error creating ZIP", e);
-    // }
-    // });
-    // } catch (IOException e) {
-    // throw new RuntimeException("Error packaging ZIP", e);
-    // }
-    // return new FileSystemResource(zipFilePath);
-    // }
+            return zipBytes;
+        }
+    }
+
 }

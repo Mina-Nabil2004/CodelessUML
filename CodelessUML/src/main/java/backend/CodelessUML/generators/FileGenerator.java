@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 public abstract class FileGenerator {
-   
+
    @Autowired
    NodesRepository nodesRepository;
 
@@ -25,7 +25,7 @@ public abstract class FileGenerator {
 
    protected String generateGetter(String staticStr, String type, String name) {
       StringBuilder getter = new StringBuilder("\tpublic %s".formatted(staticStr));
-      getter.append(type + " ");
+      getter.append(type).append(" ");
       getter.append("get");
       getter.append(name.substring(0, 1).toUpperCase());
       getter.append(name.substring(1));
@@ -61,17 +61,18 @@ public abstract class FileGenerator {
       codeBuilder.append("\n");
    }
 
-
    protected void generateGetters(List<Attribute> attributes) {
       for (Attribute attribute : attributes) {
          if (attribute.isGetter()) {
-            // codeBuilder.append(generateGetter(attribute.getType(), attribute.getName())).append("\n");
-            codeBuilder.append(generateGetter(attribute.isStatic() ? "static " : "", attribute.getType(), attribute.getName()))
-                       .append("\n");
+            // codeBuilder.append(generateGetter(attribute.getType(),
+            // attribute.getName())).append("\n");
+            codeBuilder
+                  .append(
+                        generateGetter(attribute.isStatic() ? "static " : "", attribute.getType(), attribute.getName()))
+                  .append("\n");
          }
       }
    }
-
 
    protected String generateSetter(String staticStr, String type, String name) {
       StringBuilder setter = new StringBuilder("\tpublic %s".formatted(staticStr));
@@ -89,16 +90,16 @@ public abstract class FileGenerator {
       return setter.toString();
    }
 
-
    protected void generateSetters(List<Attribute> attributes) {
       for (Attribute attribute : attributes) {
          if (attribute.isSetter()) {
-            codeBuilder.append(generateSetter(attribute.isStatic() ? "static " : "", attribute.getType(), attribute.getName()))
-                       .append("\n");
+            codeBuilder
+                  .append(
+                        generateSetter(attribute.isStatic() ? "static " : "", attribute.getType(), attribute.getName()))
+                  .append("\n");
          }
       }
    }
-
 
    protected void generateOverrideFunctions(Relation relations) {
       if (relations == null) {
@@ -180,7 +181,6 @@ public abstract class FileGenerator {
       }
    }
 
-
    protected String getNodeNameById(String id) {
       if (id == null || id.isEmpty()) {
          throw new IllegalArgumentException("Node ID cannot be null or empty.");
@@ -192,14 +192,12 @@ public abstract class FileGenerator {
       return node.getName();
    }
 
-
    protected void generatePackageHeader(String packageName) {
       if (packageName == null || packageName.trim().isEmpty()) {
          throw new IllegalArgumentException("Package name cannot be null or empty.");
       }
       codeBuilder.append("package ").append(packageName.trim()).append(";").append("\n\n");
    }
-
 
    protected void generateClassHeader(String type, String name, String scope, Relation relations) {
       if (type == null || name == null || scope == null) {
@@ -261,20 +259,20 @@ public abstract class FileGenerator {
          }
 
          codeBuilder.append(")");
-         if(method.isAbstract()) {
+         if (method.isAbstract()) {
             codeBuilder.append(";");
             return;
          }
          codeBuilder.append(" {\n");
          codeBuilder.append("\t\t// TODO: Implement logic for ").append(method.getName()).append("\n");
          codeBuilder.append("\t\tthrow new UnsupportedOperationException(\"Unimplemented method: ")
-                    .append(method.getName()).append("\");\n");
+               .append(method.getName()).append("\");\n");
          codeBuilder.append("\t}\n");
       }
 
    }
 
-   protected void generateConstructors(String name, List<Constructor> constructors,List<Attribute> attributes) {
+   protected void generateConstructors(String name, List<Constructor> constructors, List<Attribute> attributes) {
       if (constructors == null || constructors.isEmpty()) {
          return; // No constructors to generate
       }
@@ -294,10 +292,12 @@ public abstract class FileGenerator {
          codeBuilder.append(") {\n");
 
          if (constructor.getParameters() != null && !constructor.getParameters().isEmpty()) {
-            if(attributes != null && !attributes.isEmpty()) {
+            if (attributes != null && !attributes.isEmpty()) {
                for (Attribute attribute : attributes) {
-                  if (constructor.getParameters().stream().noneMatch(param -> param.getName().equals(attribute.getName()))) {
-                     codeBuilder.append("\t\tthis.").append(attribute.getName()).append(" = ").append(attribute.getName()).append(";\n");
+                  if (constructor.getParameters().stream()
+                        .noneMatch(param -> param.getName().equals(attribute.getName()))) {
+                     codeBuilder.append("\t\tthis.").append(attribute.getName()).append(" = ")
+                           .append(attribute.getName()).append(";\n");
                   }
                }
             }

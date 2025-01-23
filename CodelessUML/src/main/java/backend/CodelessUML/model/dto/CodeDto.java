@@ -12,9 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class CodeDto {
+
     String id;
     @JsonProperty("package")
     String packageName;
     String name;
     String code;
+    String type;
 }

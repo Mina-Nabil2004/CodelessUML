@@ -1,4 +1,4 @@
-package backend.CodelessUML.generators.Impl;
+package backend.CodelessUML.generators.java;
 
 import java.util.stream.Collectors;
 
@@ -41,7 +41,8 @@ public class JavaEnumGenerator extends FileGenerator {
     }
 
     /**
-     * Generates the constants for the enum, ensuring proper formatting and error handling.
+     * Generates the constants for the enum, ensuring proper formatting and
+     * error handling.
      */
     private void generateEnumConstants(Node node) {
         if (node.getAttributes() == null || node.getAttributes().isEmpty()) {
@@ -49,9 +50,6 @@ public class JavaEnumGenerator extends FileGenerator {
             return;
         }
 
-        // for (String c :  node.getAttributes().getC) {
-
-        // }
         String constants = node.getAttributes().stream()
                 .map(Attribute::getName)
                 .filter(name -> name != null && !name.isEmpty())
@@ -60,7 +58,7 @@ public class JavaEnumGenerator extends FileGenerator {
         if (constants.isEmpty()) {
             codeBuilder.append("\t// No valid constants defined\n");
         } else {
-            codeBuilder.append("\t").append(constants);//.append(";");
+            codeBuilder.append("\t").append(constants);// .append(";");
         }
     }
 }

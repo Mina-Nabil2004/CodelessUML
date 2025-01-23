@@ -52,16 +52,18 @@ public class InterfaceGenerator extends FileGenerator {
             if (method == null) {
                 continue; // Skip null methods
             }
+
             try {
                 codeBuilder.append("\t")
-                        .append(method.getScope()).append(" ")
-                        .append(method.getReturnType()).append(" ")
-                        .append(method.getName()).append("(");
+                .append(method.getScope()).append(" ")
+                .append(method.getReturnType()).append(" ")
+                .append(method.getName()).append("(");
 
                 // Generate method parameters
                 String params = method.getParameters().stream()
-                        .map(param -> param.getType() + " " + param.getName())
-                        .collect(Collectors.joining(", "));
+                    .map(param -> param.getType() + " " + param.getName())
+                    .collect(Collectors.joining(", "));
+                
                 codeBuilder.append(params);
 
                 codeBuilder.append(");\n");

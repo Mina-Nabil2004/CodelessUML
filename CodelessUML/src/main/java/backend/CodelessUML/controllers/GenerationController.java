@@ -86,6 +86,7 @@ public class GenerationController {
          byte[] zipBytes = baos.toByteArray();
          HttpHeaders headers = new HttpHeaders();
          headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+         System.out.println(project.getProjectName());
          headers.setContentDispositionFormData("attachment", project.getProjectName() + ".zip");
 
       return ResponseEntity.ok()

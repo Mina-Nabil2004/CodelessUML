@@ -333,12 +333,15 @@ public abstract class FileGenerator {
       if (method == null) {
          throw new IllegalArgumentException("Method cannot be null.");
       }
+      
       if (method.getName() == null || method.getName().isEmpty()) {
          throw new IllegalArgumentException("Method name cannot be null or empty.");
       }
+      
       if (method.getReturnType() == null || method.getReturnType().isEmpty()) {
          throw new IllegalArgumentException("Method return type cannot be null or empty.");
       }
+      
       if (method.getScope() == null || method.getScope().isEmpty()) {
          throw new IllegalArgumentException("Method scope cannot be null or empty.");
       }
@@ -361,7 +364,7 @@ public abstract class FileGenerator {
       if (attribute.getName() == null || attribute.getName().isEmpty()) {
          throw new IllegalArgumentException("Attribute name cannot be null or empty.");
       }
-      
+
       if (attribute.getType() == null || attribute.getType().isEmpty()) {
          throw new IllegalArgumentException("Attribute type cannot be null or empty.");
       }

@@ -78,7 +78,7 @@ function CodeSection({ codeLines }) {
       link.href = url;
   
       // Set the desired file name
-      link.setAttribute('download', 'GeneratedFiles.zip');
+      link.setAttribute('download', `${projectName}.zip`);
   
       // Append the link to the body and trigger the download
       document.body.appendChild(link);

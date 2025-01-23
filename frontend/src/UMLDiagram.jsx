@@ -250,6 +250,7 @@ function UMLDiagram() {
     const packagedNodes = packageNodeList(nodes, treeItems)
     console.log('Nodes:', packagedNodes)
     console.log('Packaged nodes:', packagedNodes)
+    console.log(projectName)
     const body = {
       nodes: packagedNodes,
       edges: edges.map((edge) => ({

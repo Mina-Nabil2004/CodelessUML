@@ -1,11 +1,21 @@
+@property --dark-code-editor-background-color {
+    syntax: '<color>';
+    initial-value: #1e1e1e;
+    inherits: false;
+}
+
 
 .code-section-container {
-    background: #1e1e1e;
-    flex: 8;
+    background: var(--dark-code-editor-background-color);
     border-radius: 15px;
     position: relative;
-    overflow: hidden;
-    height: 100%
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    scrollbar-width: none;
 }
 
 .code-section-container .buttons-container {
@@ -26,26 +36,18 @@
     cursor: pointer;
 }
 
-.code-section-container .buttons-container .back-icon {
-    height: 100%;
-}
-
 .cm-editor {
-    background: #1e1e1e;
-    height: 576px;
+    background: var(--dark-code-editor-background-color);;
+    width: 100%;
 }
 
 .cm-content {
-    /* font-size: 16px; */
     font-size: 13px;
+    font-weight: bold;
 }
 
 .cm-gutter {
-    background: #1e1e1e;
-}
-
-.cm-scroller {
-    overflow: auto;
+    background: var(--dark-code-editor-background-color);;
 }
 
 .ͼo .cm-activeLine {

@@ -10,7 +10,7 @@ import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 
 @Component("interface")
-public class InterfaceGenerator extends FileGenerator {
+public class JavaInterfaceGenerator extends FileGenerator {
 
     @Override
     public String generate(Node node) {

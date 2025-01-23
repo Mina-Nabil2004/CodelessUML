@@ -9,7 +9,7 @@ import backend.CodelessUML.model.Attribute;
 import backend.CodelessUML.model.Node;
 
 @Component("enum")
-public class EnumGenerator extends FileGenerator {
+public class JavaEnumGenerator extends FileGenerator {
 
     @Override
     public String generate(Node node) {

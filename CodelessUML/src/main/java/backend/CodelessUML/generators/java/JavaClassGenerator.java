@@ -11,7 +11,7 @@ import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 
 @Component("class")
-public class ClassGenerator extends FileGenerator {
+public class JavaClassGenerator extends FileGenerator {
 
    @Override
    public String generate(Node node) throws IllegalArgumentException {

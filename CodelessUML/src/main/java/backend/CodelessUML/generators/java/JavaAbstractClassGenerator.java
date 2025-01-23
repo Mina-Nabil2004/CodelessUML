@@ -12,7 +12,7 @@ import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 
 @Component("abstract class")
-public class AbstractClassGenerator extends FileGenerator {
+public class JavaAbstractClassGenerator extends FileGenerator {
 
    @Override
    public String generate(Node node) {

@@ -1,21 +1,58 @@
-# CodelessUML
+# CodelessUML  
 
-CodelessUML is a tool designed to generate source code from UML class diagrams.
-By automating the code generation process, it eliminates the need for manual coding and facilitates the design process.
+## 📖 Overview  
+**CodelessUML** is a full-stack application designed to simplify the development process by enabling automatic code generation from UML class diagrams. Using a dynamic drag-and-drop interface powered by **React Flow**, developers can visually design class structures and relationships. The backend, built with **Java Spring Boot**, processes the UML diagrams and generates the corresponding source code, bridging the gap between design and implementation.
 
-## Features
+### Video link
+https://www.youtube.com/watch?v=SFahSX6dnhs
 
-- **Code Generation**: Automatically generate high-quality source code directly from your UML state machine designs, reducing the risk of errors associated with manual coding.
-- **UML Tool Integration**: Compatible with various UML tools, allowing you to use your preferred modeling environment.
-- **Integrated State Diagram Editor**: Create state diagrams within minutes using the built-in editor, which simplifies the modeling process.
-- **Selective Code Generation**: Apply code generation to specific parts of your software that benefit from state machine modeling, integrating seamlessly with your existing development environment.
-- **Robustness Testing and Simulation**: Perform automatic robustness tests, generate test cases, and simulate state machines to ensure reliability.
+## 🚀 Features  
+- **Drag-and-Drop Diagram Design**: Intuitive interface to visually represent UML class diagrams.  
+- **Automatic Code Generation**: Converts UML diagrams into source code with minimal effort.
 
-## Getting Started
+## 🛠️ Tech Stack  
+### Backend  
+- **Java Spring Boot**: Handles business logic, processing UML diagrams, and code generation.  
 
-To get started with CodelessUML:
+### Frontend  
+- **React** & **React Flow**: Enables dynamic and user-friendly diagram creation.  
+- **CSS** & **JavaScript**: For enhanced styling and interactivity.    
 
-1. **Download the Tool**: Clone or download the repository from GitHub.
-2. **Create State Diagrams**: Use your preferred UML tool or the integrated state diagram editor to design your state machines.
-3. **Generate Code**: Utilize the code generator to produce source code from your state diagrams.
-4. **Integrate and Test**: Incorporate the generated code into your project and perform testing to ensure functionality.
+## 💡 How It Works  
+1. **Create UML Diagrams**: Use the drag-and-drop interface to design class diagrams.  
+2. **Generate Code**: Submit the diagram, and the backend translates it into source code.  
+3. **Export and Use**: Download the generated code and integrate it into your projects.  
+
+## 📦 Installation  
+### Prerequisites  
+- **Java JDK 17+**  
+- **Node.js (v18+)**  
+- **SQLite**  
+
+### Steps  
+1. Clone the repository:  
+   ```bash
+   git clone https://github.com/Mina-Nabil2004/CodelessUML.git
+   cd CodelessUML
+   ```  
+
+2. Set up the backend:  
+   ```bash
+   cd backend
+   ./mvnw spring-boot:run
+   ```  
+
+3. Set up the frontend:  
+   ```bash
+   cd ../frontend
+   npm install
+   npm start
+   ```  
+
+4. Access the application at `http://localhost:3000`.
+
+## 📈 Future Enhancements  
+- Add support for additional programming languages.  
+- Enable real-time collaboration for multiple users.  
+- Include diagram export options (e.g., PNG, PDF).  
+- Integrate with GitHub for version control.  

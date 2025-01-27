@@ -27,7 +27,6 @@ https://www.youtube.com/watch?v=SFahSX6dnhs
 ### Prerequisites  
 - **Java JDK 17+**  
 - **Node.js (v18+)**  
-- **SQLite**  
 
 ### Steps  
 1. Clone the repository:  

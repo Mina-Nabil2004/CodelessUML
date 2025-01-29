@@ -1,4 +1,4 @@
-package backend.CodelessUML.generators.java;
+package backend.CodelessUML.generators.java.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,7 +28,7 @@ public class JavaInterfaceGenerator extends FileGenerator {
 
             generateImports(node.getRelations());
 
-            generateClassHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
+            generateHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
 
             generateMethodsSafely(node.getType(), node.getMethods());
 

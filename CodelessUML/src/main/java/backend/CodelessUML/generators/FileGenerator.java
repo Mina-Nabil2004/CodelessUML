@@ -46,7 +46,8 @@ public abstract class FileGenerator {
       if (relations.getExtendsId() != null) {
          Node node = nodesRepository.getNodeById(relations.getExtendsId());
          if (node != null) {
-            codeBuilder.append("import ").append(node.getPackageName() + ".").append(node.getName()).append(";\n");
+            codeBuilder.append("import ").append(node.getPackageName() +
+                  ".").append(node.getName()).append(";\n");
          }
       }
 
@@ -54,7 +55,8 @@ public abstract class FileGenerator {
          for (String id : relations.getImplementsIds()) {
             Node node = nodesRepository.getNodeById(id);
             if (node != null) {
-               codeBuilder.append("import ").append(node.getPackageName() + ".").append(node.getName()).append(";\n");
+               codeBuilder.append("import ").append(node.getPackageName() +
+                     ".").append(node.getName()).append(";\n");
             }
          }
       }
@@ -199,7 +201,7 @@ public abstract class FileGenerator {
       codeBuilder.append("package ").append(packageName.trim()).append(";").append("\n\n");
    }
 
-   protected void generateClassHeader(String type, String name, String scope, Relation relations) {
+   protected void generateHeader(String type, String name, String scope, Relation relations) {
       if (type == null || name == null || scope == null) {
          throw new IllegalArgumentException("Type, name, and scope cannot be null.");
       }

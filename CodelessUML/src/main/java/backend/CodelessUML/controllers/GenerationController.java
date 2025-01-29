@@ -1,10 +1,7 @@
 package backend.CodelessUML.controllers;
 
-import java.io.IOException;
-import java.net.http.HttpHeaders;
 import java.util.List;
 
-import org.apache.tomcat.util.http.parser.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import backend.CodelessUML.model.Edge;
 import backend.CodelessUML.model.dto.ClassDiagramDto;
-import backend.CodelessUML.model.dto.ProjectDto;
 import backend.CodelessUML.repository.NodesRepository;
 import backend.CodelessUML.services.GeneratorService;
 
@@ -48,23 +44,26 @@ public class GenerationController {
         return entity.get(0);
     }
 
-    @PostMapping("/download")
-    public ResponseEntity<?> generateZip(@RequestBody ProjectDto project) throws IOException {
-        try {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
-            System.out.println(project.getProjectName());
-            headers.setContentDispositionFormData("attachment", project.getProjectName() + ".zip");
+    // @PostMapping("/download")
+    // public ResponseEntity<?> generateZip(@RequestBody ProjectDto project) throws
+    // IOException {
+    // try {
+    // HttpHeaders headers = new HttpHeaders();
+    // headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+    // System.out.println(project.getProjectName());
+    // headers.setContentDispositionFormData("attachment", project.getProjectName()
+    // + ".zip");
 
-            byte[] zip = generator.generateFolder(project); // return new ResponseEntity<>(, HttpStatus.OK);
-            return ResponseEntity.ok()
-                    .headers(headers)
-                    .body(zip);
-        } catch (Exception e) {
+    // byte[] zip = generator.generateFolder(project); // return new
+    // ResponseEntity<>(, HttpStatus.OK);
+    // return ResponseEntity.ok()
+    // .headers(headers)
+    // .body(zip);
+    // } catch (Exception e) {
 
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Error: There are multiple files with the same name and path.");
-        }
+    // return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+    // .body("Error: There are multiple files with the same name and path.");
+    // }
 
-    }
+    // }
 }

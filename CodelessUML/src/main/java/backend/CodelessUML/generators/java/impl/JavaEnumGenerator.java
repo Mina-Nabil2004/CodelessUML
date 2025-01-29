@@ -1,4 +1,4 @@
-package backend.CodelessUML.generators.java;
+package backend.CodelessUML.generators.java.impl;
 
 import java.util.stream.Collectors;
 
@@ -26,7 +26,7 @@ public class JavaEnumGenerator extends FileGenerator {
             generatePackageHeader(node.getPackageName());
             codeBuilder.append("\n\n");
 
-            generateClassHeader(node.getType(), node.getName(), node.getScope(), null);
+            generateHeader(node.getType(), node.getName(), node.getScope(), null);
 
             generateEnumConstants(node);
 
@@ -61,4 +61,5 @@ public class JavaEnumGenerator extends FileGenerator {
             codeBuilder.append("\t").append(constants);// .append(";");
         }
     }
+
 }

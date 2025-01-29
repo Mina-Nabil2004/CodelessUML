@@ -11,7 +11,7 @@ import java.util.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import backend.CodelessUML.generators.FileGenerator;
+import backend.CodelessUML.generators.CodeFileGenerator;
 import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 import backend.CodelessUML.model.dto.CodeDto;
@@ -21,9 +21,9 @@ import backend.CodelessUML.model.dto.ProjectDto;
 public class GeneratorService {
 
     @Autowired
-    private final Map<String, FileGenerator> fileGenerator;
+    private final Map<String, CodeFileGenerator> fileGenerator;
 
-    public GeneratorService(Map<String, FileGenerator> fileGenerator) {
+    public GeneratorService(Map<String, CodeFileGenerator> fileGenerator) {
         this.fileGenerator = fileGenerator;
     }
 

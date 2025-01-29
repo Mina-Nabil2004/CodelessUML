@@ -1,4 +1,4 @@
-package backend.CodelessUML.generators.java;
+package backend.CodelessUML.generators.csharp.impl;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,7 +11,7 @@ import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 
 @Component("class")
-public class JavaClassGenerator extends FileGenerator {
+public class CSharpClassGenerator extends FileGenerator {
 
     @Override
     public String generate(Node node) throws IllegalArgumentException {
@@ -35,7 +35,7 @@ public class JavaClassGenerator extends FileGenerator {
             generateImports(node.getRelations());
 
             // Generate class header (name, scope, relations)
-            generateClassHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
+            generateHeader(node.getType(), node.getName(), node.getScope(), node.getRelations());
 
             codeBuilder.append("\n");
 

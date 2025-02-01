@@ -44,4 +44,15 @@ public class NodesRepository {
       map = nodes.stream()
                  .collect(Collectors.toMap(Node::getId, node -> node));
    }
+
+   public String getNodeNameById(String id) {
+      if (id == null || id.isEmpty()) {
+         throw new IllegalArgumentException("Node ID cannot be null or empty.");
+      }
+      Node node = this.getNodeById(id);
+      if (node == null) {
+         throw new IllegalArgumentException("No node found with ID: " + id);
+      }
+      return node.getName();
+   }
 }

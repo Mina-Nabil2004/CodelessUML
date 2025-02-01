@@ -1,4 +1,4 @@
-package backend.CodelessUML.generators;
+package backend.CodelessUML.services;
 
 import org.springframework.stereotype.Component;
 

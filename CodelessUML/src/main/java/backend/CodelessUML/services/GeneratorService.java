@@ -11,7 +11,7 @@ import java.util.zip.ZipOutputStream;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import backend.CodelessUML.generators.CodeFileGenerator;
+import backend.CodelessUML.generators.languages.CodeFileGenerator;
 import backend.CodelessUML.model.Method;
 import backend.CodelessUML.model.Node;
 import backend.CodelessUML.model.dto.CodeDto;

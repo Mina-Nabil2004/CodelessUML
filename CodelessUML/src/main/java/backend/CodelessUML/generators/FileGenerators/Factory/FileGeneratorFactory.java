@@ -1,13 +1,13 @@
 package backend.CodelessUML.generators.FileGenerators.Factory;
 
+import backend.CodelessUML.generators.FileGenerators.Impl.AbstractClassGenerator;
+import backend.CodelessUML.generators.FileGenerators.Impl.ClassGenerator;
 import backend.CodelessUML.generators.languages.Factory.CodeFileGeneratorFactory;
 import backend.CodelessUML.generators.languages.CodeFileGenerator;
 import backend.CodelessUML.generators.FileGenerators.Impl.EnumGenerator;
 import backend.CodelessUML.generators.FileGenerators.FileGenerator;
 import backend.CodelessUML.generators.FileGenerators.Impl.InterfaceGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cglib.core.AbstractClassGenerator;
-import org.springframework.cglib.core.ClassGenerator;
 import org.springframework.stereotype.Component;
 
 @Component

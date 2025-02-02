@@ -1,11 +1,10 @@
 package backend.CodelessUML.controllers;
 
+import backend.CodelessUML.model.Node;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-
-import backend.CodelessUML.model.Node;
 
 @Controller
 public class WebSocketController {

@@ -2,7 +2,7 @@ package backend.CodelessUML.generators.languages.Factory;
 
 import java.util.HashMap;
 import backend.CodelessUML.generators.languages.CodeFileGenerator;
-import backend.CodelessUML.generators.languages.Langauge;
+import backend.CodelessUML.generators.languages.Language;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +15,7 @@ public class CodeFileGeneratorFactory {
         this.fileGenerators = fileGenerators;
     }
 
-    public CodeFileGenerator create(Langauge language) {
+    public CodeFileGenerator create(Language language) {
       CodeFileGenerator generator = this.fileGenerators.get(language.getFiletype());
       if (generator == null) {
          throw new UnsupportedOperationException("Unsupported language: " + language);

@@ -1,8 +1,10 @@
 package backend.CodelessUML.services;
 
 import backend.CodelessUML.model.Node;
+import backend.CodelessUML.model.dto.SessionDiagramDto;
 import backend.CodelessUML.sessions.Session;
 import backend.CodelessUML.sessions.SessionPool;
+import backend.CodelessUML.sessions.SessionTypes;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +18,10 @@ public class SessionService {
 
    private HashMap<UUID, Session> sessions = new HashMap<>();
 
-   public Session createSession(String username, String type) {
-      return sessionPool.reuseSession(username, type);
+   public Session createSession(String username, SessionTypes type) {
+      Session newSession = sessionPool.reuseSession(username, type);
+      sessions.put(newSession.getId(), newSession);
+      return newSession;
    }
 
    public void closeSession(UUID id) {
@@ -26,13 +30,18 @@ public class SessionService {
       sessions.remove(id);
    }
 
+   public boolean acceptUser(UUID id, String username) {
+      Session session = getSession(id);
+      return session.acceptUser(username.toLowerCase());
+   }
+
    public Session getSession(UUID id) {
       return sessions.getOrDefault(id, null);
    }
 
-   public void updateDiagram(UUID sessionId, Node node) {
-      Session session = getSession(sessionId);
-      session.send(node);
+   public boolean updateDiagram(SessionDiagramDto diagramDto) {
+      Session session = getSession(diagramDto.getSessionId());
+      return session.send(diagramDto.getSender(), diagramDto.getNode());
    }
 
 }

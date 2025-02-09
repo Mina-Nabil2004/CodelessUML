@@ -1,5 +1,6 @@
 package backend.CodelessUML.sessions;
 
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -9,7 +10,7 @@ import java.util.Queue;
 public class SessionPool {
    private Queue<Session> inactiveSessions = new LinkedList<>();
 
-   public Session reuseSession(String username, String type) {
+   public synchronized Session reuseSession(String username, SessionTypes type) {
       if(inactiveSessions.isEmpty()) {
          return new Session(username, type);
       }
@@ -18,12 +19,20 @@ public class SessionPool {
       newSession.changeId();
       newSession.setOwnerName(username);
       newSession.setType(type);
-      newSession.getWaitingList().clear();
+      newSession.getUsers().clear();
 
       return newSession;
    }
 
-   public void storeSession(Session session) {
+   public synchronized void storeSession(Session session) {
       inactiveSessions.add(session);
+   }
+
+   @Scheduled(cron = "0 0 */2 * * *")        // every 2 hours
+   public void cleanExcess() {
+      final int MAX_POOL_SIZE = 20;
+      while(inactiveSessions.size() > MAX_POOL_SIZE) {
+         inactiveSessions.poll();
+      }
    }
 }

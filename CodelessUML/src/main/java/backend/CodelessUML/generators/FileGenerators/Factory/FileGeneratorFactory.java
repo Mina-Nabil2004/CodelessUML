@@ -8,7 +8,7 @@ import backend.CodelessUML.generators.languages.CodeFileGenerator;
 import backend.CodelessUML.generators.FileGenerators.Impl.EnumGenerator;
 import backend.CodelessUML.generators.FileGenerators.FileGenerator;
 import backend.CodelessUML.generators.FileGenerators.Impl.InterfaceGenerator;
-import backend.CodelessUML.generators.languages.Langauge;
+import backend.CodelessUML.generators.languages.Language;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,7 +17,7 @@ public class FileGeneratorFactory {
     @Autowired
     private CodeFileGeneratorFactory codeFileGeneratorFactory;
 
-    public FileGenerator createFile(FileGeneratorType type, Langauge language) {
+    public FileGenerator createFile(FileGeneratorType type, Language language) {
         CodeFileGenerator codeFileGenerator = codeFileGeneratorFactory.create(language);
         return switch (type) {
             case CLASS            -> new ClassGenerator(codeFileGenerator);

@@ -2,7 +2,7 @@ package backend.CodelessUML.generators.FileGenerators;
 
 import backend.CodelessUML.generators.languages.CodeFileGenerator;
 import backend.CodelessUML.generators.languages.Factory.CodeFileGeneratorFactory;
-import backend.CodelessUML.generators.languages.Langauge;
+import backend.CodelessUML.generators.languages.Language;
 import backend.CodelessUML.model.Node;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ public abstract class FileGenerator {
    public void setLanguage(CodeFileGenerator codeFileGenerator) {
       this.codeFileGenerator = codeFileGenerator;
    }
-   public void setLanguage(Langauge language) {
+   public void setLanguage(Language language) {
       this.codeFileGenerator = codeFileGeneratorFactory.create(language);
    }
    protected abstract String generate(Node node);

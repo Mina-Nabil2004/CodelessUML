@@ -5,45 +5,49 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 @Getter
 public class Session {
-   private ArrayList<String> waitingList;
    @Setter
    private String ownerName;
    private UUID id;
    private SessionType type;
+   private HashSet<String> users;
 
-   public Session(String type, String ownerName) {
+   public Session(String ownerName, SessionTypes type) {
       this.type = switch (type) {
-         case "read-only" -> new ReadOnly();
-         case "read-write" -> new ReadWrite();
-         default -> throw new IllegalArgumentException("Invalid type input");
+         case READ_ONLY    -> new ReadOnly();
+         case READ_WRITE   -> new ReadWrite();
+         default           -> throw new IllegalArgumentException("Invalid type input");
       };
       this.id = UUID.randomUUID();
       this.ownerName = ownerName;
-      this.waitingList = new ArrayList<>();
-   }
-
-   public boolean accept(String username) {
-      return waitingList.remove(username);
+      this.users = new HashSet<>();
    }
 
    public void changeId() {
-      id = UUID.randomUUID();
+      this.id = UUID.randomUUID();
    }
 
-   public void setType(String type) {
+   public boolean acceptUser(String username) {
+      return this.users.add(username);
+   }
+
+   public void setType(SessionTypes type) {
       this.type = switch (type) {
-         case "read-only" -> new ReadOnly();
-         case "read-write" -> new ReadWrite();
-         default -> throw new IllegalArgumentException("Invalid type input");
+         case READ_ONLY    -> new ReadOnly();
+         case READ_WRITE   -> new ReadWrite();
+         default           -> throw new IllegalArgumentException("Invalid type input");
       };
    }
 
-   public void send(Node node) {
-      this.type.send(this, node);
+   public boolean send(String sender, Node node) {
+      if(!users.contains(sender))
+            return  false;
+
+      return this.type.send(this, sender, node);
    }
 
 }

@@ -34,8 +34,7 @@ public class GenerationController {
         for (Edge edge : classDiagramDto.getEdges()) {
             edge.connect(nodesRepository);
         }
-        // ResponseEntity.status(HttpStatus.OK)
-        // .body(generator.generate(classDiagramDto.getNodes()));
+
         return new ResponseEntity<>(generator.generate(classDiagramDto.getNodes()), HttpStatus.OK);
     }
 
